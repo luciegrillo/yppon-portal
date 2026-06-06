@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import ypponFlagUrl from '../../../assets/yppon-flag.webp';
 import { PortalSearch } from '../../../components/search/PortalSearch';
+import { CURRENT_CYCLE } from '../../../config/portal';
 import { gsap } from '../../../lib/animation';
 
 type HeroSectionProps = {
@@ -165,7 +166,7 @@ export function HeroSection({ prefersReducedMotion }: HeroSectionProps) {
 
         <div className="hero-copy">
           <div className="hero-headline">
-            <p className="eyebrow">Meritocracia Bipartite · Ciclo 942</p>
+            <p className="eyebrow">Meritocracia Bipartite · Ciclo {CURRENT_CYCLE}</p>
             <h1>
               A ordem sustenta
               <br />

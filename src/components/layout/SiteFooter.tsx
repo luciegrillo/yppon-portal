@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import ypponIconUrl from '../../assets/yppon-icon-transparent.webp';
+import { CURRENT_CYCLE } from '../../config/portal';
 
 export function SiteFooter() {
   return (
@@ -26,7 +27,7 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-bottom">
-        <span>© Ciclo 1988 · Estado de Yppon</span>
+        <span>© Ciclo {CURRENT_CYCLE} · Estado de Yppon</span>
         <span>Meritocracia Bipartite</span>
       </div>
     </footer>
