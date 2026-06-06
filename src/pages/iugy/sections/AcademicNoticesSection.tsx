@@ -58,15 +58,18 @@ export function AcademicNoticesSection({
         },
       );
 
+      gsap.set('.iugy-notices__list', { perspective: 1200 });
+
       gsap.fromTo(
         '.academic-notice',
-        { y: 35, opacity: 0 },
+        { y: 50, rotationX: -35, opacity: 0, transformOrigin: 'top center' },
         {
           y: 0,
+          rotationX: 0,
           opacity: 1,
-          stagger: 0.08,
-          duration: 0.6,
-          ease: 'power3.out',
+          stagger: 0.12,
+          duration: 0.8,
+          ease: 'back.out(1.2)',
           scrollTrigger: {
             trigger: '.iugy-notices__list',
             start: 'top 80%',
