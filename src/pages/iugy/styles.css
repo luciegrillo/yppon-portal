@@ -1,0 +1,19 @@
+@import '../../styles/sections/iugy-hero.css';
+@import '../../styles/sections/iugy-formations.css';
+@import '../../styles/sections/iugy-notices.css';
+@import '../../styles/sections/iugy-calendar.css';
+@import '../../styles/sections/iugy-documents.css';
+
+@media (forced-colors: active) {
+  .iugy-hero,
+  .iugy-formations,
+  .iugy-calendar {
+    background-image: none;
+  }
+
+  .formation-card,
+  .academic-notice,
+  .iugy-document-item {
+    border: 1px solid CanvasText;
+  }
+}

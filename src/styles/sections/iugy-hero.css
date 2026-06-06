@@ -1,0 +1,313 @@
+/* IUGY Hero */
+.iugy {
+  --iugy-deep: #071426;
+  --iugy-accent: #c8a44d;
+  --iugy-accent-bright: #e1bd62;
+  --iugy-surface: #0b2442;
+  --iugy-line: rgba(200, 164, 77, 0.22);
+}
+
+.iugy-hero {
+  position: relative;
+  height: 175vh;
+  min-height: 1080px;
+  color: var(--ivory);
+  background: var(--ink);
+}
+
+.iugy-hero__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(200, 164, 77, 0.14), transparent 48%),
+    radial-gradient(circle at 50% 50%, rgba(27, 88, 150, 0.18), transparent 68%),
+    linear-gradient(180deg, var(--ink) 0%, var(--iugy-deep) 100%);
+}
+
+.iugy-hero__stage::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(233, 228, 216, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(233, 228, 216, 0.055) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+}
+
+.iugy-hero__breadcrumb {
+  position: absolute;
+  top: clamp(5.5rem, 9vh, 7rem);
+  left: max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-light);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.iugy-hero__breadcrumb a {
+  color: rgba(233, 228, 216, 0.45);
+  transition: color 220ms ease;
+}
+
+.iugy-hero__breadcrumb a:hover {
+  color: var(--ivory);
+}
+
+.iugy-hero__breadcrumb svg {
+  width: 12px;
+  height: 12px;
+  color: rgba(233, 228, 216, 0.3);
+}
+
+.iugy-hero__emblem {
+  position: absolute;
+  top: 46%;
+  left: 74%;
+  z-index: 2;
+  display: grid;
+  width: min(48vw, 540px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--iugy-line);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(200, 164, 77, 0.09), transparent 56%),
+    rgba(7, 24, 47, 0.28);
+  box-shadow:
+    inset 0 0 90px rgba(200, 164, 77, 0.04),
+    0 35px 90px rgba(0, 0, 0, 0.13);
+  opacity: 0.86;
+  transform: translate(-50%, -50%) scale(0.78);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.iugy-hero__emblem::after {
+  position: absolute;
+  inset: 7%;
+  content: '';
+  border: 1px solid rgba(200, 164, 77, 0.16);
+  border-radius: 50%;
+  animation: iugy-emblem-breathe 4s ease-in-out infinite;
+}
+
+.iugy-emblem-core {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 57%;
+  height: 82%;
+  place-items: center;
+}
+
+.iugy-emblem-core img {
+  display: block;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0.97;
+  filter: drop-shadow(0 1.5rem 2.5rem rgba(0, 0, 0, 0.32));
+}
+
+.iugy-emblem-ring--outer {
+  position: absolute;
+  inset: 13%;
+  border: 1px dashed rgba(200, 164, 77, 0.24);
+  border-radius: 50%;
+}
+
+.iugy-emblem-ring--inner {
+  position: absolute;
+  inset: 29%;
+  border: 1px solid rgba(225, 189, 98, 0.3);
+  border-radius: 50%;
+}
+
+.iugy-hero__copy {
+  position: absolute;
+  bottom: clamp(6rem, 11vh, 9rem);
+  left: max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  z-index: 8;
+  width: min(650px, calc(52vw - var(--page-pad)));
+  text-align: left;
+  will-change: transform, opacity;
+}
+
+.iugy-hero__copy .eyebrow {
+  color: var(--iugy-accent-bright);
+}
+
+.iugy-hero__copy h1 {
+  margin: 0.65rem 0 1.1rem;
+  font-family: var(--serif);
+  font-size: clamp(4rem, 6.6vw, 7.4rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.79;
+}
+
+.iugy-hero__copy h1 em {
+  color: var(--ivory);
+  font-weight: 300;
+}
+
+.iugy-hero__lead {
+  width: min(520px, 100%);
+  margin: 1.8rem 0 0;
+  color: rgba(233, 228, 216, 0.7);
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.1vw, 1.75rem);
+  line-height: 1.15;
+}
+
+.iugy-hero__scroll-cue {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: 2.3rem;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(233, 228, 216, 0.52);
+  font-size: 0.59rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  will-change: transform, opacity;
+}
+
+.iugy-hero__scroll-cue svg {
+  color: var(--iugy-accent);
+  animation: cue 1.8s ease-in-out infinite;
+}
+
+@keyframes iugy-emblem-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 900px) {
+  .iugy-hero {
+    height: 165vh;
+  }
+
+  .iugy-hero__emblem {
+    width: min(60vw, 420px);
+  }
+
+  .iugy-hero__copy h1 {
+    font-size: clamp(3.5rem, 9vw, 5.5rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .iugy-hero {
+    height: 155vh;
+    min-height: 920px;
+  }
+
+  .iugy-hero__stage {
+    min-height: 570px;
+  }
+
+  .iugy-hero__emblem {
+    top: 30%;
+    left: 50%;
+    width: 72vw;
+    opacity: 0.58;
+    transform: translate(-50%, -50%) scale(0.62);
+  }
+
+  .iugy-hero__copy {
+    bottom: 5.3rem;
+    left: 50%;
+    width: calc(100vw - 2rem);
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .iugy-hero__copy h1 {
+    font-size: clamp(3.5rem, 17vw, 5.8rem);
+    line-height: 0.78;
+  }
+
+  .iugy-hero__lead {
+    margin-top: 1.4rem;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 1.12rem;
+  }
+
+  .iugy-hero__scroll-cue {
+    right: auto;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 430px) {
+  .iugy-hero__breadcrumb {
+    font-size: 0.52rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iugy-hero {
+    height: 100svh;
+    min-height: 700px;
+  }
+
+  .iugy-hero__stage {
+    position: relative;
+  }
+
+  .iugy-hero__emblem::after,
+  .iugy-emblem-ring--outer,
+  .iugy-emblem-ring--inner {
+    animation: none;
+  }
+
+  .iugy-hero__emblem {
+    will-change: auto;
+  }
+
+  .iugy-hero__copy {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .iugy-hero__scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) {
+  .iugy-hero__copy {
+    transform: translateX(-50%);
+  }
+}

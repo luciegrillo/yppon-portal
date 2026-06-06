@@ -1,0 +1,128 @@
+import { useLayoutEffect, useRef } from 'react';
+import { CURRENT_CYCLE } from '../../../config/portal';
+import { gsap } from '../../../lib/animation';
+import { calendarEvents } from '../content/iugyContent';
+
+type AcademicCalendarSectionProps = {
+  prefersReducedMotion: boolean;
+};
+
+export function AcademicCalendarSection({
+  prefersReducedMotion,
+}: AcademicCalendarSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion || !sectionRef.current) return undefined;
+
+    const animationContext = gsap.context(() => {
+      // 1. Heading entrance
+      gsap.fromTo(
+        '.iugy-calendar__heading > *',
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.iugy-calendar__heading',
+            start: 'top 76%',
+          },
+        },
+      );
+
+      // 2. Timeline Progress Line
+      gsap.to('.calendar-timeline__progress', {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.calendar-timeline',
+          start: 'top 50%',
+          end: 'bottom 50%',
+          scrub: 1,
+        },
+      });
+
+      // 3. Event Dots Light Up and Text Fade In
+      const events = gsap.utils.toArray<HTMLElement>('.calendar-event');
+      events.forEach((event) => {
+        const dot = event.querySelector('.calendar-event__dot');
+        const content = event.querySelectorAll(
+          '.calendar-event__period, .calendar-event__title, .calendar-event__description',
+        );
+
+        // Fade in content
+        gsap.fromTo(
+          content,
+          { y: 20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.05,
+            duration: 0.6,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: event,
+              start: 'top 75%',
+            },
+          },
+        );
+
+        // Light up dot when line reaches it
+        gsap.to(dot, {
+          backgroundColor: 'var(--iugy-accent)',
+          borderColor: 'var(--gold)',
+          boxShadow: '0 0 0 3px rgba(200, 164, 77, 0.2)',
+          duration: 0.3,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: event,
+            start: 'top 50%',
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => animationContext.revert();
+  }, [prefersReducedMotion]);
+
+  return (
+    <section className="iugy-calendar" id="calendario" ref={sectionRef}>
+      <div className="iugy-calendar__sun" aria-hidden="true" />
+
+      <div className="iugy-calendar__grid">
+        <div className="iugy-calendar__heading">
+          <p className="eyebrow">Calendário acadêmico</p>
+          <h2>
+            Ciclo
+            <br />
+            <em>{CURRENT_CYCLE}.</em>
+          </h2>
+          <p>
+            Três períodos acadêmicos organizam as atividades e os marcos institucionais do
+            ciclo vigente.
+          </p>
+        </div>
+
+        <div className="calendar-timeline">
+          <div className="calendar-timeline__progress" aria-hidden="true" />
+
+          {calendarEvents.map((event) => (
+            <article className="calendar-event" key={event.period}>
+              <span className="calendar-event__dot" aria-hidden="true" />
+              <p className="calendar-event__period">{event.period}</p>
+              <h3 className="calendar-event__title">{event.title}</h3>
+              <p className="calendar-event__description">{event.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <p className="iugy-calendar__provisional">
+        Conteúdo provisório — não representa o calendário oficial.
+      </p>
+    </section>
+  );
+}

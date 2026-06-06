@@ -1,0 +1,239 @@
+/* IUGY Calendar */
+.iugy-calendar {
+  position: relative;
+  z-index: 6;
+  padding: clamp(8rem, 14vw, 15rem) var(--page-pad) clamp(7rem, 12vw, 12rem);
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--ivory);
+}
+
+.iugy-calendar::before {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: clamp(55px, 8vw, 120px);
+  content: '';
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 100% 8%, 74% 45%, 49% 12%, 22% 58%, 0 24%);
+}
+
+.iugy-calendar__sun {
+  position: absolute;
+  top: 12%;
+  right: -7%;
+  width: min(47vw, 720px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(3, 7, 17, 0.065);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 6rem rgba(3, 7, 17, 0.018),
+    0 0 0 12rem rgba(3, 7, 17, 0.013);
+}
+
+.iugy-calendar__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.8fr) minmax(420px, 1fr);
+  align-items: start;
+  gap: clamp(4rem, 10vw, 12rem);
+  width: min(100%, var(--content-width));
+  margin: 0 auto;
+}
+
+.iugy-calendar__heading {
+  position: sticky;
+  top: 9rem;
+  align-self: start;
+}
+
+.iugy-calendar__heading .eyebrow {
+  color: #8d6d24;
+}
+
+.iugy-calendar__heading h2 {
+  margin: 0.8rem 0 2rem;
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 7vw, 7rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.78;
+}
+
+.iugy-calendar__heading h2 em {
+  font-weight: 300;
+}
+
+.iugy-calendar__heading > p:not(.eyebrow) {
+  max-width: 420px;
+  margin: 0;
+  color: var(--muted-dark);
+  font-size: clamp(0.93rem, 1.2vw, 1.08rem);
+  line-height: 1.75;
+}
+
+.calendar-timeline {
+  position: relative;
+  padding-left: 2.2rem;
+}
+
+.calendar-timeline::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  content: '';
+  background: rgba(3, 7, 17, 0.08);
+}
+
+.calendar-timeline__progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: 2px;
+  background: linear-gradient(180deg, var(--iugy-accent), var(--gold) 80%, transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+}
+
+.calendar-event {
+  position: relative;
+  padding: clamp(1.4rem, 2.5vw, 2rem) clamp(1.2rem, 2vw, 1.8rem);
+  margin-bottom: 0;
+}
+
+.calendar-event:nth-child(even) {
+  background: rgba(3, 7, 17, 0.035);
+}
+
+.calendar-event__dot {
+  position: absolute;
+  top: clamp(1.8rem, 2.8vw, 2.4rem);
+  left: -2.2rem;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  margin-left: -4px;
+  background: var(--ivory);
+  border: 2px solid rgba(3, 7, 17, 0.15);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+
+.calendar-event__period {
+  display: block;
+  margin: 0 0 0.45rem;
+  color: var(--iugy-accent);
+  font-family: var(--serif);
+  font-size: clamp(0.82rem, 1vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.calendar-event__title {
+  display: block;
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+  font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.calendar-event__description {
+  margin: 0;
+  color: var(--muted-dark);
+  font-size: clamp(0.78rem, 0.95vw, 0.88rem);
+  line-height: 1.65;
+}
+
+.iugy-calendar__provisional {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: min(100%, var(--content-width));
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  padding: 1rem 1.2rem;
+  color: var(--muted-dark);
+  background: rgba(3, 7, 17, 0.04);
+  border: 1px solid rgba(3, 7, 17, 0.1);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.iugy-calendar__provisional svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+}
+
+@media (max-width: 900px) {
+  .iugy-calendar__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .iugy-calendar__heading {
+    position: static;
+  }
+
+  .iugy-calendar__heading h2 {
+    font-size: clamp(3rem, 10vw, 5rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .iugy-calendar__grid {
+    gap: 3rem;
+  }
+
+  .calendar-timeline {
+    padding-left: 1.8rem;
+  }
+
+  .calendar-event__dot {
+    left: -1.8rem;
+  }
+
+  .calendar-event {
+    padding: 1.2rem 1rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .calendar-timeline {
+    padding-left: 1.4rem;
+  }
+
+  .calendar-timeline::before,
+  .calendar-timeline__progress {
+    width: 1px;
+  }
+
+  .calendar-event__dot {
+    left: -1.4rem;
+    width: 8px;
+    height: 8px;
+    margin-left: -3px;
+  }
+
+  .iugy-calendar__provisional {
+    font-size: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iugy-calendar__heading {
+    position: static;
+  }
+}
