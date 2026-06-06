@@ -1,0 +1,162 @@
+/* IUGY Documents */
+.iugy-documents {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(500px, 1.3fr);
+  gap: clamp(4rem, 10vw, 12rem);
+  padding: clamp(6rem, 11vw, 11rem)
+    max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  color: var(--ivory);
+  background: var(--ink);
+  border-top: 1px solid var(--iugy-line);
+}
+
+.iugy-documents__heading > svg {
+  margin-bottom: 2rem;
+  color: var(--iugy-accent-bright);
+}
+
+@media (min-width: 901px) {
+  .iugy-documents__heading {
+    position: sticky;
+    top: 9rem;
+    align-self: start;
+  }
+}
+
+.iugy-documents__heading .eyebrow {
+  color: var(--iugy-accent-bright);
+}
+
+.iugy-documents__heading h2 {
+  margin: 0.8rem 0 1.6rem;
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 6vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.8;
+}
+
+.iugy-documents__heading h2 em {
+  font-weight: 300;
+}
+
+.iugy-documents__heading > p:not(.eyebrow) {
+  max-width: 340px;
+  margin: 0;
+  color: var(--muted-light);
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.4;
+}
+
+.iugy-document-links {
+  border-top: 1px solid var(--line-light);
+}
+
+.iugy-document-links a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 110px;
+  border-bottom: 1px solid var(--line-light);
+  transition:
+    color 220ms ease,
+    padding 220ms ease,
+    background-color 220ms ease;
+}
+
+.iugy-document-links a::before {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.iugy-document-links a:hover {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  color: var(--iugy-accent-bright);
+  background: rgba(233, 228, 216, 0.025);
+}
+
+.iugy-document-links a:hover::before {
+  transform: scaleX(1);
+}
+
+.iugy-document-links > a > span {
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 0.72rem;
+}
+
+.iugy-document-links strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  font-weight: 500;
+}
+
+.iugy-document-links p {
+  margin: 0;
+  color: var(--muted-light);
+  font-size: 0.72rem;
+}
+
+.iugy-document-links svg {
+  color: var(--iugy-accent-bright);
+  transition: transform 220ms ease;
+}
+
+.iugy-document-links a:hover svg {
+  transform: translate(3px, -3px);
+}
+
+@media (max-width: 900px) {
+  .iugy-documents {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .iugy-documents {
+    grid-template-columns: 1fr;
+  }
+
+  .iugy-document-links a {
+    grid-template-columns: 2rem 1fr auto;
+    min-height: 96px;
+  }
+
+  .iugy-document-links p {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 430px) {
+  .iugy-document-links p {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iugy-document-links a {
+    transition: none;
+  }
+
+  .iugy-document-links a::before {
+    transition: none;
+  }
+
+  .iugy-document-links svg {
+    transition: none;
+  }
+}

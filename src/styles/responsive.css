@@ -13,13 +13,19 @@
   .menu-panel,
   .institutions,
   .constitution,
-  .public-access {
+  .public-access,
+  .iugy-hero,
+  .iugy-formations,
+  .iugy-calendar {
     background-image: none;
   }
 
   .portal-search,
   .institution-visual,
-  .public-links a {
+  .public-links a,
+  .formation-card,
+  .edital-item,
+  .iugy-document-links a {
     border: 1px solid CanvasText;
   }
 }

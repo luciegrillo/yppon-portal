@@ -1,0 +1,231 @@
+/* IUGY Hero */
+.iugy {
+  --iugy-deep: #0a1f1a;
+  --iugy-accent: #2d7a5f;
+  --iugy-accent-bright: #3da87a;
+  --iugy-surface: #0e2a23;
+  --iugy-line: rgba(45, 122, 95, 0.18);
+}
+
+.iugy-hero {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--ivory);
+  background:
+    radial-gradient(circle at 50% 48%, rgba(45, 122, 95, 0.18), transparent 52%),
+    linear-gradient(180deg, var(--ink) 0%, var(--iugy-deep) 100%);
+}
+
+.iugy-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    linear-gradient(rgba(233, 228, 216, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(233, 228, 216, 0.055) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+}
+
+.iugy-hero__breadcrumb {
+  position: absolute;
+  top: clamp(5.5rem, 9vh, 7rem);
+  left: max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-light);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.iugy-hero__breadcrumb a {
+  color: rgba(233, 228, 216, 0.45);
+  transition: color 220ms ease;
+}
+
+.iugy-hero__breadcrumb a:hover {
+  color: var(--ivory);
+}
+
+.iugy-hero__breadcrumb svg {
+  width: 12px;
+  height: 12px;
+  color: rgba(233, 228, 216, 0.3);
+}
+
+.iugy-hero__emblem {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  width: min(45vw, 500px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--iugy-line);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(45, 122, 95, 0.1), transparent 55%),
+    rgba(10, 31, 26, 0.18);
+  box-shadow:
+    inset 0 0 80px rgba(45, 122, 95, 0.03),
+    0 35px 90px rgba(0, 0, 0, 0.13);
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.iugy-hero__emblem::after {
+  position: absolute;
+  inset: 7%;
+  content: '';
+  border: 1px solid rgba(45, 122, 95, 0.16);
+  border-radius: 50%;
+  animation: iugy-emblem-breathe 4s ease-in-out infinite;
+}
+
+.iugy-hero__emblem img {
+  position: relative;
+  z-index: 2;
+  width: 52%;
+  height: auto;
+  opacity: 0.94;
+  filter: drop-shadow(0 0 1.5rem rgba(45, 122, 95, 0.22));
+}
+
+.iugy-emblem-ring--outer {
+  position: absolute;
+  inset: 13%;
+  border: 1px dashed rgba(45, 122, 95, 0.22);
+  border-radius: 50%;
+  animation: iugy-ring-spin 32s linear infinite;
+}
+
+.iugy-emblem-ring--inner {
+  position: absolute;
+  inset: 29%;
+  border: 1px solid rgba(61, 168, 122, 0.28);
+  border-radius: 50%;
+  animation: iugy-ring-spin 18s linear infinite reverse;
+}
+
+.iugy-hero__copy {
+  position: absolute;
+  bottom: clamp(6rem, 11vh, 9rem);
+  left: 50%;
+  z-index: 8;
+  width: min(790px, calc(100vw - var(--page-pad) * 2));
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.iugy-hero__copy .eyebrow {
+  color: var(--iugy-accent-bright);
+}
+
+.iugy-hero__copy h1 {
+  margin: 0.65rem 0 1.1rem;
+  font-family: var(--serif);
+  font-size: clamp(4rem, 6.6vw, 7.4rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.79;
+}
+
+.iugy-hero__copy h1 em {
+  color: var(--ivory);
+  font-weight: 300;
+}
+
+.iugy-hero__lead {
+  width: min(520px, 100%);
+  margin: 1.8rem auto 0;
+  color: rgba(233, 228, 216, 0.7);
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.1vw, 1.75rem);
+  line-height: 1.15;
+}
+
+@keyframes iugy-emblem-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.6;
+  }
+}
+
+@keyframes iugy-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .iugy-hero__emblem {
+    width: min(60vw, 420px);
+  }
+
+  .iugy-hero__copy h1 {
+    font-size: clamp(3.5rem, 9vw, 5.5rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .iugy-hero {
+    min-height: 570px;
+  }
+
+  .iugy-hero__emblem {
+    width: 72vw;
+  }
+
+  .iugy-hero__copy {
+    bottom: 5.3rem;
+  }
+
+  .iugy-hero__copy h1 {
+    font-size: clamp(3.5rem, 17vw, 5.8rem);
+    line-height: 0.78;
+  }
+
+  .iugy-hero__lead {
+    margin-top: 1.4rem;
+    font-size: 1.12rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .iugy-hero__copy {
+    width: calc(100vw - 2rem);
+  }
+
+  .iugy-hero__breadcrumb {
+    font-size: 0.52rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iugy-hero__emblem::after,
+  .iugy-emblem-ring--outer,
+  .iugy-emblem-ring--inner {
+    animation: none;
+  }
+
+  .iugy-hero__emblem {
+    will-change: auto;
+  }
+}
