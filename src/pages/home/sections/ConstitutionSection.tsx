@@ -84,7 +84,7 @@ export function ConstitutionSection({ prefersReducedMotion }: ConstitutionSectio
 
       <div className="constitution-grid">
         <div className="constitution-mark">
-          <span>Lex supra omnia</span>
+          <span>A lei acima de tudo</span>
           <ConstitutionEmblem />
           <p>Sagrada Constituição · Arquivo Central</p>
         </div>
@@ -97,8 +97,8 @@ export function ConstitutionSection({ prefersReducedMotion }: ConstitutionSectio
             <em>soberana.</em>
           </h2>
           <p>
-            A Sagrada Constituição estabelece o equilíbrio estrutural de Yppon. Consulte o
-            documento integral, suas normativas e a jurisprudência consolidada.
+            Repositório oficial da Sagrada Constituição, dos Artigos Comuns e da
+            jurisprudência consolidada do Estado.
           </p>
           <a className="constitution-link" href="#biblioteca">
             <BookOpenText size={19} />

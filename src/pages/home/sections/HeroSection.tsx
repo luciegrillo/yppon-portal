@@ -142,9 +142,9 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
         <div className="hero-copy">
           <p className="eyebrow">Meritocracia Bipartite · Ciclo 942</p>
           <h1>
-            Uma nação
+            A ordem sustenta
             <br />
-            <em>em movimento.</em>
+            <em>o progresso.</em>
           </h1>
           <p className="hero-copy__lead">
             Acesso integrado às instituições que sustentam Yppon.
@@ -152,7 +152,7 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
           <PortalSearch />
         </div>
 
-        <a className="scroll-cue" href="#orgaos">
+        <a className="scroll-cue" href="#instituicoes">
           <span>Descobrir o Estado</span>
           <ArrowDown size={17} aria-hidden="true" />
         </a>

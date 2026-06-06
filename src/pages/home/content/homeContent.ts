@@ -28,7 +28,7 @@ export type PublicAccessLink = {
 export const institutions: Institution[] = [
   {
     number: 'I',
-    title: 'Instituto Universitário',
+    title: 'Instituto Universitário Governamental de Yppon',
     shortTitle: 'IUGY',
     description: 'Formação estatal, editais acadêmicos e a Seleção Decenal.',
     href: '#iugy',
@@ -38,9 +38,10 @@ export const institutions: Institution[] = [
   },
   {
     number: 'II',
-    title: 'Poder Judiciário',
-    shortTitle: 'Justiça',
-    description: 'Jurisprudência, atos judiciais e designações dos tribunais.',
+    title: 'Magistratura de Yppon',
+    shortTitle: 'Magistratura',
+    description:
+      'Jurisprudência, atos judiciais, administração pública e designações dos tribunais.',
     href: '#judiciario',
     label: 'Equilíbrio',
     icon: Scale,
@@ -58,9 +59,10 @@ export const institutions: Institution[] = [
   },
   {
     number: 'IV',
-    title: 'Comissão Global de Segurança',
+    title: 'Autoridade Global de Segurança',
     shortTitle: 'Segurança',
-    description: 'Defesa civil, operações públicas e códigos disciplinares.',
+    description:
+      'Defesa civil, defesa militar, operações públicas e códigos disciplinares.',
     href: '#seguranca',
     label: 'Proteção',
     icon: ShieldCheck,
@@ -68,9 +70,10 @@ export const institutions: Institution[] = [
   },
   {
     number: 'V',
-    title: 'Comissão Global de Migração',
-    shortTitle: 'Migração',
-    description: 'Autorizações, triagem e acesso planetário em Shelly.',
+    title: 'Autoridade de Migração e Acesso',
+    shortTitle: 'Migração e Acesso',
+    description:
+      'Controle da Ilha de Shelly, autorizações de entrada e saída, triagem planetária e relações migratórias.',
     href: '#migracao',
     label: 'Fronteiras',
     icon: Orbit,

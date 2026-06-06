@@ -8,7 +8,7 @@ export function SiteFooter() {
         <a className="footer-brand" href="#inicio">
           <img src={ypponIconUrl} alt="" aria-hidden="true" />
           <span>
-            <strong>Governo de Yppon</strong>
+            <strong>Estado de Yppon</strong>
             <small>Portal Oficial de Acesso Integrado</small>
           </span>
         </a>
@@ -26,7 +26,7 @@ export function SiteFooter() {
       </div>
 
       <div className="footer-bottom">
-        <span>© Ciclo 942 · Nação de Yppon</span>
+        <span>© Ciclo 1988 · Estado de Yppon</span>
         <span>Meritocracia Bipartite</span>
       </div>
     </footer>

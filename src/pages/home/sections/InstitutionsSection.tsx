@@ -121,20 +121,20 @@ export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectio
   }, [prefersReducedMotion]);
 
   return (
-    <section className="institutions" id="orgaos" ref={sectionRef}>
+    <section className="institutions" id="instituicoes" ref={sectionRef}>
       <div className="institutions-heading">
-        <p className="eyebrow">Estruturas fundamentais</p>
+        <p className="eyebrow">Instituições fundamentais</p>
         <h2>
           A arquitetura
           <br />
           <em>do Estado.</em>
         </h2>
-        <p>Cinco instituições. Um sistema público conectado.</p>
+        <p>Cinco instituições. Uma única soberana.</p>
       </div>
 
       <div className="institutions-layout">
         <aside className="institution-index" aria-label="Instituições">
-          <p>Órgãos centrais</p>
+          <p>Instituições fundamentais</p>
           <ol>
             {institutions.map((institution, index) => (
               <li
