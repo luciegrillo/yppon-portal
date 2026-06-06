@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { gsap } from '../../../lib/animation';
 import { institutions, type Institution } from '../content/homeContent';
 
@@ -106,10 +107,17 @@ function InstitutionPanel({
         <p className="institution-panel__label">{institution.label}</p>
         <h3>{institution.title}</h3>
         <p className="institution-panel__description">{institution.description}</p>
-        <a href={institution.href}>
-          Acessar instituição
-          <ArrowUpRight size={18} />
-        </a>
+        {institution.href.startsWith('/') ? (
+          <Link to={institution.href}>
+            Acessar instituição
+            <ArrowUpRight size={18} />
+          </Link>
+        ) : (
+          <a href={institution.href}>
+            Acessar instituição
+            <ArrowUpRight size={18} />
+          </a>
+        )}
       </div>
 
       <InstitutionArtwork

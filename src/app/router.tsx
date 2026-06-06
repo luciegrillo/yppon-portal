@@ -15,6 +15,14 @@ export const router = createBrowserRouter([
         },
       },
       {
+        path: 'iugy',
+        lazy: async () => {
+          const { IugyPage } = await import('../pages/iugy/IugyPage');
+
+          return { Component: IugyPage };
+        },
+      },
+      {
         path: '*',
         lazy: async () => {
           const { NotFoundPage } = await import('../pages/not-found/NotFoundPage');

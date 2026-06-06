@@ -31,7 +31,7 @@ export const institutions: Institution[] = [
     title: 'Instituto Universitário Governamental de Yppon',
     shortTitle: 'IUGY',
     description: 'Formação estatal, editais acadêmicos e a Seleção Decenal.',
-    href: '#iugy',
+    href: '/iugy',
     label: 'Conhecimento',
     icon: GraduationCap,
     visualVariant: 'academy',
