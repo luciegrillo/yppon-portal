@@ -17,15 +17,9 @@ export function App() {
         Pular para o conteúdo
       </a>
 
-      <SiteHeader
-        isMenuOpen={isMenuOpen}
-        onMenuOpenChange={setIsMenuOpen}
-      />
+      <SiteHeader isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} />
 
-      <HomePage
-        isMenuOpen={isMenuOpen}
-        prefersReducedMotion={prefersReducedMotion}
-      />
+      <HomePage isMenuOpen={isMenuOpen} prefersReducedMotion={prefersReducedMotion} />
 
       <SiteFooter />
     </div>

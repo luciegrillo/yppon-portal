@@ -8,10 +8,7 @@ type SiteHeaderProps = {
   onMenuOpenChange: (isOpen: boolean) => void;
 };
 
-export function SiteHeader({
-  isMenuOpen,
-  onMenuOpenChange,
-}: SiteHeaderProps) {
+export function SiteHeader({ isMenuOpen, onMenuOpenChange }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -52,10 +49,7 @@ export function SiteHeader({
         </button>
       </header>
 
-      <CeremonialMenu
-        isOpen={isMenuOpen}
-        onClose={() => onMenuOpenChange(false)}
-      />
+      <CeremonialMenu isOpen={isMenuOpen} onClose={() => onMenuOpenChange(false)} />
     </>
   );
 }

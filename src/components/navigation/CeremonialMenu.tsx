@@ -10,10 +10,7 @@ type CeremonialMenuProps = {
 const FOCUSABLE_ELEMENTS =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export function CeremonialMenu({
-  isOpen,
-  onClose,
-}: CeremonialMenuProps) {
+export function CeremonialMenu({ isOpen, onClose }: CeremonialMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElementRef = useRef<HTMLElement | null>(null);
 
@@ -79,9 +76,7 @@ export function CeremonialMenu({
         aria-label="Navegação principal"
       >
         <div className="menu-panel__top">
-          <span className="menu-panel__edition">
-            Portal Oficial · Ciclo 942
-          </span>
+          <span className="menu-panel__edition">Portal Oficial · Ciclo 942</span>
           <button
             className="round-button round-button--light"
             type="button"
@@ -99,9 +94,11 @@ export function CeremonialMenu({
               key={item.href}
               onClick={onClose}
               tabIndex={isOpen ? 0 : -1}
-              style={{
-                '--nav-delay': `${120 + index * 80}ms`,
-              } as CSSProperties}
+              style={
+                {
+                  '--nav-delay': `${120 + index * 80}ms`,
+                } as CSSProperties
+              }
             >
               <span>{item.number}</span>
               <strong>{item.label}</strong>
@@ -111,11 +108,7 @@ export function CeremonialMenu({
         </nav>
 
         <div className="menu-panel__footer">
-          <a
-            href="#acesso-cidadao"
-            onClick={onClose}
-            tabIndex={isOpen ? 0 : -1}
-          >
+          <a href="#acesso-cidadao" onClick={onClose} tabIndex={isOpen ? 0 : -1}>
             <LockKeyhole size={16} />
             Acesso Cidadão
           </a>

@@ -6,9 +6,7 @@ type UseSmoothScrollOptions = {
   disabled?: boolean;
 };
 
-export function useSmoothScroll({
-  disabled = false,
-}: UseSmoothScrollOptions = {}) {
+export function useSmoothScroll({ disabled = false }: UseSmoothScrollOptions = {}) {
   useEffect(() => {
     if (disabled) return undefined;
 

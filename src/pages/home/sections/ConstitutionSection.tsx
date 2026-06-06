@@ -32,9 +32,7 @@ function ConstitutionEmblem() {
   );
 }
 
-export function ConstitutionSection({
-  prefersReducedMotion,
-}: ConstitutionSectionProps) {
+export function ConstitutionSection({ prefersReducedMotion }: ConstitutionSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -99,9 +97,8 @@ export function ConstitutionSection({
             <em>soberana.</em>
           </h2>
           <p>
-            A Sagrada Constituição estabelece o equilíbrio estrutural de Yppon.
-            Consulte o documento integral, suas normativas e a jurisprudência
-            consolidada.
+            A Sagrada Constituição estabelece o equilíbrio estrutural de Yppon. Consulte o
+            documento integral, suas normativas e a jurisprudência consolidada.
           </p>
           <a className="constitution-link" href="#biblioteca">
             <BookOpenText size={19} />

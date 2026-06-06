@@ -3,7 +3,8 @@
   display: grid;
   grid-template-columns: minmax(280px, 0.7fr) minmax(500px, 1.3fr);
   gap: clamp(4rem, 10vw, 12rem);
-  padding: clamp(6rem, 11vw, 11rem) max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  padding: clamp(6rem, 11vw, 11rem)
+    max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
   color: var(--ivory);
   background: var(--ink);
   border-top: 1px solid rgba(200, 164, 77, 0.24);
@@ -79,4 +80,3 @@
 .public-links svg {
   color: var(--gold);
 }
-

@@ -48,10 +48,7 @@ function GoldenDust({
 }: FlagAnimationProps & { isMobile: boolean }) {
   const pointsRef = useRef<Points>(null);
   const materialRef = useRef<PointsMaterial>(null);
-  const geometry = useMemo(
-    () => createDustGeometry(isMobile ? 260 : 720),
-    [isMobile],
-  );
+  const geometry = useMemo(() => createDustGeometry(isMobile ? 260 : 720), [isMobile]);
 
   useEffect(() => () => geometry.dispose(), [geometry]);
 
@@ -60,12 +57,11 @@ function GoldenDust({
     const material = materialRef.current;
     if (!points || !material) return;
 
-    const progress = prefersReducedMotion ? 0 : progressRef.current ?? 0;
+    const progress = prefersReducedMotion ? 0 : (progressRef.current ?? 0);
     const dissolveProgress = MathUtils.smoothstep(progress, 0.48, 0.94);
 
     material.opacity = Math.sin(dissolveProgress * Math.PI) * 0.72;
-    material.size =
-      (isMobile ? 0.012 : 0.016) + dissolveProgress * 0.018;
+    material.size = (isMobile ? 0.012 : 0.016) + dissolveProgress * 0.018;
     points.rotation.z += delta * 0.035;
     points.rotation.y += delta * 0.025;
     points.scale.setScalar(0.82 + dissolveProgress * 0.46);
@@ -97,22 +93,25 @@ function LivingFlag({
   const groupRef = useRef<Group>(null);
   const materialRef = useRef<ShaderMaterial>(null);
   const revealProgressRef = useRef(prefersReducedMotion ? 1 : 0);
+  const displayTexture = useMemo(() => {
+    const clonedTexture = texture.clone();
+    clonedTexture.colorSpace = SRGBColorSpace;
+    clonedTexture.needsUpdate = true;
+    return clonedTexture;
+  }, [texture]);
 
   const shaderUniforms = useMemo(
     () => ({
-      uTexture: { value: texture },
+      uTexture: { value: displayTexture },
       uTime: { value: 0 },
       uReveal: { value: prefersReducedMotion ? 1 : 0 },
       uDissolve: { value: 0 },
       uPointer: { value: { x: 0, y: 0 } },
     }),
-    [prefersReducedMotion, texture],
+    [displayTexture, prefersReducedMotion],
   );
 
-  useEffect(() => {
-    texture.colorSpace = SRGBColorSpace;
-    texture.needsUpdate = true;
-  }, [texture]);
+  useEffect(() => () => displayTexture.dispose(), [displayTexture]);
 
   useFrame((state, delta) => {
     const material = materialRef.current;
@@ -120,9 +119,7 @@ function LivingFlag({
     if (!material || !group) return;
 
     const elapsedTime = state.clock.elapsedTime;
-    const scrollProgress = prefersReducedMotion
-      ? 0
-      : progressRef.current ?? 0;
+    const scrollProgress = prefersReducedMotion ? 0 : (progressRef.current ?? 0);
 
     revealProgressRef.current = prefersReducedMotion
       ? 1
@@ -130,11 +127,7 @@ function LivingFlag({
 
     material.uniforms.uTime.value = elapsedTime;
     material.uniforms.uReveal.value = revealProgressRef.current;
-    material.uniforms.uDissolve.value = MathUtils.smoothstep(
-      scrollProgress,
-      0.54,
-      1,
-    );
+    material.uniforms.uDissolve.value = MathUtils.smoothstep(scrollProgress, 0.54, 1);
 
     const targetRotationX = isMobile
       ? Math.sin(elapsedTime * 0.38) * 0.035
@@ -143,18 +136,8 @@ function LivingFlag({
       ? Math.sin(elapsedTime * 0.24) * 0.055
       : state.pointer.x * 0.12;
 
-    group.rotation.x = MathUtils.damp(
-      group.rotation.x,
-      targetRotationX,
-      3.2,
-      delta,
-    );
-    group.rotation.y = MathUtils.damp(
-      group.rotation.y,
-      targetRotationY,
-      3.2,
-      delta,
-    );
+    group.rotation.x = MathUtils.damp(group.rotation.x, targetRotationX, 3.2, delta);
+    group.rotation.y = MathUtils.damp(group.rotation.y, targetRotationY, 3.2, delta);
     group.rotation.z = MathUtils.damp(
       group.rotation.z,
       -0.015 + scrollProgress * 0.035,
@@ -171,9 +154,7 @@ function LivingFlag({
   return (
     <group ref={groupRef}>
       <mesh>
-        <planeGeometry
-          args={[4.8, 3.2, isMobile ? 40 : 72, isMobile ? 28 : 48]}
-        />
+        <planeGeometry args={[4.8, 3.2, isMobile ? 40 : 72, isMobile ? 28 : 48]} />
         <shaderMaterial
           ref={materialRef}
           uniforms={shaderUniforms}
@@ -199,8 +180,7 @@ export default function YpponFlagScene({
   prefersReducedMotion,
 }: YpponFlagSceneProps) {
   const isMobile =
-    typeof window !== 'undefined'
-    && window.matchMedia('(max-width: 720px)').matches;
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 720px)').matches;
   const maximumPixelRatio = isMobile ? 1.25 : 1.5;
 
   return (

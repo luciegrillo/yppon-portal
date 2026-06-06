@@ -1,25 +1,13 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { gsap } from '../../../lib/animation';
-import {
-  institutions,
-  type Institution,
-} from '../content/homeContent';
+import { institutions, type Institution } from '../content/homeContent';
 
 type InstitutionsSectionProps = {
   prefersReducedMotion: boolean;
 };
 
-function InstitutionArtwork({
-  institution,
-}: {
-  institution: Institution;
-}) {
+function InstitutionArtwork({ institution }: { institution: Institution }) {
   const Icon = institution.icon;
 
   return (
@@ -37,9 +25,7 @@ function InstitutionArtwork({
       </div>
       <span className="visual-pulse visual-pulse--one" />
       <span className="visual-pulse visual-pulse--two" />
-      <span className="visual-coordinate visual-coordinate--top">
-        42° 11&apos; YP
-      </span>
+      <span className="visual-coordinate visual-coordinate--top">42° 11&apos; YP</span>
       <span className="visual-coordinate visual-coordinate--bottom">
         {institution.label.toUpperCase()}
       </span>
@@ -69,9 +55,7 @@ function InstitutionPanel({
         </span>
         <p className="institution-panel__label">{institution.label}</p>
         <h3>{institution.title}</h3>
-        <p className="institution-panel__description">
-          {institution.description}
-        </p>
+        <p className="institution-panel__description">{institution.description}</p>
         <a href={institution.href}>
           Acessar instituição
           <ArrowUpRight size={18} />
@@ -83,9 +67,7 @@ function InstitutionPanel({
   );
 }
 
-export function InstitutionsSection({
-  prefersReducedMotion,
-}: InstitutionsSectionProps) {
+export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const panelElementsRef = useRef<(HTMLElement | null)[]>([]);
   const [activeInstitutionIndex, setActiveInstitutionIndex] = useState(0);
@@ -156,9 +138,7 @@ export function InstitutionsSection({
           <ol>
             {institutions.map((institution, index) => (
               <li
-                className={
-                  activeInstitutionIndex === index ? 'is-active' : undefined
-                }
+                className={activeInstitutionIndex === index ? 'is-active' : undefined}
                 key={institution.shortTitle}
               >
                 <a href={institution.href}>

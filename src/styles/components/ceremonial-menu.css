@@ -43,8 +43,7 @@
   color: var(--ink);
   background:
     linear-gradient(rgba(3, 7, 17, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(3, 7, 17, 0.055) 1px, transparent 1px),
-    var(--ivory);
+    linear-gradient(90deg, rgba(3, 7, 17, 0.055) 1px, transparent 1px), var(--ivory);
   background-size: 70px 70px;
   clip-path: inset(0 0 0 100%);
   transition: clip-path 700ms cubic-bezier(0.77, 0, 0.18, 1);
@@ -185,4 +184,3 @@
   color: var(--ink);
   font-weight: 700;
 }
-
