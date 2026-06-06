@@ -210,6 +210,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .iugy-formations {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .iugy-formations__grid {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: 0 var(--page-pad);
+    will-change: auto;
+  }
+
   .formation-card {
     transition: none;
   }
