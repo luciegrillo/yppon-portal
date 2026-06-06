@@ -47,6 +47,10 @@ src/
     └── responsive.css   # Adaptações globais de breakpoint e acessibilidade
 ```
 
+As decisões de evolução, limites entre módulos e estratégia para novas
+aplicações estão documentados em
+[`docs/architecture`](docs/architecture/README.md).
+
 ## Convenções
 
 - Componentes e arquivos de componentes usam `PascalCase`.
