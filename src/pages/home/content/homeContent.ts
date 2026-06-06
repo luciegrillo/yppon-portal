@@ -6,8 +6,10 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from 'lucide-react';
+import { PORTAL_ROUTES } from '../../../config/routes';
 
 export type Institution = {
+  sectionId: string;
   number: string;
   title: string;
   shortTitle: string;
@@ -27,16 +29,18 @@ export type PublicAccessLink = {
 
 export const institutions: Institution[] = [
   {
+    sectionId: 'iugy',
     number: 'I',
     title: 'Instituto Universitário Governamental de Yppon',
     shortTitle: 'IUGY',
-    description: 'Formação estatal, editais acadêmicos e a Seleção Decenal.',
-    href: '/iugy',
+    description: 'Formação estatal, editais acadêmicos e ensino público.',
+    href: PORTAL_ROUTES.iugy,
     label: 'Conhecimento',
     icon: GraduationCap,
     visualVariant: 'academy',
   },
   {
+    sectionId: 'judiciario',
     number: 'II',
     title: 'Magistratura de Yppon',
     shortTitle: 'Magistratura',
@@ -48,6 +52,7 @@ export const institutions: Institution[] = [
     visualVariant: 'justice',
   },
   {
+    sectionId: 'legislativo',
     number: 'III',
     title: 'Poder Legislativo',
     shortTitle: 'Senado',
@@ -58,6 +63,7 @@ export const institutions: Institution[] = [
     visualVariant: 'senate',
   },
   {
+    sectionId: 'seguranca',
     number: 'IV',
     title: 'Autoridade Global de Segurança',
     shortTitle: 'Segurança',
@@ -69,6 +75,7 @@ export const institutions: Institution[] = [
     visualVariant: 'security',
   },
   {
+    sectionId: 'migracao',
     number: 'V',
     title: 'Autoridade de Migração e Acesso',
     shortTitle: 'Migração e Acesso',

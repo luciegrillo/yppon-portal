@@ -103,12 +103,26 @@
   filter: drop-shadow(0 0 1.5rem rgba(45, 122, 95, 0.22));
 }
 
+.iugy-emblem-core {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 66%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.iugy-emblem-core img {
+  width: 100%;
+}
+
 .iugy-emblem-ring--outer {
   position: absolute;
   inset: 13%;
   border: 1px dashed rgba(45, 122, 95, 0.22);
   border-radius: 50%;
-  animation: iugy-ring-spin 32s linear infinite;
 }
 
 .iugy-emblem-ring--inner {
@@ -116,7 +130,6 @@
   inset: 29%;
   border: 1px solid rgba(61, 168, 122, 0.28);
   border-radius: 50%;
-  animation: iugy-ring-spin 18s linear infinite reverse;
 }
 
 .iugy-hero__copy {
@@ -165,12 +178,6 @@
   50% {
     transform: scale(1.03);
     opacity: 0.6;
-  }
-}
-
-@keyframes iugy-ring-spin {
-  to {
-    transform: rotate(360deg);
   }
 }
 

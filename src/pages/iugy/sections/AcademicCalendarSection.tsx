@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { CURRENT_CYCLE } from '../../../config/portal';
 import { gsap } from '../../../lib/animation';
 import { calendarEvents } from '../content/iugyContent';
 
@@ -53,13 +54,15 @@ export function AcademicCalendarSection({
 
   return (
     <section className="iugy-calendar" id="calendario" ref={sectionRef}>
+      <div className="iugy-calendar__sun" aria-hidden="true" />
+
       <div className="iugy-calendar__grid">
         <div className="iugy-calendar__heading">
           <p className="eyebrow">Calendário acadêmico</p>
           <h2>
             Ciclo
             <br />
-            <em>1988.</em>
+            <em>{CURRENT_CYCLE}.</em>
           </h2>
           <p>
             Fases letivas, períodos de avaliação e marcos institucionais do ciclo vigente.

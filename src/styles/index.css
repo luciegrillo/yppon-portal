@@ -7,11 +7,6 @@
 @import './sections/constitution.css';
 @import './sections/public-access.css';
 @import './sections/not-found.css';
-@import './sections/iugy-hero.css';
-@import './sections/iugy-formations.css';
-@import './sections/iugy-edictals.css';
-@import './sections/iugy-calendar.css';
-@import './sections/iugy-documents.css';
 @import './components/footer.css';
 @import './motion.css';
 @import './responsive.css';

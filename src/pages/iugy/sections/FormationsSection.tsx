@@ -26,14 +26,9 @@ function FormationCard({
 
       <h3 className="formation-card__title">{level.title}</h3>
 
-      <span className="formation-card__equivalent">{level.equivalent}</span>
+      <span className="formation-card__reference">{level.externalReference}</span>
 
       <p className="formation-card__description">{level.description}</p>
-
-      <p className="formation-card__duration">
-        <span>Duração</span>
-        {level.duration}
-      </p>
     </article>
   );
 }
@@ -90,9 +85,9 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           <br />
           <em>uma formação.</em>
         </h2>
-        <p>
+        <p className="iugy-formations__subtitle">
           A IUGY organiza a educação estatal em quatro níveis progressivos, cada um com
-          currículo, duração e propósito definidos pelo Conselho Acadêmico.
+          função própria e reconhecimento dentro da estrutura pública de Yppon.
         </p>
       </div>
 

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { PORTAL_ROUTES } from '../config/routes';
 import { RootLayout } from './RootLayout';
 
 export const router = createBrowserRouter([
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: 'iugy',
+        path: PORTAL_ROUTES.iugy,
         lazy: async () => {
           const { IugyPage } = await import('../pages/iugy/IugyPage');
 

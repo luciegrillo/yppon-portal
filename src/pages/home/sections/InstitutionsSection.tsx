@@ -98,7 +98,7 @@ function InstitutionPanel({
   return (
     <article
       className="institution-panel"
-      id={institution.href.slice(1)}
+      id={institution.sectionId}
       ref={onElementReady}
       data-index={index}
     >
@@ -254,7 +254,7 @@ export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectio
                 className={activeInstitutionIndex === index ? 'is-active' : undefined}
                 key={institution.shortTitle}
               >
-                <a href={institution.href}>
+                <a href={`#${institution.sectionId}`}>
                   <span>{institution.number}</span>
                   <strong>{institution.shortTitle}</strong>
                 </a>
