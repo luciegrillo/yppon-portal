@@ -24,7 +24,7 @@ export function SiteHeader({ isMenuOpen, onMenuOpenChange }: SiteHeaderProps) {
   return (
     <>
       <header className={`site-header${isScrolled ? ' site-header--scrolled' : ''}`}>
-        <a className="brand" href="#inicio" aria-label="Yppon, página inicial">
+        <a className="brand" href="/#inicio" aria-label="Yppon, página inicial">
           <img src={ypponIconUrl} alt="" aria-hidden="true" />
           <span>
             <strong>Yppon</strong>

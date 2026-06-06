@@ -6,6 +6,7 @@
 @import './sections/institutions.css';
 @import './sections/constitution.css';
 @import './sections/public-access.css';
+@import './sections/not-found.css';
 @import './components/footer.css';
 @import './motion.css';
 @import './responsive.css';

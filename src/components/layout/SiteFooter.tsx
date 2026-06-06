@@ -6,7 +6,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-primary">
-        <a className="footer-brand" href="#inicio">
+        <a className="footer-brand" href="/#inicio">
           <img src={ypponIconUrl} alt="" aria-hidden="true" />
           <span>
             <strong>Estado de Yppon</strong>
@@ -20,7 +20,7 @@ export function SiteFooter() {
           da Sagrada Constituição.
         </p>
 
-        <a className="back-to-top" href="#inicio">
+        <a className="back-to-top" href="/#inicio">
           Retornar ao topo
           <ArrowUpRight size={17} />
         </a>

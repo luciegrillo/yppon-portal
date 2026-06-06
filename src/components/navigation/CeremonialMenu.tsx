@@ -111,7 +111,7 @@ export function CeremonialMenu({ isOpen, onClose }: CeremonialMenuProps) {
         </nav>
 
         <div className="menu-panel__footer">
-          <a href="#acesso-cidadao" onClick={onClose} tabIndex={isOpen ? 0 : -1}>
+          <a href="/#acesso-cidadao" onClick={onClose} tabIndex={isOpen ? 0 : -1}>
             <LockKeyhole size={16} />
             Acesso Cidadão
           </a>
