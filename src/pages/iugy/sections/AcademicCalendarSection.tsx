@@ -65,7 +65,8 @@ export function AcademicCalendarSection({
             <em>{CURRENT_CYCLE}.</em>
           </h2>
           <p>
-            Fases letivas, períodos de avaliação e marcos institucionais do ciclo vigente.
+            Três períodos acadêmicos organizam as atividades e os marcos institucionais do
+            ciclo vigente.
           </p>
         </div>
 

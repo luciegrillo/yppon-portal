@@ -114,7 +114,7 @@
   background: var(--iugy-accent);
   border: 2px solid var(--ivory);
   border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(45, 122, 95, 0.2);
+  box-shadow: 0 0 0 3px rgba(200, 164, 77, 0.2);
 }
 
 .calendar-event__period {

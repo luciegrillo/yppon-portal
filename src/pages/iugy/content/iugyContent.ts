@@ -39,7 +39,7 @@ export const academicLevels: AcademicLevel[] = [
   {
     number: 'I',
     title: 'Nível Técnico',
-    externalReference: 'Próximo à graduação',
+    externalReference: 'Formação estatal fundamental',
     description:
       'Formação estatal de base. Prepara cidadãos para o exercício técnico e ' +
       'administrativo nas instituições de Yppon.',
@@ -48,7 +48,7 @@ export const academicLevels: AcademicLevel[] = [
   {
     number: 'II',
     title: 'Nível Superior',
-    externalReference: 'Próximo ao mestrado',
+    externalReference: 'Referência externa: mestrado',
     description:
       'Formação avançada voltada à produção aplicada, à coordenação e ao ' +
       'aprofundamento de uma área estatal.',
@@ -57,7 +57,7 @@ export const academicLevels: AcademicLevel[] = [
   {
     number: 'III',
     title: 'Nível Magistral',
-    externalReference: 'Próximo ao doutorado',
+    externalReference: 'Referência externa: doutorado',
     description:
       'Investigação e produção acadêmica original. Formandos contribuem ' +
       'diretamente para o acervo científico, técnico e jurídico do Estado.',
@@ -66,7 +66,7 @@ export const academicLevels: AcademicLevel[] = [
   {
     number: 'IV',
     title: 'Nível Eminente',
-    externalReference: 'Além do doutorado',
+    externalReference: 'Superior ao doutorado',
     description:
       'Grau máximo de formação da IUGY, reservado à produção de conhecimento ' +
       'de alcance excepcional e reconhecido globalmente.',

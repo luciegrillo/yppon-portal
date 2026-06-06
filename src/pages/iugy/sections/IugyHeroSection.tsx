@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
-import iugyEmblemUrl from '../../../assets/iugy-emblem.png';
+import iugyEmblemUrl from '../../../assets/iugy-emblem.webp';
 import { gsap } from '../../../lib/animation';
 
 type IugyHeroSectionProps = {
@@ -73,7 +73,14 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
           <div className="iugy-emblem-ring iugy-emblem-ring--outer" />
           <div className="iugy-emblem-ring iugy-emblem-ring--inner" />
           <div className="iugy-emblem-core">
-            <img src={iugyEmblemUrl} alt="" />
+            <img
+              src={iugyEmblemUrl}
+              alt=""
+              width="618"
+              height="900"
+              decoding="async"
+              fetchPriority="high"
+            />
           </div>
         </div>
 

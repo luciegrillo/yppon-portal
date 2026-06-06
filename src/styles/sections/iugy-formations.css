@@ -5,7 +5,7 @@
   padding: clamp(6rem, 13vw, 13rem) var(--page-pad);
   color: var(--ivory);
   background:
-    radial-gradient(circle at 75% 25%, rgba(45, 122, 95, 0.2), transparent 32%),
+    radial-gradient(circle at 75% 25%, rgba(200, 164, 77, 0.15), transparent 32%),
     var(--navy);
   border-top: 1px solid var(--iugy-line);
 }
@@ -71,7 +71,7 @@
 .formation-card {
   position: relative;
   padding: clamp(2rem, 3.5vw, 3rem);
-  background: rgba(14, 42, 35, 0.6);
+  background: rgba(11, 36, 66, 0.62);
   border: 1px solid var(--iugy-line);
   backdrop-filter: blur(12px);
   transition:
@@ -82,7 +82,7 @@
 
 .formation-card:hover {
   border-color: var(--iugy-accent);
-  box-shadow: 0 12px 48px rgba(45, 122, 95, 0.12);
+  box-shadow: 0 12px 48px rgba(200, 164, 77, 0.12);
   transform: translateY(-4px);
 }
 
@@ -108,8 +108,8 @@
   height: 2.8rem;
   place-items: center;
   color: var(--iugy-accent-bright);
-  background: rgba(45, 122, 95, 0.15);
-  border: 1px solid rgba(45, 122, 95, 0.25);
+  background: rgba(200, 164, 77, 0.12);
+  border: 1px solid rgba(200, 164, 77, 0.25);
   border-radius: 50%;
 }
 
