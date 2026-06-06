@@ -1,0 +1,82 @@
+/* Public access */
+.public-access {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(500px, 1.3fr);
+  gap: clamp(4rem, 10vw, 12rem);
+  padding: clamp(6rem, 11vw, 11rem) max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
+  color: var(--ivory);
+  background: var(--ink);
+  border-top: 1px solid rgba(200, 164, 77, 0.24);
+}
+
+.public-access__heading > svg {
+  margin-bottom: 2rem;
+  color: var(--gold);
+}
+
+.public-access__heading > p {
+  margin: 0 0 0.7rem;
+  color: var(--gold);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.public-access__heading h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 6vw, 6.5rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.8;
+}
+
+.public-links {
+  border-top: 1px solid var(--line-light);
+}
+
+.public-links a {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 110px;
+  border-bottom: 1px solid var(--line-light);
+  transition:
+    color 220ms ease,
+    padding 220ms ease,
+    background-color 220ms ease;
+}
+
+.public-links a:hover {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  color: var(--gold-bright);
+  background: rgba(233, 228, 216, 0.025);
+}
+
+.public-links > a > span {
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 0.72rem;
+}
+
+.public-links strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.3vw, 2rem);
+  font-weight: 500;
+}
+
+.public-links p {
+  margin: 0;
+  color: var(--muted-light);
+  font-size: 0.72rem;
+}
+
+.public-links svg {
+  color: var(--gold);
+}
+

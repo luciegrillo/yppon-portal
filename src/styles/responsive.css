@@ -1,0 +1,342 @@
+/* Responsive */
+@media (max-width: 1100px) {
+  .institution-panel {
+    grid-template-columns: minmax(220px, 0.8fr) minmax(300px, 1fr);
+  }
+
+  .institution-panel h3 {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+  }
+
+  .constitution-grid {
+    grid-template-columns: minmax(320px, 0.85fr) minmax(390px, 1fr);
+    gap: 4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .header-cycle {
+    display: none;
+  }
+
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+
+  .hero {
+    height: 170vh;
+  }
+
+  .flag-fallback {
+    width: 92vw;
+  }
+
+  .institutions-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .institutions-heading > p:last-child {
+    margin: 2rem 0 0;
+  }
+
+  .institutions-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .institution-index {
+    position: sticky;
+    top: 67px;
+    z-index: 5;
+    display: block;
+    padding: 0;
+    margin: 0 calc(var(--page-pad) * -1);
+    background: rgba(7, 24, 47, 0.9);
+    border-top: 1px solid var(--line-light);
+    border-bottom: 1px solid var(--line-light);
+    backdrop-filter: blur(16px);
+  }
+
+  .institution-index > p,
+  .index-progress {
+    display: none;
+  }
+
+  .institution-index ol {
+    flex-direction: row;
+    padding: 0 var(--page-pad);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .institution-index ol::-webkit-scrollbar {
+    display: none;
+  }
+
+  .institution-index a {
+    grid-template-columns: auto;
+    min-width: max-content;
+    padding: 0.95rem 1.1rem 0.9rem 0;
+  }
+
+  .institution-index a span {
+    display: none;
+  }
+
+  .institution-panel {
+    grid-template-columns: minmax(240px, 0.75fr) minmax(300px, 1fr);
+  }
+
+  .constitution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .constitution-mark {
+    order: 2;
+  }
+
+  .emblem-graphic {
+    max-width: 520px;
+  }
+
+  .public-access {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-primary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .back-to-top {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    min-height: 72px;
+  }
+
+  .site-header--scrolled {
+    min-height: 62px;
+  }
+
+  .brand img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand strong {
+    font-size: 1.25rem;
+  }
+
+  .menu-trigger span {
+    display: none;
+  }
+
+  .menu-panel {
+    background-size: 48px 48px;
+  }
+
+  .menu-panel__footer p {
+    display: none;
+  }
+
+  .ceremonial-nav a {
+    grid-template-columns: 2rem 1fr auto;
+  }
+
+  .ceremonial-nav strong {
+    font-size: clamp(2.6rem, 13vw, 4.3rem);
+  }
+
+  .hero {
+    height: 160vh;
+    min-height: 950px;
+  }
+
+  .hero-stage {
+    min-height: 570px;
+  }
+
+  .hero-orbit {
+    width: 110vw;
+  }
+
+  .flag-world {
+    inset: -4% -14% 8%;
+  }
+
+  .flag-fallback {
+    width: 120vw;
+    max-height: 64vh;
+  }
+
+  .hero-intro {
+    display: none;
+  }
+
+  .hero-copy {
+    bottom: 5.3rem;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3.5rem, 17vw, 5.8rem);
+    line-height: 0.78;
+  }
+
+  .hero-copy__lead {
+    margin-top: 1.4rem;
+    font-size: 1.12rem;
+  }
+
+  .portal-search input {
+    font-size: 0.69rem;
+  }
+
+  .scroll-cue {
+    right: auto;
+    left: var(--page-pad);
+    bottom: 1.4rem;
+  }
+
+  .institutions-heading h2 {
+    font-size: clamp(3.5rem, 17vw, 5.5rem);
+  }
+
+  .institution-panel {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 7rem 0 6rem;
+  }
+
+  .institution-panel__copy {
+    order: 2;
+  }
+
+  .institution-visual {
+    width: min(100%, 480px);
+    margin: 0 auto;
+  }
+
+  .constitution-grid {
+    gap: 4rem;
+  }
+
+  .constitution-copy h2 {
+    font-size: clamp(3.7rem, 16vw, 5.5rem);
+  }
+
+  .constitution-link {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.58rem;
+  }
+
+  .public-access {
+    grid-template-columns: 1fr;
+  }
+
+  .public-links a {
+    grid-template-columns: 2rem 1fr auto;
+    min-height: 96px;
+  }
+
+  .public-links p {
+    max-width: 220px;
+  }
+
+  .footer-primary {
+    grid-template-columns: 1fr;
+    padding: 4rem 0;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-copy {
+    width: calc(100vw - 2rem);
+  }
+
+  .portal-search {
+    padding-left: 0.75rem;
+  }
+
+  .portal-search input {
+    padding: 0.9rem 0.65rem;
+  }
+
+  .portal-search button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .institution-index a {
+    padding-right: 0.8rem;
+  }
+
+  .institution-panel h3 {
+    font-size: 3rem;
+  }
+
+  .constitution-link svg:first-child {
+    display: none;
+  }
+
+  .public-links p {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero {
+    height: 100svh;
+    min-height: 700px;
+  }
+
+  .hero-stage {
+    position: relative;
+  }
+
+  .hero-copy {
+    opacity: 1;
+    transform: none;
+  }
+
+  .flag-world {
+    opacity: 0.5;
+    transform: none !important;
+  }
+
+  .emblem-graphic path {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .menu-panel,
+  .institutions,
+  .constitution,
+  .public-access {
+    background-image: none;
+  }
+
+  .portal-search,
+  .institution-visual,
+  .public-links a {
+    border: 1px solid CanvasText;
+  }
+}

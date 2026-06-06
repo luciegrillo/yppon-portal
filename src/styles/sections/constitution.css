@@ -1,0 +1,143 @@
+/* Constitution */
+.constitution {
+  position: relative;
+  z-index: 6;
+  padding: clamp(8rem, 14vw, 15rem) var(--page-pad) clamp(7rem, 12vw, 12rem);
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--ivory);
+}
+
+.constitution::before {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: clamp(55px, 8vw, 120px);
+  content: '';
+  background: var(--navy);
+  clip-path: polygon(0 0, 100% 0, 100% 8%, 74% 45%, 49% 12%, 22% 58%, 0 24%);
+}
+
+.constitution-sun {
+  position: absolute;
+  top: 12%;
+  right: -7%;
+  width: min(47vw, 720px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(3, 7, 17, 0.065);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 6rem rgba(3, 7, 17, 0.018),
+    0 0 0 12rem rgba(3, 7, 17, 0.013);
+}
+
+.constitution-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(380px, 0.9fr) minmax(420px, 1fr);
+  align-items: center;
+  gap: clamp(4rem, 10vw, 12rem);
+  width: min(100%, var(--content-width));
+  margin: 0 auto;
+}
+
+.constitution-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.constitution-mark > span,
+.constitution-mark > p {
+  margin: 0;
+  color: rgba(3, 7, 17, 0.52);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.emblem-graphic {
+  width: min(100%, 620px);
+  margin: 1.5rem 0;
+  fill: none;
+  stroke: var(--ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.1;
+}
+
+.emblem-graphic .emblem-star,
+.emblem-graphic .emblem-bolts {
+  fill: rgba(200, 164, 77, 0.08);
+  stroke: #a98530;
+}
+
+.emblem-graphic circle {
+  fill: var(--gold);
+  stroke: none;
+}
+
+.constitution-copy {
+  max-width: 670px;
+}
+
+.constitution-copy .eyebrow {
+  color: #8d6d24;
+}
+
+.constitution-copy h2 {
+  margin: 0.8rem 0 2rem;
+  font-family: var(--serif);
+  font-size: clamp(4rem, 7.8vw, 8rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.75;
+}
+
+.constitution-copy h2 em {
+  font-weight: 300;
+}
+
+.constitution-copy > p:not(.eyebrow) {
+  max-width: 550px;
+  margin: 0 0 2.2rem;
+  color: var(--muted-dark);
+  font-size: clamp(0.98rem, 1.3vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.constitution-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem;
+  color: var(--ivory);
+  background: var(--ink);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transition:
+    color 220ms ease,
+    background-color 220ms ease;
+}
+
+.constitution-link svg:last-child {
+  margin-left: 0.5rem;
+  color: var(--gold);
+  transition: transform 220ms ease;
+}
+
+.constitution-link:hover {
+  color: var(--ink);
+  background: var(--gold);
+}
+
+.constitution-link:hover svg:last-child {
+  transform: translate(3px, -3px);
+}
+
