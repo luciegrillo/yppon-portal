@@ -39,7 +39,10 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
   useLayoutEffect(() => {
     if (prefersReducedMotion || !sectionRef.current) return undefined;
 
-    const animationContext = gsap.context(() => {
+    const mediaContext = gsap.matchMedia();
+
+    mediaContext.add('(min-width: 769px)', () => {
+      // 1. Entrance animation for heading
       gsap.fromTo(
         '.iugy-formations__heading > *',
         { y: 50, opacity: 0 },
@@ -51,7 +54,47 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           ease: 'power3.out',
           scrollTrigger: {
             trigger: '.iugy-formations__heading',
-            start: 'top 78%',
+            start: 'top 85%',
+          },
+        },
+      );
+
+      // 2. Horizontal pinning for cards
+      const grid = document.querySelector('.iugy-formations__grid') as HTMLElement;
+      if (grid) {
+        // Calculate how much we need to scroll: total width of grid minus viewport width
+        // Plus some padding so the last card doesn't stick right to the edge
+        const getScrollAmount = () => -(grid.scrollWidth - window.innerWidth + 80);
+
+        gsap.to(grid, {
+          x: getScrollAmount,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: () => `+=${grid.scrollWidth - window.innerWidth + 80}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+    });
+
+    mediaContext.add('(max-width: 768px)', () => {
+      // Mobile fallback: vertical stacking entrance
+      gsap.fromTo(
+        '.iugy-formations__heading > *',
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.iugy-formations__heading',
+            start: 'top 85%',
           },
         },
       );
@@ -71,9 +114,9 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           },
         },
       );
-    }, sectionRef);
+    });
 
-    return () => animationContext.revert();
+    return () => mediaContext.revert();
   }, [prefersReducedMotion]);
 
   return (
