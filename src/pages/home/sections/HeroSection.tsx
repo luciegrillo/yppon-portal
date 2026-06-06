@@ -1,43 +1,19 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import ypponFlagUrl from '../../../assets/yppon-flag.webp';
 import { PortalSearch } from '../../../components/search/PortalSearch';
 import { gsap } from '../../../lib/animation';
-import { supportsWebGL } from '../../../lib/browser';
-
-const YpponFlagScene = lazy(() => import('../three/YpponFlagScene'));
 
 type HeroSectionProps = {
-  isMenuOpen: boolean;
   prefersReducedMotion: boolean;
 };
 
-export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionProps) {
+export function HeroSection({ prefersReducedMotion }: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const scrollProgressRef = useRef(0);
-  const [isSceneVisible, setIsSceneVisible] = useState(true);
-  const [isWebGLSupported] = useState(supportsWebGL);
-
-  useEffect(() => {
-    const stageElement = stageRef.current;
-    if (!stageElement) return undefined;
-
-    const visibilityObserver = new IntersectionObserver(
-      ([entry]) => setIsSceneVisible(entry.isIntersecting),
-      { rootMargin: '120px' },
-    );
-
-    visibilityObserver.observe(stageElement);
-
-    return () => visibilityObserver.disconnect();
-  }, []);
 
   useLayoutEffect(() => {
-    if (prefersReducedMotion || !sectionRef.current) {
-      scrollProgressRef.current = 0;
-      return undefined;
-    }
+    if (prefersReducedMotion || !sectionRef.current) return undefined;
 
     const animationContext = gsap.context(() => {
       const heroTimeline = gsap.timeline({
@@ -47,9 +23,6 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
           end: 'bottom bottom',
           scrub: 0.7,
           invalidateOnRefresh: true,
-          onUpdate: ({ progress }) => {
-            scrollProgressRef.current = progress;
-          },
         },
       });
 
@@ -57,8 +30,9 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
         .to(
           '.flag-world',
           {
-            scale: 0.76,
-            yPercent: -8,
+            scale: 0.84,
+            xPercent: 8,
+            yPercent: -5,
             duration: 0.62,
             ease: 'none',
           },
@@ -74,14 +48,15 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
           0.08,
         )
         .to(
-          '.hero-copy',
+          '.hero-disclosure',
           {
-            opacity: 1,
+            autoAlpha: 1,
+            pointerEvents: 'auto',
             y: 0,
-            duration: 0.32,
+            duration: 0.16,
             ease: 'power2.out',
           },
-          0.18,
+          0.01,
         )
         .to(
           '.hero-orbit',
@@ -94,18 +69,80 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
           0,
         )
         .to(
-          '.hero-copy',
+          '.hero-headline',
           {
             opacity: 0,
             y: -38,
-            duration: 0.24,
+            duration: 0.12,
             ease: 'none',
           },
-          0.76,
+          0.88,
+        )
+        .to(
+          '.hero-disclosure',
+          {
+            autoAlpha: 0,
+            pointerEvents: 'none',
+            y: -24,
+            duration: 0.1,
+            ease: 'none',
+          },
+          0.9,
         );
     }, sectionRef);
 
     return () => animationContext.revert();
+  }, [prefersReducedMotion]);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion || !stageRef.current) return undefined;
+
+    const stage = stageRef.current;
+    const flagParallax = stage.querySelector<HTMLElement>('.flag-parallax');
+    const orbit = stage.querySelector<HTMLElement>('.hero-orbit');
+    if (!flagParallax || !orbit) return undefined;
+
+    const moveFlagX = gsap.quickTo(flagParallax, 'x', {
+      duration: 1.4,
+      ease: 'power3.out',
+    });
+    const moveFlagY = gsap.quickTo(flagParallax, 'y', {
+      duration: 1.4,
+      ease: 'power3.out',
+    });
+    const moveOrbitX = gsap.quickTo(orbit, 'xPercent', {
+      duration: 1.8,
+      ease: 'power3.out',
+    });
+    const moveOrbitY = gsap.quickTo(orbit, 'yPercent', {
+      duration: 1.8,
+      ease: 'power3.out',
+    });
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const normalizedX = event.clientX / window.innerWidth - 0.5;
+      const normalizedY = event.clientY / window.innerHeight - 0.5;
+
+      moveFlagX(normalizedX * 28);
+      moveFlagY(normalizedY * 18);
+      moveOrbitX(-50 + normalizedX * -3);
+      moveOrbitY(-50 + normalizedY * -3);
+    };
+
+    const resetParallax = () => {
+      moveFlagX(0);
+      moveFlagY(0);
+      moveOrbitX(-50);
+      moveOrbitY(-50);
+    };
+
+    stage.addEventListener('pointermove', handlePointerMove);
+    stage.addEventListener('pointerleave', resetParallax);
+
+    return () => {
+      stage.removeEventListener('pointermove', handlePointerMove);
+      stage.removeEventListener('pointerleave', resetParallax);
+    };
   }, [prefersReducedMotion]);
 
   return (
@@ -121,35 +158,27 @@ export function HeroSection({ isMenuOpen, prefersReducedMotion }: HeroSectionPro
         </div>
 
         <div className="flag-world" aria-hidden="true">
-          <img className="flag-fallback" src={ypponFlagUrl} alt="" />
-          {isWebGLSupported && (
-            <Suspense fallback={null}>
-              <YpponFlagScene
-                progressRef={scrollProgressRef}
-                isPaused={isMenuOpen || !isSceneVisible}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            </Suspense>
-          )}
-        </div>
-
-        <div className="hero-intro" aria-hidden="true">
-          <span>Estado de Yppon</span>
-          <i />
-          <span>Portal unificado</span>
+          <div className="flag-parallax">
+            <img className="flag-backdrop" src={ypponFlagUrl} alt="" />
+          </div>
         </div>
 
         <div className="hero-copy">
-          <p className="eyebrow">Meritocracia Bipartite · Ciclo 942</p>
-          <h1>
-            A ordem sustenta
-            <br />
-            <em>o progresso.</em>
-          </h1>
-          <p className="hero-copy__lead">
-            Acesso integrado às instituições que sustentam Yppon.
-          </p>
-          <PortalSearch />
+          <div className="hero-headline">
+            <p className="eyebrow">Meritocracia Bipartite · Ciclo 942</p>
+            <h1>
+              A ordem sustenta
+              <br />
+              <em>o progresso.</em>
+            </h1>
+          </div>
+
+          <div className="hero-disclosure">
+            <p className="hero-copy__lead">
+              Acesso integrado às instituições que sustentam Yppon.
+            </p>
+            <PortalSearch />
+          </div>
         </div>
 
         <a className="scroll-cue" href="#instituicoes">

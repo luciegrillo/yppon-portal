@@ -7,11 +7,61 @@ type InstitutionsSectionProps = {
   prefersReducedMotion: boolean;
 };
 
-function InstitutionArtwork({ institution }: { institution: Institution }) {
+function InstitutionArtwork({
+  institution,
+  prefersReducedMotion,
+}: {
+  institution: Institution;
+  prefersReducedMotion: boolean;
+}) {
   const Icon = institution.icon;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion || !containerRef.current) return undefined;
+
+    const container = containerRef.current;
+
+    const ringsAndCore = container.querySelectorAll('.visual-ring, .visual-core');
+    const gridAndAxis = container.querySelectorAll('.visual-grid, .visual-axis');
+
+    if (!ringsAndCore.length || !gridAndAxis.length) return undefined;
+
+    const xTo = gsap.quickTo(ringsAndCore, 'x', { duration: 0.8, ease: 'power3' });
+    const yTo = gsap.quickTo(ringsAndCore, 'y', { duration: 0.8, ease: 'power3' });
+    const xToGrid = gsap.quickTo(gridAndAxis, 'x', { duration: 1.2, ease: 'power3' });
+    const yToGrid = gsap.quickTo(gridAndAxis, 'y', { duration: 1.2, ease: 'power3' });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const relX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+      const relY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+
+      xTo(relX * 14);
+      yTo(relY * 14);
+      xToGrid(relX * -8);
+      yToGrid(relY * -8);
+    };
+
+    const handleMouseLeave = () => {
+      xTo(0);
+      yTo(0);
+      xToGrid(0);
+      yToGrid(0);
+    };
+
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [prefersReducedMotion]);
 
   return (
     <div
+      ref={containerRef}
       className={`institution-visual institution-visual--${institution.visualVariant}`}
       aria-hidden="true"
     >
@@ -36,10 +86,12 @@ function InstitutionArtwork({ institution }: { institution: Institution }) {
 function InstitutionPanel({
   institution,
   index,
+  prefersReducedMotion,
   onElementReady,
 }: {
   institution: Institution;
   index: number;
+  prefersReducedMotion: boolean;
   onElementReady: (element: HTMLElement | null) => void;
 }) {
   return (
@@ -50,9 +102,7 @@ function InstitutionPanel({
       data-index={index}
     >
       <div className="institution-panel__copy">
-        <span className="institution-panel__number">
-          {institution.number.padStart(2, '0')}
-        </span>
+        <span className="institution-panel__number">{institution.number}</span>
         <p className="institution-panel__label">{institution.label}</p>
         <h3>{institution.title}</h3>
         <p className="institution-panel__description">{institution.description}</p>
@@ -62,7 +112,10 @@ function InstitutionPanel({
         </a>
       </div>
 
-      <InstitutionArtwork institution={institution} />
+      <InstitutionArtwork
+        institution={institution}
+        prefersReducedMotion={prefersReducedMotion}
+      />
     </article>
   );
 }
@@ -96,7 +149,23 @@ export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectio
     if (prefersReducedMotion || !sectionRef.current) return undefined;
 
     const animationContext = gsap.context(() => {
-      panelElementsRef.current.forEach((panel) => {
+      gsap.fromTo(
+        '.institutions-heading h2',
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.institutions-heading',
+            start: 'top 82%',
+            end: 'center 58%',
+            scrub: 0.55,
+          },
+        },
+      );
+
+      panelElementsRef.current.forEach((panel, index) => {
         if (!panel) return;
 
         gsap.fromTo(
@@ -114,6 +183,42 @@ export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectio
             },
           },
         );
+
+        gsap.fromTo(
+          panel.querySelector('.institution-visual'),
+          {
+            y: 90,
+            scale: 0.82,
+            rotateX: index % 2 === 0 ? 8 : -8,
+            rotateY: index % 2 === 0 ? -13 : 13,
+            opacity: 0.25,
+          },
+          {
+            y: 0,
+            scale: 1,
+            rotateX: 0,
+            rotateY: 0,
+            opacity: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: panel,
+              start: 'top 88%',
+              end: 'center 55%',
+              scrub: 0.7,
+            },
+          },
+        );
+
+        gsap.to(panel.querySelector('.visual-grid'), {
+          backgroundPositionY: index % 2 === 0 ? 90 : -90,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: panel,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        });
       });
     }, sectionRef);
 
@@ -163,6 +268,7 @@ export function InstitutionsSection({ prefersReducedMotion }: InstitutionsSectio
             <InstitutionPanel
               institution={institution}
               index={index}
+              prefersReducedMotion={prefersReducedMotion}
               key={institution.title}
               onElementReady={(element) => {
                 panelElementsRef.current[index] = element;

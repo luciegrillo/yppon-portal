@@ -1,6 +1,7 @@
 @import './foundation.css';
 @import './components/header.css';
 @import './components/ceremonial-menu.css';
+@import './components/scroll-progress.css';
 @import './sections/hero.css';
 @import './sections/institutions.css';
 @import './sections/constitution.css';

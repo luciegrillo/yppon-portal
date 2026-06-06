@@ -11,8 +11,11 @@ export function useSmoothScroll({ disabled = false }: UseSmoothScrollOptions = {
     if (disabled) return undefined;
 
     const lenis = new Lenis({
-      lerp: 0.09,
+      lerp: 0.075,
       smoothWheel: true,
+      wheelMultiplier: 0.88,
+      touchMultiplier: 1.05,
+      syncTouch: false,
       anchors: true,
     });
 

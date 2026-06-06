@@ -1,7 +1,7 @@
 # Portal Oficial de Yppon
 
-Home institucional imersiva construída com React, TypeScript, GSAP e React Three
-Fiber. A interface combina navegação pública acessível com uma identidade
+Home institucional imersiva construída com React, TypeScript, GSAP e CSS 3D.
+A interface combina navegação pública acessível com uma identidade
 mítico-futurista baseada nos símbolos de Yppon.
 
 ## Requisitos
@@ -39,7 +39,6 @@ src/
 │   └── home/
 │       ├── content/     # Dados editoriais e tipos da página
 │       ├── sections/    # Seções que compõem a home
-│       └── three/       # Cena WebGL e shaders da home
 └── styles/
     ├── components/      # Estilos dos componentes compartilhados
     ├── sections/        # Estilos específicos das seções
@@ -65,8 +64,8 @@ src/
 - A navegação cerimonial implementa foco contido, fechamento por `Escape` e
   retorno do foco ao elemento anterior.
 - `prefers-reduced-motion` desativa scroll suave e animações contínuas.
-- A cena 3D é carregada sob demanda e possui fallback estático.
-- A resolução do WebGL é limitada conforme o tamanho da tela.
+- Efeitos de profundidade usam CSS 3D e GSAP, evitando dependências WebGL.
+- Animações ligadas ao scroll são desativadas quando há preferência por movimento reduzido.
 
 ## Histórico Git
 

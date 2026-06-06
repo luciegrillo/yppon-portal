@@ -27,7 +27,7 @@
     height: 170vh;
   }
 
-  .flag-fallback {
+  .flag-backdrop {
     width: 92vw;
   }
 
@@ -94,7 +94,7 @@
     order: 2;
   }
 
-  .emblem-graphic {
+  .constitution-emblem-frame {
     max-width: 520px;
   }
 
@@ -112,6 +112,10 @@
 }
 
 @media (max-width: 700px) {
+  .scroll-progress {
+    display: none;
+  }
+
   .site-header {
     min-height: 72px;
   }
@@ -166,13 +170,9 @@
     inset: -4% -14% 8%;
   }
 
-  .flag-fallback {
+  .flag-backdrop {
     width: 120vw;
     max-height: 64vh;
-  }
-
-  .hero-intro {
-    display: none;
   }
 
   .hero-copy {
@@ -311,8 +311,15 @@
   }
 
   .hero-copy {
-    opacity: 1;
     transform: none;
+  }
+
+  .hero-headline,
+  .hero-disclosure {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none !important;
   }
 
   .flag-world {
@@ -320,9 +327,9 @@
     transform: none !important;
   }
 
-  .emblem-graphic path {
-    stroke-dasharray: none !important;
-    stroke-dashoffset: 0 !important;
+  .constitution-emblem {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

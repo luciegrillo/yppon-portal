@@ -1,4 +1,46 @@
 /* Motion */
+@keyframes hero-title-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flag-drift {
+  0% {
+    filter: saturate(1.02) contrast(1.14) brightness(1.06);
+    transform: translate(-50%, -50%) scale(1) rotate(-0.3deg);
+  }
+
+  50% {
+    filter: saturate(1.14) contrast(1.2) brightness(1.24);
+    transform: translate(-49%, -51%) scale(1.035) rotate(0.25deg);
+  }
+
+  100% {
+    filter: saturate(1.08) contrast(1.16) brightness(1.14);
+    transform: translate(-51%, -49%) scale(1.018) rotate(-0.15deg);
+  }
+}
+
+@keyframes emblem-float {
+  0%,
+  100% {
+    filter: drop-shadow(0 18px 24px rgba(3, 7, 17, 0.12));
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    filter: drop-shadow(0 26px 32px rgba(3, 7, 17, 0.18));
+    transform: translateY(-9px) scale(1.018);
+  }
+}
+
 @keyframes grain {
   0% {
     transform: translate(0, 0);

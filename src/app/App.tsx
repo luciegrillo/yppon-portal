@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { SiteFooter } from '../components/layout/SiteFooter';
 import { SiteHeader } from '../components/layout/SiteHeader';
+import { ScrollProgress } from '../components/navigation/ScrollProgress';
 import { useReducedMotion } from '../hooks/useReducedMotion';
 import { useSmoothScroll } from '../hooks/useSmoothScroll';
 import { HomePage } from '../pages/home/HomePage';
@@ -18,8 +19,9 @@ export function App() {
       </a>
 
       <SiteHeader isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} />
+      <ScrollProgress prefersReducedMotion={prefersReducedMotion} />
 
-      <HomePage isMenuOpen={isMenuOpen} prefersReducedMotion={prefersReducedMotion} />
+      <HomePage prefersReducedMotion={prefersReducedMotion} />
 
       <SiteFooter />
     </div>

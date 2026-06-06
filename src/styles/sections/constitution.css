@@ -47,6 +47,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -60,25 +61,60 @@
   text-transform: uppercase;
 }
 
-.emblem-graphic {
-  width: min(100%, 620px);
-  margin: 1.5rem 0;
-  fill: none;
-  stroke: var(--ink);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.1;
+.constitution-emblem-frame {
+  position: relative;
+  display: grid;
+  width: min(90%, 540px);
+  aspect-ratio: 1;
+  margin: 1.8rem 0;
+  place-items: center;
+  border: 1px solid rgba(3, 7, 17, 0.1);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(200, 164, 77, 0.12),
+    rgba(200, 164, 77, 0.025) 48%,
+    transparent 69%
+  );
 }
 
-.emblem-graphic .emblem-star,
-.emblem-graphic .emblem-bolts {
-  fill: rgba(200, 164, 77, 0.08);
-  stroke: #a98530;
+.constitution-emblem-frame::before,
+.constitution-emblem-frame::after,
+.constitution-emblem-frame > span {
+  position: absolute;
+  content: '';
+  border: 1px solid rgba(3, 7, 17, 0.08);
+  border-radius: 50%;
 }
 
-.emblem-graphic circle {
-  fill: var(--gold);
-  stroke: none;
+.constitution-emblem-frame::before {
+  inset: 8%;
+}
+
+.constitution-emblem-frame::after {
+  inset: 19%;
+  border-color: rgba(200, 164, 77, 0.24);
+}
+
+.constitution-emblem-frame > span {
+  top: 50%;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: var(--gold);
+  box-shadow: 0 0 18px rgba(200, 164, 77, 0.62);
+}
+
+.constitution-emblem {
+  position: relative;
+  z-index: 1;
+  width: 69%;
+  height: 69%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 24px rgba(3, 7, 17, 0.12));
+  animation: emblem-float 7s ease-in-out infinite;
+  will-change: transform, filter;
 }
 
 .constitution-copy {

@@ -1,0 +1,40 @@
+/* Global scroll progress */
+.scroll-progress {
+  position: fixed;
+  top: 50%;
+  right: 1.15rem;
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: rgba(233, 228, 216, 0.5);
+  pointer-events: none;
+  transform: translateY(-50%);
+  mix-blend-mode: difference;
+}
+
+.scroll-progress__label {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.scroll-progress__track {
+  position: relative;
+  width: 1px;
+  height: min(22vh, 180px);
+  overflow: hidden;
+  background: rgba(233, 228, 216, 0.18);
+}
+
+.scroll-progress__track > span {
+  position: absolute;
+  inset: 0;
+  background: var(--ivory);
+  box-shadow: 0 0 10px rgba(233, 228, 216, 0.5);
+  transform: scaleY(0);
+  transform-origin: top;
+}

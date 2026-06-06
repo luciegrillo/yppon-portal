@@ -4,17 +4,16 @@ import { InstitutionsSection } from './sections/InstitutionsSection';
 import { PublicAccessSection } from './sections/PublicAccessSection';
 
 type HomePageProps = {
-  isMenuOpen: boolean;
   prefersReducedMotion: boolean;
 };
 
-export function HomePage({ isMenuOpen, prefersReducedMotion }: HomePageProps) {
+export function HomePage({ prefersReducedMotion }: HomePageProps) {
   return (
     <main id="main-content">
-      <HeroSection isMenuOpen={isMenuOpen} prefersReducedMotion={prefersReducedMotion} />
+      <HeroSection prefersReducedMotion={prefersReducedMotion} />
       <InstitutionsSection prefersReducedMotion={prefersReducedMotion} />
       <ConstitutionSection prefersReducedMotion={prefersReducedMotion} />
-      <PublicAccessSection />
+      <PublicAccessSection prefersReducedMotion={prefersReducedMotion} />
     </main>
   );
 }
