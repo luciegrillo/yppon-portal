@@ -9,18 +9,27 @@
 
 .iugy-hero {
   position: relative;
+  height: 175vh;
+  min-height: 1080px;
+  color: var(--ivory);
+  background: var(--ink);
+}
+
+.iugy-hero__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
   height: 100svh;
   min-height: 640px;
   overflow: hidden;
   isolation: isolate;
-  color: var(--ivory);
   background:
     radial-gradient(circle at 50% 44%, rgba(200, 164, 77, 0.14), transparent 48%),
     radial-gradient(circle at 50% 50%, rgba(27, 88, 150, 0.18), transparent 68%),
     linear-gradient(180deg, var(--ink) 0%, var(--iugy-deep) 100%);
 }
 
-.iugy-hero::before {
+.iugy-hero__stage::before {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -67,7 +76,7 @@
 .iugy-hero__emblem {
   position: absolute;
   top: 46%;
-  left: 50%;
+  left: 74%;
   z-index: 2;
   display: grid;
   width: min(48vw, 540px);
@@ -81,7 +90,8 @@
   box-shadow:
     inset 0 0 90px rgba(200, 164, 77, 0.04),
     0 35px 90px rgba(0, 0, 0, 0.13);
-  transform: translate(-50%, -50%);
+  opacity: 0.86;
+  transform: translate(-50%, -50%) scale(0.78);
   transform-style: preserve-3d;
   will-change: transform, opacity;
 }
@@ -130,11 +140,11 @@
 .iugy-hero__copy {
   position: absolute;
   bottom: clamp(6rem, 11vh, 9rem);
-  left: 50%;
+  left: max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
   z-index: 8;
-  width: min(790px, calc(100vw - var(--page-pad) * 2));
-  text-align: center;
-  transform: translateX(-50%);
+  width: min(650px, calc(52vw - var(--page-pad)));
+  text-align: left;
+  will-change: transform, opacity;
 }
 
 .iugy-hero__copy .eyebrow {
@@ -157,11 +167,32 @@
 
 .iugy-hero__lead {
   width: min(520px, 100%);
-  margin: 1.8rem auto 0;
+  margin: 1.8rem 0 0;
   color: rgba(233, 228, 216, 0.7);
   font-family: var(--serif);
   font-size: clamp(1.25rem, 2.1vw, 1.75rem);
   line-height: 1.15;
+}
+
+.iugy-hero__scroll-cue {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: 2.3rem;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(233, 228, 216, 0.52);
+  font-size: 0.59rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  will-change: transform, opacity;
+}
+
+.iugy-hero__scroll-cue svg {
+  color: var(--iugy-accent);
+  animation: cue 1.8s ease-in-out infinite;
 }
 
 @keyframes iugy-emblem-breathe {
@@ -177,6 +208,10 @@
 }
 
 @media (max-width: 900px) {
+  .iugy-hero {
+    height: 165vh;
+  }
+
   .iugy-hero__emblem {
     width: min(60vw, 420px);
   }
@@ -188,15 +223,28 @@
 
 @media (max-width: 700px) {
   .iugy-hero {
+    height: 155vh;
+    min-height: 920px;
+  }
+
+  .iugy-hero__stage {
     min-height: 570px;
   }
 
   .iugy-hero__emblem {
+    top: 30%;
+    left: 50%;
     width: 72vw;
+    opacity: 0.58;
+    transform: translate(-50%, -50%) scale(0.62);
   }
 
   .iugy-hero__copy {
     bottom: 5.3rem;
+    left: 50%;
+    width: calc(100vw - 2rem);
+    text-align: center;
+    transform: translateX(-50%);
   }
 
   .iugy-hero__copy h1 {
@@ -206,21 +254,36 @@
 
   .iugy-hero__lead {
     margin-top: 1.4rem;
+    margin-right: auto;
+    margin-left: auto;
     font-size: 1.12rem;
+  }
+
+  .iugy-hero__scroll-cue {
+    right: auto;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
   }
 }
 
 @media (max-width: 430px) {
-  .iugy-hero__copy {
-    width: calc(100vw - 2rem);
-  }
-
   .iugy-hero__breadcrumb {
     font-size: 0.52rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .iugy-hero {
+    height: 100svh;
+    min-height: 700px;
+  }
+
+  .iugy-hero__stage {
+    position: relative;
+  }
+
   .iugy-hero__emblem::after,
   .iugy-emblem-ring--outer,
   .iugy-emblem-ring--inner {
@@ -229,5 +292,22 @@
 
   .iugy-hero__emblem {
     will-change: auto;
+  }
+
+  .iugy-hero__copy {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+
+  .iugy-hero__scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) and (prefers-reduced-motion: reduce) {
+  .iugy-hero__copy {
+    transform: translateX(-50%);
   }
 }
