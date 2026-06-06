@@ -16,6 +16,7 @@ export function AcademicCalendarSection({
     if (prefersReducedMotion || !sectionRef.current) return undefined;
 
     const animationContext = gsap.context(() => {
+      // 1. Heading entrance
       gsap.fromTo(
         '.iugy-calendar__heading > *',
         { y: 40, opacity: 0 },
@@ -32,21 +33,56 @@ export function AcademicCalendarSection({
         },
       );
 
-      gsap.fromTo(
-        '.calendar-event',
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.09,
-          duration: 0.65,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.calendar-timeline',
-            start: 'top 78%',
-          },
+      // 2. Timeline Progress Line
+      gsap.to('.calendar-timeline__progress', {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.calendar-timeline',
+          start: 'top 50%',
+          end: 'bottom 50%',
+          scrub: 1,
         },
-      );
+      });
+
+      // 3. Event Dots Light Up and Text Fade In
+      const events = gsap.utils.toArray<HTMLElement>('.calendar-event');
+      events.forEach((event) => {
+        const dot = event.querySelector('.calendar-event__dot');
+        const content = event.querySelectorAll(
+          '.calendar-event__period, .calendar-event__title, .calendar-event__description',
+        );
+
+        // Fade in content
+        gsap.fromTo(
+          content,
+          { y: 20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.05,
+            duration: 0.6,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: event,
+              start: 'top 75%',
+            },
+          },
+        );
+
+        // Light up dot when line reaches it
+        gsap.to(dot, {
+          backgroundColor: 'var(--iugy-accent)',
+          borderColor: 'var(--gold)',
+          boxShadow: '0 0 0 3px rgba(200, 164, 77, 0.2)',
+          duration: 0.3,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: event,
+            start: 'top 50%',
+          },
+        });
+      });
     }, sectionRef);
 
     return () => animationContext.revert();
@@ -71,6 +107,8 @@ export function AcademicCalendarSection({
         </div>
 
         <div className="calendar-timeline">
+          <div className="calendar-timeline__progress" aria-hidden="true" />
+
           {calendarEvents.map((event) => (
             <article className="calendar-event" key={event.period}>
               <span className="calendar-event__dot" aria-hidden="true" />
