@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import ypponIconUrl from '../../assets/yppon-icon-transparent.webp';
+import { CURRENT_CYCLE } from '../../config/portal';
 import { CeremonialMenu } from '../navigation/CeremonialMenu';
 
 type SiteHeaderProps = {
@@ -34,7 +35,7 @@ export function SiteHeader({ isMenuOpen, onMenuOpenChange }: SiteHeaderProps) {
         <div className="header-cycle" aria-hidden="true">
           <span>Meritocracia Bipartite</span>
           <i />
-          <span>Ciclo 942</span>
+          <span>Ciclo {CURRENT_CYCLE}</span>
         </div>
 
         <button

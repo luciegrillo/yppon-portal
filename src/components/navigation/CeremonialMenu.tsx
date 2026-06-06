@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
 import { ArrowUpRight, LockKeyhole, X } from 'lucide-react';
 import { primaryNavigation } from '../../config/navigation';
+import { CURRENT_CYCLE } from '../../config/portal';
 
 type CeremonialMenuProps = {
   isOpen: boolean;
@@ -76,7 +77,9 @@ export function CeremonialMenu({ isOpen, onClose }: CeremonialMenuProps) {
         aria-label="Navegação principal"
       >
         <div className="menu-panel__top">
-          <span className="menu-panel__edition">Portal Oficial · Ciclo 942</span>
+          <span className="menu-panel__edition">
+            Portal Oficial · Ciclo {CURRENT_CYCLE}
+          </span>
           <button
             className="round-button round-button--light"
             type="button"
