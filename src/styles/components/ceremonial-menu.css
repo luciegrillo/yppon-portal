@@ -184,3 +184,21 @@
   color: var(--ink);
   font-weight: 700;
 }
+
+@media (max-width: 700px) {
+  .menu-panel {
+    background-size: 48px 48px;
+  }
+
+  .menu-panel__footer p {
+    display: none;
+  }
+
+  .ceremonial-nav a {
+    grid-template-columns: 2rem 1fr auto;
+  }
+
+  .ceremonial-nav strong {
+    font-size: clamp(2.6rem, 13vw, 4.3rem);
+  }
+}

@@ -104,3 +104,36 @@
 .menu-trigger:hover svg {
   transform: rotate(8deg) scale(1.08);
 }
+
+@media (max-width: 900px) {
+  .header-cycle {
+    display: none;
+  }
+
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    min-height: 72px;
+  }
+
+  .site-header--scrolled {
+    min-height: 62px;
+  }
+
+  .brand img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand strong {
+    font-size: 1.25rem;
+  }
+
+  .menu-trigger span {
+    display: none;
+  }
+}

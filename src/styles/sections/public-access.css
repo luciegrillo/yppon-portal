@@ -106,3 +106,30 @@
 .public-links svg {
   color: var(--gold);
 }
+
+@media (max-width: 900px) {
+  .public-access {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .public-access {
+    grid-template-columns: 1fr;
+  }
+
+  .public-links a {
+    grid-template-columns: 2rem 1fr auto;
+    min-height: 96px;
+  }
+
+  .public-links p {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 430px) {
+  .public-links p {
+    display: none;
+  }
+}

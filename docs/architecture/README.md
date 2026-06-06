@@ -18,11 +18,9 @@ uma página única e não consome uma API. Sua organização separa:
 - estilos por componente e seção em `src/styles`.
 
 Essa estrutura é adequada ao tamanho atual. As próximas mudanças devem evoluí-la
-sem reescrever a home ou antecipar abstrações sem uso.
-
-O arquivo `src/styles/responsive.css` ainda reúne media queries específicas de
-várias seções. Antes da primeira página institucional, essas regras devem voltar
-para os estilos de seus respectivos domínios.
+sem reescrever a home ou antecipar abstrações sem uso. Media queries específicas
+permanecem junto dos estilos de seus respectivos domínios; `responsive.css`
+concentra apenas adaptações globais de acessibilidade.
 
 ## Regras de dependência
 

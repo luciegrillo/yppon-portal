@@ -38,3 +38,9 @@
   transform: scaleY(0);
   transform-origin: top;
 }
+
+@media (max-width: 700px) {
+  .scroll-progress {
+    display: none;
+  }
+}

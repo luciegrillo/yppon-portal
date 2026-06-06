@@ -75,3 +75,25 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
+
+@media (max-width: 900px) {
+  .footer-primary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .back-to-top {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-primary {
+    grid-template-columns: 1fr;
+    padding: 4rem 0;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
