@@ -1,0 +1,33 @@
+name: Feature
+description: Nova capacidade perceptível para usuários
+title: 'feat: '
+labels: ['type:feature']
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Qual problema ou necessidade esta feature atende?
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Objetivo
+      description: O que deve existir ao final?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critérios de aceite
+      description: Liste comportamentos verificáveis.
+      value: |
+        - [ ]
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Observações
+      description: Dependências, riscos ou decisões adiadas.

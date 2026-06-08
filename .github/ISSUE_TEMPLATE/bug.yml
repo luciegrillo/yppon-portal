@@ -1,0 +1,35 @@
+name: Bug
+description: Algo não está funcionando como esperado
+title: 'fix: '
+labels: ['bug']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: O que está errado?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+      description: Como deveria funcionar?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reprodução
+      description: Passos ou contexto mínimo para reproduzir.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verificação esperada
+      description: Como confirmar que a correção funcionou?

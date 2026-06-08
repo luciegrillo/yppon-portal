@@ -1,0 +1,38 @@
+name: Chore ou Refactor
+description: Manutenção, configuração ou reorganização sem nova capacidade
+title: 'chore: '
+labels: ['type:chore']
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Por que esta manutenção é necessária?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo
+      description: O que deve mudar e o que deve permanecer igual?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critérios de aceite
+      value: |
+        - [ ]
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Tipo
+      options:
+        - chore
+        - refactor
+        - docs
+        - style
+    validations:
+      required: true

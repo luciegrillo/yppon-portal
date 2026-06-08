@@ -1,0 +1,32 @@
+name: Requisitos
+description: Levantamento ou refinamento de requisito do produto
+title: 'requirements: '
+labels: ['type:docs']
+body:
+  - type: textarea
+    id: domain
+    attributes:
+      label: Domínio
+      description: Qual domínio institucional ou funcional está sendo definido?
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Requisito ou decisão
+      description: O que precisa ser registrado?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impacto
+      description: Como isso afeta arquitetura, segurança, dados ou interface?
+    validations:
+      required: true
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Perguntas abertas
+      value: |
+        - [ ]
