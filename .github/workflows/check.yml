@@ -10,6 +10,23 @@ jobs:
   check:
     name: npm run check
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: yppon_portal
+          POSTGRES_PASSWORD: yppon
+          POSTGRES_USER: yppon
+        options: >-
+          --health-cmd "pg_isready -U yppon -d yppon_portal"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      DATABASE_URL: postgresql://yppon:yppon@127.0.0.1:5432/yppon_portal
 
     steps:
       - name: Checkout
@@ -23,6 +40,12 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Run database migrations
+        run: npm run db:migrate -w @yppon/api
+
+      - name: Seed development data
+        run: npm run db:seed -w @yppon/api
 
       - name: Run checks
         run: npm run check
