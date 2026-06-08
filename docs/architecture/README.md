@@ -6,21 +6,30 @@ de dados são adicionados.
 
 ## Estado atual
 
-O projeto é uma aplicação React 19 com Vite, TypeScript, GSAP e Lenis. A home é
-uma página única e não consome uma API. Sua organização separa:
+O projeto usa npm workspaces com duas aplicações reais:
 
-- composição global em `src/app`;
-- componentes reutilizáveis em `src/components`;
-- conteúdo e seções da home em `src/pages/home`;
-- integrações sem interface em `src/lib`;
-- comportamentos React compartilhados em `src/hooks`;
-- configurações estáticas em `src/config`;
-- estilos por componente e seção em `src/styles`.
+- `apps/web`: aplicação React 19 com Vite, TypeScript, GSAP e Lenis;
+- `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
+  respostas de erro padronizadas e health check.
 
-Essa estrutura é adequada ao tamanho atual. As próximas mudanças devem evoluí-la
-sem reescrever a home ou antecipar abstrações sem uso. Media queries específicas
-permanecem junto dos estilos de seus respectivos domínios; `responsive.css`
-concentra apenas adaptações globais de acessibilidade.
+O frontend separa:
+
+- composição global em `apps/web/src/app`;
+- componentes reutilizáveis em `apps/web/src/components`;
+- conteúdo e seções das páginas em `apps/web/src/pages`;
+- integrações sem interface em `apps/web/src/lib`;
+- comportamentos React compartilhados em `apps/web/src/hooks`;
+- configurações estáticas em `apps/web/src/config`;
+- estilos por componente e seção em `apps/web/src/styles`.
+
+A API ainda não possui persistência nem autenticação. Ela existe como base
+operacional para os próximos requisitos dinâmicos, preservando a regra de não
+criar banco, contratos compartilhados ou camadas vazias antes de necessidade
+concreta.
+
+Media queries específicas permanecem junto dos estilos de seus respectivos
+domínios; `responsive.css` concentra apenas adaptações globais de
+acessibilidade.
 
 ## Regras de dependência
 
@@ -40,8 +49,8 @@ concentra apenas adaptações globais de acessibilidade.
 
 ## Qualidade
 
-Toda mudança deve manter `npm run check` funcional. Conforme novas camadas forem
-introduzidas, a verificação da raiz deverá incluir os workspaces afetados.
+Toda mudança deve manter `npm run check` funcional. A verificação da raiz roda
+lint, formatação e build dos workspaces que possuem script de build.
 
 A estratégia de testes cresce com o risco:
 

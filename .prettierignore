@@ -1,5 +1,6 @@
 dist
+**/dist
 node_modules
 package-lock.json
-src/assets
+apps/web/src/assets
 .gitattributes

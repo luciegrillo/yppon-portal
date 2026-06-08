@@ -2,17 +2,27 @@
 
 ## Estado Atual
 
-O repositório está organizado como uma aplicação web única em React, Vite e
-TypeScript. A estrutura local é coerente com o tamanho atual e segue o ADR 0001:
-não há workspaces enquanto não existir um segundo pacote real.
+O repositório está organizado como um monorepo npm workspaces com duas
+aplicações reais:
+
+- `apps/web`: portal público em React, Vite e TypeScript;
+- `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
+  respostas de erro padronizadas e health check.
+
+A API ainda não possui autenticação, banco, domínio persistido nem contratos
+compartilhados. Essa contenção preserva o escopo incremental do ADR 0001.
 
 Pontos fortes:
 
 - arquitetura documentada em `docs/architecture`;
-- separação clara entre `app`, `pages`, `components`, `hooks`, `lib`, `config` e
-  `styles`;
+- separação clara entre `apps/web` e `apps/api`;
+- frontend organizado em `app`, `pages`, `components`, `hooks`, `lib`, `config`
+  e `styles`;
+- API iniciada com limites de `config`, `http` e `modules`;
 - páginas com conteúdo local tipado;
 - rotas lazy-loaded;
+- CI mínimo com Node 22, `npm ci` e `npm run check`;
+- políticas de contribuição e segurança documentadas;
 - commits e PRs recentes seguem Conventional Commits;
 - branches remotas seguem o padrão `<type>/<issue>-<descricao>`.
 
@@ -49,7 +59,7 @@ PRs:
 
 ## Assets
 
-`src/assets` contém pares PNG/WebP e alguns arquivos PNG grandes:
+`apps/web/src/assets` contém pares PNG/WebP e alguns arquivos PNG grandes:
 
 - `yppon-flag.png`;
 - `yppon-icon.png`;
@@ -63,7 +73,7 @@ pasta deve ganhar convenção.
 Recomendação:
 
 ```text
-src/assets/
+apps/web/src/assets/
   brand/
     yppon/
       yppon-flag.webp
@@ -106,7 +116,7 @@ working tree limpa.
 
 ## Documentação Ausente
 
-Arquivos recomendados antes da primeira API:
+Arquivos de governança já presentes:
 
 - `docs/product/requirements.md`;
 - `docs/product/security-model.md`;
@@ -118,14 +128,15 @@ Arquivos recomendados antes da primeira API:
 - `.env.example`.
 
 Esses arquivos ajudam uma pessoa nova a entender o projeto sem depender de
-contexto oral.
+contexto oral. A próxima lacuna documental é transformar requisitos confirmados
+em contratos de API, fluxos de autorização e critérios de auditoria verificáveis.
 
 ## Segurança
 
-O repositório já ignora `.env` e `.env.*`, preservando `!.env.example`. Isso é
-bom, mas ainda falta o próprio `.env.example` quando API e banco entrarem.
+O repositório ignora `.env` e `.env.*`, preservando `!.env.example`. A API
+possui apenas variáveis não secretas de bootstrap no exemplo.
 
-Antes da API, documentar:
+Antes de armazenar documentos, usuários ou dados oficiais, detalhar:
 
 - política de dados sensíveis;
 - regra de logs;
@@ -138,12 +149,13 @@ Antes da API, documentar:
 
 Ordem sugerida:
 
-1. manter a aplicação atual como v0.1 visual;
-2. resolver higiene de LF/Prettier no Windows;
-3. criar templates de issue e PR;
-4. criar workflow de CI com `npm run check`;
-5. abrir ADR ou extensão do ADR sobre segurança e documentos oficiais;
-6. implementar workspaces junto de `apps/api`;
-7. mover a web para `apps/web` apenas quando o segundo workspace existir;
-8. criar `packages/contracts` somente quando web/API compartilharem contratos
+1. manter `apps/api` como monólito modular enquanto os domínios ainda são
+   pequenos;
+2. criar `packages/contracts` somente quando web/API compartilharem contratos
    reais.
+3. abrir ADR ou extensão do ADR sobre segurança, documentos oficiais e
+   auditoria antes de implementar dados privados;
+4. reorganizar `apps/web/src/assets` em PR próprio, sem misturar com mudanças de
+   comportamento;
+5. introduzir testes focados quando houver endpoints reais, autenticação ou
+   fluxos críticos de UI.

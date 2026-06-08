@@ -22,8 +22,8 @@ ou mensagens de erro.
 
 ## Segredos
 
-Arquivos `.env` e `.env.*` são ignorados pelo Git. Quando API e banco entrarem,
-o repositório deve manter apenas `.env.example`, sem valores reais.
+Arquivos `.env` e `.env.*` são ignorados pelo Git. O repositório mantém apenas
+`.env.example`, sem valores reais.
 
 Nunca commite:
 
@@ -52,7 +52,8 @@ Ações sensíveis devem ser auditáveis:
 
 ## API e Persistência
 
-Quando a API for introduzida:
+A API base já existe sem persistência, autenticação ou dados privados. Ao criar
+endpoints de domínio:
 
 - validar entrada e saída com schemas runtime;
 - não retornar entidades de banco diretamente;
