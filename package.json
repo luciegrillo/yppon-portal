@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "workspaces": [
+    "apps/api",
     "apps/web"
   ],
   "scripts": {
     "dev": "npm run dev -w @yppon/web",
+    "dev:api": "npm run dev -w @yppon/api",
     "dev:web": "npm run dev -w @yppon/web",
     "build": "npm run build -ws --if-present",
     "check": "npm run lint && npm run format:check && npm run build",
@@ -16,6 +18,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "npm run preview -w @yppon/web",
+    "start:api": "npm run start -w @yppon/api",
     "typecheck": "npm run typecheck -ws --if-present"
   },
   "devDependencies": {
