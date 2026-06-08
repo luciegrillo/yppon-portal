@@ -11,8 +11,6 @@ for (const envPath of [
   if (existsSync(envPath)) loadDotenv({ path: envPath, override: false });
 }
 
-const DEFAULT_DATABASE_URL = 'postgresql://yppon:yppon@127.0.0.1:5432/yppon_portal';
-
 const EnvSchema = Type.Object({
   API_HOST: Type.String({ minLength: 1 }),
   API_LOG_LEVEL: Type.Union([
@@ -48,8 +46,7 @@ export function loadApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
     API_HOST: env.API_HOST ?? '127.0.0.1',
     API_LOG_LEVEL: env.API_LOG_LEVEL ?? 'info',
     API_PORT: env.API_PORT ?? '3333',
-    DATABASE_URL:
-      env.DATABASE_URL ?? (nodeEnv === 'production' ? undefined : DEFAULT_DATABASE_URL),
+    DATABASE_URL: env.DATABASE_URL ?? '',
     NODE_ENV: nodeEnv,
   };
 

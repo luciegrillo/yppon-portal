@@ -30,10 +30,15 @@ commit.
 O banco de desenvolvimento usa PostgreSQL em Docker:
 
 ```bash
+cp .env.example .env
 docker compose up -d
 npm run db:migrate -w @yppon/api
 npm run db:seed -w @yppon/api
 ```
+
+Antes de subir o container, preencha `POSTGRES_USER`, `POSTGRES_PASSWORD` e
+`DATABASE_URL` em `.env` com valores locais próprios. `.env.example` documenta
+as variáveis, mas não contém credenciais.
 
 Scripts úteis da API:
 
@@ -44,8 +49,7 @@ npm run db:seed -w @yppon/api
 npm run db:studio -w @yppon/api
 ```
 
-Os valores locais ficam em `.env.example`. Não commite `.env`, dumps ou volumes
-de banco.
+Não commite `.env`, credenciais, dumps ou volumes de banco.
 
 ## Estrutura
 

@@ -15,10 +15,10 @@ jobs:
         image: postgres:16-alpine
         env:
           POSTGRES_DB: yppon_portal
-          POSTGRES_PASSWORD: yppon
-          POSTGRES_USER: yppon
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_USER: yppon_ci
         options: >-
-          --health-cmd "pg_isready -U yppon -d yppon_portal"
+          --health-cmd "pg_isready -U yppon_ci -d yppon_portal"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -26,7 +26,7 @@ jobs:
           - 5432:5432
 
     env:
-      DATABASE_URL: postgresql://yppon:yppon@127.0.0.1:5432/yppon_portal
+      DATABASE_URL: postgresql://yppon_ci@127.0.0.1:5432/yppon_portal
 
     steps:
       - name: Checkout
