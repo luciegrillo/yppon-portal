@@ -39,6 +39,7 @@ Comandos principais:
 ```bash
 npm install
 npm run dev
+npm run dev:api
 npm run check
 npm run build
 ```
@@ -79,7 +80,7 @@ Nunca commite:
 - logs contendo dados sensíveis.
 
 Dados fictícios do Portal de Yppon devem ser tratados como dados governamentais.
-Antes de adicionar API, persistência ou autenticação, leia
+Antes de adicionar persistência, autenticação, anexos ou dados privados, leia
 `docs/product/security-model.md`.
 
 ## Revisão

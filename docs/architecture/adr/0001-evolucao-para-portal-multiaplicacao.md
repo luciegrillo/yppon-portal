@@ -60,6 +60,10 @@ Não serão mantidos pacotes vazios apenas para representar a arquitetura futura
 Quando o gatilho for atingido, a aplicação existente será movida para
 `apps/web` na mesma mudança que introduzir o segundo workspace.
 
+Estado de implementação: o gatilho foi atingido com a criação de `apps/api`.
+O frontend foi movido para `apps/web`, e a API começou apenas com base
+operacional, health check e tratamento padronizado de erros.
+
 ### Limites do frontend
 
 `apps/web/src/app` possuirá a inicialização, o roteador e os providers globais.
@@ -102,6 +106,10 @@ route -> application service -> repository
 Regras de domínio não dependerão de Fastify ou Drizzle. Repositórios encapsularão
 detalhes de persistência. A API começará como um único processo implantável;
 microserviços não fazem parte desta decisão.
+
+A API inicial pode existir sem banco enquanto servir apenas como scaffold
+operacional. PostgreSQL, Drizzle e migrations entram quando houver endpoints com
+persistência real.
 
 ### Contratos
 

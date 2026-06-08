@@ -6,7 +6,7 @@ mítico-futurista baseada nos símbolos de Yppon.
 
 ## Requisitos
 
-- Node.js 20 ou superior
+- Node.js 22 ou superior
 - npm 10 ou superior
 
 ## Comandos
@@ -14,37 +14,36 @@ mítico-futurista baseada nos símbolos de Yppon.
 ```bash
 npm install
 npm run dev
+npm run dev:api
 npm run check
 npm run build
 npm run preview
 ```
 
-`npm run check` executa lint, verificação de formatação, TypeScript e a build de
-produção. Esse é o comando recomendado antes de cada commit.
+`npm run dev` é um atalho para o frontend em `apps/web`. `npm run dev:api`
+inicia a API em `apps/api`. `npm run check` executa lint, verificação de
+formatação e build dos workspaces. Esse é o comando recomendado antes de cada
+commit.
 
 ## Estrutura
 
 ```text
-src/
-├── app/                 # Composição global da aplicação
-├── assets/              # Arquivos estáticos da identidade de Yppon
-├── components/          # Componentes reutilizáveis entre páginas
-│   ├── layout/
-│   ├── navigation/
-│   └── search/
-├── config/              # Configurações compartilhadas de interface
-├── hooks/               # Comportamentos React reutilizáveis
-├── lib/                 # Integrações e funções sem interface visual
-├── pages/
-│   └── home/
-│       ├── content/     # Dados editoriais e tipos da página
-│       ├── sections/    # Seções que compõem a home
-└── styles/
-    ├── components/      # Estilos dos componentes compartilhados
-    ├── sections/        # Estilos específicos das seções
-    ├── foundation.css   # Tokens, reset e utilitários globais
-    ├── motion.css       # Keyframes reutilizados
-    └── responsive.css   # Adaptações globais de breakpoint e acessibilidade
+apps/
+├── api/
+│   └── src/
+│       ├── config/      # Variáveis de ambiente e configuração da API
+│       ├── http/        # Erros e utilitários HTTP compartilhados
+│       └── modules/     # Módulos de domínio e rotas
+└── web/
+    └── src/
+        ├── app/         # Composição global da aplicação
+        ├── assets/      # Arquivos estáticos da identidade de Yppon
+        ├── components/  # Componentes reutilizáveis entre páginas
+        ├── config/      # Configurações compartilhadas de interface
+        ├── hooks/       # Comportamentos React reutilizáveis
+        ├── lib/         # Integrações e funções sem interface visual
+        ├── pages/       # Páginas públicas
+        └── styles/      # Foundation, componentes, seções e responsividade
 ```
 
 As decisões de evolução, limites entre módulos e estratégia para novas
@@ -59,7 +58,7 @@ aplicações estão documentados em
 - Integrações externas são centralizadas em `lib`.
 - CSS segue nomes orientados ao domínio e modificadores com `--`.
 - Comentários explicam decisões não evidentes; não repetem o que o código já diz.
-- Novas páginas devem ser criadas em `src/pages/<nome-da-pagina>`.
+- Novas páginas devem ser criadas em `apps/web/src/pages/<nome-da-pagina>`.
 - Recursos compartilhados só devem migrar para `components`, `hooks` ou `lib`
   quando forem realmente usados por mais de uma página.
 
