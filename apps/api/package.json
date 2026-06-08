@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:studio": "drizzle-kit studio",
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
@@ -11,10 +15,14 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.34.49",
-    "fastify": "^5.8.5"
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "fastify": "^5.8.5",
+    "postgres": "^3.4.9"
   },
   "devDependencies": {
     "@types/node": "^22.19.20",
+    "drizzle-kit": "^0.31.10",
     "tsx": "^4.22.4"
   }
 }
