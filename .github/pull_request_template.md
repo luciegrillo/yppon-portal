@@ -1,8 +1,8 @@
-## Resumo
+## Summary
 
 -
 
-## Verificação
+## Verification
 
 -
 
@@ -10,10 +10,10 @@
 
 Closes #
 
-## Segurança e Acessibilidade
+## Security and Accessibility
 
 -
 
-## Observações
+## Notes
 
 -
