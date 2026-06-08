@@ -1,0 +1,35 @@
+name: Segurança
+description: Risco, requisito ou correção de segurança
+title: 'security: '
+labels: ['area:quality']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Não inclua segredos, tokens, chaves virtuais, dados pessoais ou anexos privados nesta issue.
+  - type: textarea
+    id: risk
+    attributes:
+      label: Risco
+      description: Qual risco precisa ser tratado?
+    validations:
+      required: true
+  - type: textarea
+    id: affected
+    attributes:
+      label: Área afetada
+      description: Quais dados, fluxos ou componentes são afetados?
+    validations:
+      required: true
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Mitigação esperada
+      description: Qual resultado seguro é esperado?
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verificação
+      description: Como confirmar que o risco foi reduzido?
