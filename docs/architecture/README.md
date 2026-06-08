@@ -46,6 +46,7 @@ acessibilidade.
 ## Decisões
 
 - [ADR 0001: evolução para um portal multiaplicação](adr/0001-evolucao-para-portal-multiaplicacao.md)
+- [Modelo público da IUGY](iugy-public-data-model.md)
 
 ## Qualidade
 

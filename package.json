@@ -11,7 +11,7 @@
     "dev": "npm run dev -w @yppon/web",
     "dev:api": "npm run dev -w @yppon/api",
     "dev:web": "npm run dev -w @yppon/web",
-    "build": "npm run build -ws --if-present",
+    "build": "npm run build --workspaces --if-present",
     "check": "npm run lint && npm run format:check && npm run build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -19,7 +19,7 @@
     "lint:fix": "eslint . --fix",
     "preview": "npm run preview -w @yppon/web",
     "start:api": "npm run start -w @yppon/api",
-    "typecheck": "npm run typecheck -ws --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

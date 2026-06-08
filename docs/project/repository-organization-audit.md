@@ -7,10 +7,13 @@ aplicações reais:
 
 - `apps/web`: portal público em React, Vite e TypeScript;
 - `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
-  respostas de erro padronizadas e health check.
+  respostas de erro padronizadas, health check e persistência PostgreSQL com
+  Drizzle.
 
-A API ainda não possui autenticação, banco, domínio persistido nem contratos
-compartilhados. Essa contenção preserva o escopo incremental do ADR 0001.
+A API ainda não possui autenticação, endpoints de domínio públicos, dados
+privados nem contratos compartilhados. A persistência inicial cobre apenas o
+modelo público institucional da IUGY, com migrations versionadas, seed fictício
+e ciclo explícito de publicação.
 
 Pontos fortes:
 
@@ -18,10 +21,13 @@ Pontos fortes:
 - separação clara entre `apps/web` e `apps/api`;
 - frontend organizado em `app`, `pages`, `components`, `hooks`, `lib`, `config`
   e `styles`;
-- API iniciada com limites de `config`, `http` e `modules`;
+- API iniciada com limites de `config`, `http`, `modules` e `db`;
+- modelo público da IUGY persistido com UUIDs, FKs restritivas, índices,
+  constraints de publicação e atualização automática de `updated_at`;
 - páginas com conteúdo local tipado;
 - rotas lazy-loaded;
-- CI mínimo com Node 22, `npm ci` e `npm run check`;
+- CI mínimo com Node 22, `npm ci`, migração/seed autenticados e
+  `npm run check`;
 - políticas de contribuição e segurança documentadas;
 - commits e PRs recentes seguem Conventional Commits;
 - branches remotas seguem o padrão `<type>/<issue>-<descricao>`.
@@ -134,7 +140,8 @@ em contratos de API, fluxos de autorização e critérios de auditoria verificá
 ## Segurança
 
 O repositório ignora `.env` e `.env.*`, preservando `!.env.example`. A API
-possui apenas variáveis não secretas de bootstrap no exemplo.
+mantém credenciais fora do repositório; o exemplo documenta nomes de variáveis
+sem valores locais reutilizáveis.
 
 Antes de armazenar documentos, usuários ou dados oficiais, detalhar:
 
@@ -157,5 +164,5 @@ Ordem sugerida:
    auditoria antes de implementar dados privados;
 4. reorganizar `apps/web/src/assets` em PR próprio, sem misturar com mudanças de
    comportamento;
-5. introduzir testes focados quando houver endpoints reais, autenticação ou
-   fluxos críticos de UI.
+5. introduzir testes focados antes de endpoints reais, autenticação, dados
+   sensíveis ou fluxos críticos de UI.
