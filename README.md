@@ -15,15 +15,17 @@ mítico-futurista baseada nos símbolos de Yppon.
 npm install
 npm run dev
 npm run dev:api
+npm run test -w @yppon/api
 npm run check
 npm run build
 npm run preview
 ```
 
 `npm run dev` é um atalho para o frontend em `apps/web`. `npm run dev:api`
-inicia a API em `apps/api`. `npm run check` executa lint, verificação de
-formatação e build dos workspaces. Esse é o comando recomendado antes de cada
-commit.
+inicia a API em `apps/api`. `npm run test -w @yppon/api` executa a suíte
+automatizada da API, incluindo rotas HTTP e integração com banco; a integração
+exige `DATABASE_URL`. `npm run check` executa lint, verificação de formatação e
+build dos workspaces. Esse é o comando recomendado antes de cada commit.
 
 ## Banco Local
 
