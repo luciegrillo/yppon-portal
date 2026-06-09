@@ -10,7 +10,8 @@ O projeto usa npm workspaces com duas aplicações reais:
 
 - `apps/web`: aplicação React 19 com Vite, TypeScript, GSAP e Lenis;
 - `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
-  respostas de erro padronizadas e health check.
+  respostas de erro padronizadas, health check e persistência PostgreSQL com
+  Drizzle para o conteúdo público inicial da IUGY.
 
 O frontend separa:
 
@@ -22,10 +23,10 @@ O frontend separa:
 - configurações estáticas em `apps/web/src/config`;
 - estilos por componente e seção em `apps/web/src/styles`.
 
-A API ainda não possui persistência nem autenticação. Ela existe como base
-operacional para os próximos requisitos dinâmicos, preservando a regra de não
-criar banco, contratos compartilhados ou camadas vazias antes de necessidade
-concreta.
+A API ainda não possui autenticação, dados privados, endpoints públicos de
+domínio nem contratos compartilhados. A persistência inicial existe apenas para
+o modelo público da IUGY, com migrations versionadas, seed fictício, constraints
+de publicação e testes de integração em PostgreSQL.
 
 Media queries específicas permanecem junto dos estilos de seus respectivos
 domínios; `responsive.css` concentra apenas adaptações globais de

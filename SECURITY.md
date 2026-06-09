@@ -52,7 +52,9 @@ Ações sensíveis devem ser auditáveis:
 
 ## API e Persistência
 
-A API base já existe sem persistência, autenticação ou dados privados. Ao criar
+A API já possui uma camada persistente inicial para conteúdo público da IUGY,
+com PostgreSQL, Drizzle, migrations versionadas e seed fictício. Ela ainda não
+possui autenticação, dados privados ou endpoints públicos de domínio. Ao criar
 endpoints de domínio:
 
 - validar entrada e saída com schemas runtime;
@@ -60,7 +62,7 @@ endpoints de domínio:
 - separar documentos públicos e privados desde o modelo;
 - negar acesso por padrão;
 - padronizar erros sem vazar detalhes internos;
-- usar migrations versionadas;
+- preservar migrations versionadas e reprodutíveis;
 - manter seeds claramente fictícias.
 
 ## Reporte Interno

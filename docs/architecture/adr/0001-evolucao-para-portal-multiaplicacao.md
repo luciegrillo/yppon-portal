@@ -108,8 +108,9 @@ detalhes de persistência. A API começará como um único processo implantável
 microserviços não fazem parte desta decisão.
 
 A API inicial pode existir sem banco enquanto servir apenas como scaffold
-operacional. PostgreSQL, Drizzle e migrations entram quando houver endpoints com
-persistência real.
+operacional. PostgreSQL, Drizzle e migrations entram quando houver domínio
+público com persistência real, mesmo que os endpoints públicos sejam publicados
+em PR posterior.
 
 ### Contratos
 
