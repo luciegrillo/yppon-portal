@@ -25,6 +25,32 @@ inicia a API em `apps/api`. `npm run check` executa lint, verificação de
 formatação e build dos workspaces. Esse é o comando recomendado antes de cada
 commit.
 
+## Banco Local
+
+O banco de desenvolvimento usa PostgreSQL em Docker:
+
+```bash
+cp .env.example .env
+docker compose up -d
+npm run db:migrate -w @yppon/api
+npm run db:seed -w @yppon/api
+```
+
+Antes de subir o container, preencha `POSTGRES_USER`, `POSTGRES_PASSWORD` e
+`DATABASE_URL` em `.env` com valores locais próprios. `.env.example` documenta
+as variáveis, mas não contém credenciais.
+
+Scripts úteis da API:
+
+```bash
+npm run db:generate -w @yppon/api
+npm run db:migrate -w @yppon/api
+npm run db:seed -w @yppon/api
+npm run db:studio -w @yppon/api
+```
+
+Não commite `.env`, credenciais, dumps ou volumes de banco.
+
 ## Estrutura
 
 ```text

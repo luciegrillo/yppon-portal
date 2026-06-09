@@ -1,5 +1,15 @@
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
+import { config as loadDotenv } from 'dotenv';
+
+for (const envPath of [
+  resolve(process.cwd(), '.env'),
+  resolve(process.cwd(), '../../.env'),
+]) {
+  if (existsSync(envPath)) loadDotenv({ path: envPath, override: false });
+}
 
 const EnvSchema = Type.Object({
   API_HOST: Type.String({ minLength: 1 }),
@@ -13,6 +23,7 @@ const EnvSchema = Type.Object({
     Type.Literal('silent'),
   ]),
   API_PORT: Type.String({ pattern: '^[0-9]+$' }),
+  DATABASE_URL: Type.String({ minLength: 1 }),
   NODE_ENV: Type.Union([
     Type.Literal('development'),
     Type.Literal('test'),
@@ -21,6 +32,7 @@ const EnvSchema = Type.Object({
 });
 
 export type ApiConfig = {
+  databaseUrl: string;
   host: string;
   isProduction: boolean;
   logLevel: string;
@@ -29,11 +41,13 @@ export type ApiConfig = {
 };
 
 export function loadApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
+  const nodeEnv = env.NODE_ENV ?? 'development';
   const candidate = {
     API_HOST: env.API_HOST ?? '127.0.0.1',
     API_LOG_LEVEL: env.API_LOG_LEVEL ?? 'info',
     API_PORT: env.API_PORT ?? '3333',
-    NODE_ENV: env.NODE_ENV ?? 'development',
+    DATABASE_URL: env.DATABASE_URL ?? '',
+    NODE_ENV: nodeEnv,
   };
 
   if (!Value.Check(EnvSchema, candidate)) {
@@ -49,11 +63,26 @@ export function loadApiConfig(env: NodeJS.ProcessEnv = process.env): ApiConfig {
     throw new Error('Invalid API environment: /API_PORT must be a valid TCP port');
   }
 
+  validateDatabaseUrl(candidate.DATABASE_URL);
+
   return {
+    databaseUrl: candidate.DATABASE_URL,
     host: candidate.API_HOST,
     isProduction: candidate.NODE_ENV === 'production',
     logLevel: candidate.API_LOG_LEVEL,
     nodeEnv: candidate.NODE_ENV,
     port,
   };
+}
+
+function validateDatabaseUrl(databaseUrl: string) {
+  try {
+    const url = new URL(databaseUrl);
+
+    if (url.protocol !== 'postgresql:' && url.protocol !== 'postgres:') {
+      throw new Error('unsupported protocol');
+    }
+  } catch {
+    throw new Error('Invalid API environment: /DATABASE_URL must be a PostgreSQL URL');
+  }
 }
