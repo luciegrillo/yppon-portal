@@ -53,8 +53,8 @@ jobs:
       - name: Verify seed idempotency
         run: npm run db:seed -w @yppon/api
 
-      - name: Run API integration tests
-        run: npm run test:integration -w @yppon/api
+      - name: Run API tests
+        run: npm run test -w @yppon/api
 
       - name: Run checks
         run: npm run check
