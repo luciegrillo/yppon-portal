@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyServerOptions } from 'fastify';
 import { buildApp } from '../../src/index.js';
 import type { IugyRepository } from '../../src/modules/iugy/iugy.repository.js';
 
@@ -7,8 +7,9 @@ type RegisterTestRoutes = (app: FastifyInstance) => Promise<void> | void;
 export async function buildTestApp(
   registerTestRoutes?: RegisterTestRoutes,
   iugyRepository: IugyRepository = emptyIugyRepository,
+  logger: FastifyServerOptions['logger'] = false,
 ): Promise<FastifyInstance> {
-  const app = buildApp({ iugyRepository, logger: false });
+  const app = buildApp({ iugyRepository, logger });
 
   await registerTestRoutes?.(app);
   await app.ready();
