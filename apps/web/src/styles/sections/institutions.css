@@ -406,7 +406,7 @@
   }
 
   .institutions-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .institution-index {
@@ -420,6 +420,7 @@
     border-top: 1px solid var(--line-light);
     border-bottom: 1px solid var(--line-light);
     backdrop-filter: blur(16px);
+    min-width: 0;
   }
 
   .institution-index > p,
@@ -429,6 +430,8 @@
 
   .institution-index ol {
     flex-direction: row;
+    width: 100%;
+    max-width: 100%;
     padding: 0 var(--page-pad);
     overflow-x: auto;
     scrollbar-width: none;
@@ -459,13 +462,14 @@
   }
 
   .institution-panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     min-height: auto;
     padding: 7rem 0 6rem;
   }
 
   .institution-panel__copy {
     order: 2;
+    min-width: 0;
   }
 
   .institution-visual {
