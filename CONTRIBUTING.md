@@ -41,12 +41,19 @@ npm install
 npm run dev
 npm run dev:api
 npm run check
+npm run test:web:e2e
 npm run build
 ```
 
-`npm run check` executa lint, Prettier, typecheck e build. No Windows, se o
-Prettier apontar quase todos os arquivos sem mudanças relevantes, confira a
-seção de line endings antes de formatar o repositório inteiro.
+`npm run check` executa lint, Prettier, typecheck, testes de comportamento web e
+build. Os smoke tests em navegador são executados por `npm run test:web:e2e` e
+fazem parte do CI obrigatório. No Windows, se o Prettier apontar quase todos os
+arquivos sem mudanças relevantes, confira a seção de line endings antes de
+formatar o repositório inteiro.
+
+A matriz de CI, os viewports conferidos e o orçamento inicial de desempenho
+estão em
+[`docs/quality/web-quality-gates.md`](docs/quality/web-quality-gates.md).
 
 ## Line Endings
 
@@ -95,3 +102,7 @@ PRs devem deixar claro:
 
 Alterações visuais precisam de revisão manual em desktop e mobile. Alterações de
 segurança ou dados devem preferir escopos pequenos e rastreáveis.
+
+O status `Check / Required checks` deve ser obrigatório em `main`. Workflows de
+deploy não podem publicar um SHA quando esse status não tiver concluído com
+sucesso.
