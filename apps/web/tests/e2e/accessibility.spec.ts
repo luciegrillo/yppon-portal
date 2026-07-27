@@ -54,18 +54,41 @@ test.describe('reduced motion', () => {
       )
       .toBe(false);
 
-    const motionState = await page.evaluate(() => ({
-      continuousAnimation: getComputedStyle(
-        document.querySelector<HTMLElement>('.iugy-emblem-ring--outer')!,
-      ).animationName,
-      mediaPreference: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-      scrollCue: getComputedStyle(
-        document.querySelector<HTMLElement>('.iugy-hero__scroll-cue')!,
-      ).display,
-    }));
+    const readMotionState = () =>
+      page.evaluate(() => {
+        const copy = document.querySelector<HTMLElement>('.iugy-hero__copy')!;
+        const outerRing = document.querySelector<HTMLElement>(
+          '.iugy-emblem-ring--outer',
+        )!;
+        const innerRing = document.querySelector<HTMLElement>(
+          '.iugy-emblem-ring--inner',
+        )!;
 
-    expect(motionState.mediaPreference).toBe(true);
-    expect(motionState.continuousAnimation).toBe('none');
-    expect(motionState.scrollCue).toBe('none');
+        return {
+          copyInlineStyle: copy.getAttribute('style'),
+          copyTransform: getComputedStyle(copy).transform,
+          innerRingInlineStyle: innerRing.getAttribute('style'),
+          innerRingTransform: getComputedStyle(innerRing).transform,
+          mediaPreference: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          outerRingAnimation: getComputedStyle(outerRing).animationName,
+          outerRingInlineStyle: outerRing.getAttribute('style'),
+          outerRingTransform: getComputedStyle(outerRing).transform,
+          scrollCue: getComputedStyle(
+            document.querySelector<HTMLElement>('.iugy-hero__scroll-cue')!,
+          ).display,
+        };
+      });
+
+    const initialMotionState = await readMotionState();
+    await page.waitForTimeout(150);
+    const settledMotionState = await readMotionState();
+
+    expect(initialMotionState.mediaPreference).toBe(true);
+    expect(initialMotionState.outerRingAnimation).toBe('none');
+    expect(initialMotionState.scrollCue).toBe('none');
+    expect(initialMotionState.copyInlineStyle).toBeNull();
+    expect(initialMotionState.outerRingInlineStyle).toBeNull();
+    expect(initialMotionState.innerRingInlineStyle).toBeNull();
+    expect(settledMotionState).toEqual(initialMotionState);
   });
 });

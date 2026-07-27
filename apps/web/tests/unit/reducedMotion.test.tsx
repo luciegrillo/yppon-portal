@@ -44,6 +44,10 @@ function createMediaQueryList(initialMatches: boolean) {
   };
 }
 
+function MotionAwareScrollProgress() {
+  return <ScrollProgress prefersReducedMotion={useReducedMotion()} />;
+}
+
 describe('reduced motion behavior', () => {
   it('tracks changes to the operating system preference', () => {
     const mediaQuery = createMediaQueryList(true);
@@ -56,6 +60,15 @@ describe('reduced motion behavior', () => {
     act(() => mediaQuery.setMatches(false));
 
     expect(result.current).toBe(false);
+  });
+
+  it('does not start layout animations before reading the initial preference', () => {
+    const mediaQuery = createMediaQueryList(true);
+    vi.mocked(window.matchMedia).mockReturnValue(mediaQuery as unknown as MediaQueryList);
+
+    render(<MotionAwareScrollProgress />);
+
+    expect(fromTo).not.toHaveBeenCalled();
   });
 
   it('does not create scroll-driven motion when reduction is requested', () => {
