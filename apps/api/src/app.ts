@@ -10,11 +10,21 @@ type BuildAppOptions = {
 export function buildApp({ logger = true }: BuildAppOptions = {}): FastifyInstance {
   const app = Fastify({
     logger,
-    genReqId: (request) => request.headers['x-request-id']?.toString() ?? randomUUID(),
+    genReqId: (request) => resolveRequestId(request.headers['x-request-id']),
   });
 
   registerErrorHandlers(app);
   app.register(registerHealthRoutes);
 
   return app;
+}
+
+function resolveRequestId(value: string | string[] | undefined) {
+  const requestId = Array.isArray(value) ? value[0] : value;
+
+  if (requestId && /^[A-Za-z0-9._:-]{1,128}$/.test(requestId)) {
+    return requestId;
+  }
+
+  return randomUUID();
 }
