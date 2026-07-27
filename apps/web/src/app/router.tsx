@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
 import { PORTAL_ROUTES } from '../config/routes';
 import { RootLayout } from './RootLayout';
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLocation, useNavigation } from 'react-router-dom';
+import { useLocation, useNavigation } from 'react-router';
 import { ScrollTrigger } from '../lib/animation';
 
 export function useRouteLifecycle() {

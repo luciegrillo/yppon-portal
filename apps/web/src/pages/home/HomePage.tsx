@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import type { AppOutletContext } from '../../app/outletContext';
 import { ConstitutionSection } from './sections/ConstitutionSection';
 import { HeroSection } from './sections/HeroSection';

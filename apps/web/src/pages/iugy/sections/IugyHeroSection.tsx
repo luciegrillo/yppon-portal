@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ArrowDown, ChevronRight } from 'lucide-react';
 import iugyEmblemUrl from '../../../assets/iugy-emblem.webp';
 import { gsap } from '../../../lib/animation';
