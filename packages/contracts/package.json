@@ -1,0 +1,14 @@
+{
+  "name": "@yppon/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./iugy": {
+      "types": "./src/iugy.d.ts"
+    }
+  },
+  "files": [
+    "src"
+  ]
+}

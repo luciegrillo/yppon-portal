@@ -1,4 +1,16 @@
 import { Type, type Static, type TObject, type TSchema } from '@sinclair/typebox';
+import type {
+  IugyCalendarEvent,
+  IugyEventsResponse,
+  IugyInstitution,
+  IugyInstitutionResponse,
+  IugyNotice,
+  IugyNoticesResponse,
+  IugyProgram,
+  IugyProgramsResponse,
+  IugySelectionCycle,
+  IugySelectionCycleResponse,
+} from '@yppon/contracts/iugy';
 
 const IdentifierSchema = Type.String({ format: 'uuid' });
 const PublishedAtSchema = Type.String({ format: 'date-time' });
@@ -143,6 +155,7 @@ export const IugyCalendarEventSchema = Type.Object({
 
 export const IugyEventsQuerySchema = Type.Object(
   {
+    current: Type.Optional(Type.Boolean({ default: false })),
     order: Type.Optional(
       Type.Union([Type.Literal('asc'), Type.Literal('desc')], {
         default: 'asc',
@@ -166,20 +179,51 @@ export const IugyEventsQuerySchema = Type.Object(
 
 export const IugyEventsResponseSchema = collectionResponse(IugyCalendarEventSchema);
 
-export type IugyInstitution = Static<typeof IugyInstitutionSchema>;
-export type IugyInstitutionResponse = Static<typeof IugyInstitutionResponseSchema>;
-export type IugyProgram = Static<typeof IugyProgramSchema>;
 export type IugyProgramsQuery = Static<typeof IugyProgramsQuerySchema>;
-export type IugyProgramsResponse = Static<typeof IugyProgramsResponseSchema>;
-export type IugyNotice = Static<typeof IugyNoticeSchema>;
 export type IugyNoticesQuery = Static<typeof IugyNoticesQuerySchema>;
-export type IugyNoticesResponse = Static<typeof IugyNoticesResponseSchema>;
-export type IugySelectionCycle = Static<typeof IugySelectionCycleSchema>;
-export type IugySelectionCycleResponse = Static<typeof IugySelectionCycleResponseSchema>;
-export type IugyCalendarEvent = Static<typeof IugyCalendarEventSchema>;
 export type IugyEventsQuery = Static<typeof IugyEventsQuerySchema>;
-export type IugyEventsResponse = Static<typeof IugyEventsResponseSchema>;
 export type SortOrder = Static<typeof SortOrderSchema>;
+
+export type {
+  IugyCalendarEvent,
+  IugyEventsResponse,
+  IugyInstitution,
+  IugyInstitutionResponse,
+  IugyNotice,
+  IugyNoticesResponse,
+  IugyProgram,
+  IugyProgramsResponse,
+  IugySelectionCycle,
+  IugySelectionCycleResponse,
+};
+
+export type ContractsMatchSchemas = [
+  Assert<Exact<Static<typeof IugyInstitutionSchema>, IugyInstitution>>,
+  Assert<Exact<Static<typeof IugyInstitutionResponseSchema>, IugyInstitutionResponse>>,
+  Assert<Exact<Static<typeof IugyProgramSchema>, IugyProgram>>,
+  Assert<Exact<Static<typeof IugyProgramsResponseSchema>, IugyProgramsResponse>>,
+  Assert<Exact<Static<typeof IugyNoticeSchema>, IugyNotice>>,
+  Assert<Exact<Static<typeof IugyNoticesResponseSchema>, IugyNoticesResponse>>,
+  Assert<Exact<Static<typeof IugySelectionCycleSchema>, IugySelectionCycle>>,
+  Assert<
+    Exact<Static<typeof IugySelectionCycleResponseSchema>, IugySelectionCycleResponse>
+  >,
+  Assert<Exact<Static<typeof IugyCalendarEventSchema>, IugyCalendarEvent>>,
+  Assert<Exact<Static<typeof IugyEventsResponseSchema>, IugyEventsResponse>>,
+];
+
+type Assert<Value extends true> = Value;
+
+type Exact<Actual, Expected> =
+  (<Value>() => Value extends Actual ? 1 : 2) extends <Value>() => Value extends Expected
+    ? 1
+    : 2
+    ? (<Value>() => Value extends Expected ? 1 : 2) extends <
+        Value,
+      >() => Value extends Actual ? 1 : 2
+      ? true
+      : false
+    : false;
 
 function resourceResponse<T extends TObject>(resourceSchema: T) {
   return Type.Object({
