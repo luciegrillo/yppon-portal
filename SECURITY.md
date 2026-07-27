@@ -40,6 +40,18 @@ Logs técnicos não devem conter dados pessoais, documentos completos, tokens,
 chaves virtuais ou anexos. Eventos de auditoria devem registrar apenas
 identificadores mínimos, ator, ação, recurso, escopo, horário e resultado.
 
+Na API, os logs de requisição usam somente método, caminho sem query string,
+endereço remoto, porta, status e `requestId`. Cabeçalhos de autenticação,
+cookies, credenciais e campos de token/senha são redigidos mesmo quando
+incluídos acidentalmente em um log estruturado. Erros registram apenas nome,
+código técnico conhecido, contexto de validação e status; mensagens, stacks,
+payloads e parâmetros não são registrados por padrão.
+
+Desenvolvimento e produção usam a mesma política de redação. O nível pode ser
+alterado por `API_LOG_LEVEL`, mas reduzir o nível não autoriza registrar dados
+proibidos. Qualquer novo campo de log deve passar por revisão de segurança e
+ter necessidade operacional explícita.
+
 Ações sensíveis devem ser auditáveis:
 
 - login;
