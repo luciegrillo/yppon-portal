@@ -69,23 +69,25 @@ export function registerErrorHandlers(app: FastifyInstance) {
 
 function resolvePublicError(error: unknown) {
   if (error instanceof HttpError) {
-    if (error.statusCode >= 500) {
+    const statusCode = normalizeStatusCode(error.statusCode);
+
+    if (statusCode >= 500) {
       return {
         code: 'INTERNAL_ERROR',
         message: 'Não foi possível processar a requisição.',
-        statusCode: error.statusCode,
+        statusCode,
       };
     }
 
     return {
       code: error.code,
       message: error.message,
-      statusCode: error.statusCode,
+      statusCode,
     };
   }
 
   const statusCode = asHttpErrorLike(error)?.statusCode ?? 500;
-  const safeStatusCode = statusCode >= 400 && statusCode <= 599 ? statusCode : 500;
+  const safeStatusCode = normalizeStatusCode(statusCode);
 
   if (safeStatusCode >= 500) {
     return {
@@ -108,6 +110,10 @@ function resolvePublicError(error: unknown) {
     message: 'Requisição inválida.',
     statusCode: safeStatusCode,
   };
+}
+
+function normalizeStatusCode(statusCode: number) {
+  return statusCode >= 400 && statusCode <= 599 ? statusCode : 500;
 }
 
 function asHttpErrorLike(error: unknown): HttpErrorLike | undefined {

@@ -111,6 +111,38 @@ describe('API public errors', () => {
     }
   });
 
+  it('normalizes invalid status codes from classified failures', async () => {
+    const invalidStatusCodes = [200, 399, 600];
+    const app = await buildTestApp((instance) => {
+      for (const statusCode of invalidStatusCodes) {
+        instance.get(`/api/v1/test/invalid-status/${statusCode}`, async () => {
+          throw new HttpError(statusCode, 'INVALID_STATUS', 'private detail');
+        });
+      }
+    });
+
+    try {
+      for (const statusCode of invalidStatusCodes) {
+        const response = await app.inject({
+          headers: { 'x-request-id': `test-invalid-status-${statusCode}` },
+          method: 'GET',
+          url: `/api/v1/test/invalid-status/${statusCode}`,
+        });
+
+        expect(response.statusCode).toBe(500);
+        expect(response.json()).toStrictEqual({
+          error: {
+            code: 'INTERNAL_ERROR',
+            message: 'Não foi possível processar a requisição.',
+            requestId: `test-invalid-status-${statusCode}`,
+          },
+        });
+      }
+    } finally {
+      await app.close();
+    }
+  });
+
   it('normalizes validation failures into the public error shape', async () => {
     const app = await buildTestApp((instance) => {
       instance.post(
