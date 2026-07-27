@@ -109,10 +109,9 @@ describe('API public errors', () => {
       const body = response.json();
 
       expect(response.statusCode).toBe(400);
-      expect(body.error.code).toBe('REQUEST_ERROR');
+      expect(body.error.code).toBe('VALIDATION_ERROR');
+      expect(body.error.message).toBe('Parâmetros da requisição inválidos.');
       expect(body.error.requestId).toBe('test-validation');
-      expect(typeof body.error.message).toBe('string');
-      expect(body.error.message.length).toBeGreaterThan(0);
     } finally {
       await app.close();
     }
