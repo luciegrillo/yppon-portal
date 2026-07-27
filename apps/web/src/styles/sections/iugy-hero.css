@@ -24,8 +24,8 @@
   overflow: hidden;
   isolation: isolate;
   background:
-    radial-gradient(circle at 50% 44%, rgba(200, 164, 77, 0.14), transparent 48%),
-    radial-gradient(circle at 50% 50%, rgba(27, 88, 150, 0.18), transparent 68%),
+    radial-gradient(circle at 66% 42%, rgba(200, 164, 77, 0.17), transparent 34%),
+    radial-gradient(circle at 55% 50%, rgba(27, 88, 150, 0.28), transparent 64%),
     linear-gradient(180deg, var(--ink) 0%, var(--iugy-deep) 100%);
 }
 
@@ -35,12 +35,106 @@
   z-index: 1;
   content: '';
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.18;
   background-image:
     linear-gradient(rgba(233, 228, 216, 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(233, 228, 216, 0.055) 1px, transparent 1px);
   background-size: 90px 90px;
   mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+}
+
+.iugy-hero__stage::after {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  content: '';
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 7, 17, 0.72),
+      transparent 28%,
+      transparent 78%,
+      rgba(3, 7, 17, 0.42)
+    ),
+    linear-gradient(0deg, rgba(3, 7, 17, 0.74), transparent 30%);
+}
+
+.iugy-hero__glow {
+  position: absolute;
+  top: -35%;
+  right: -5%;
+  z-index: 0;
+  width: 75vw;
+  height: 90vh;
+  border-radius: 50%;
+  opacity: 0.38;
+  background: conic-gradient(
+    from 190deg,
+    transparent,
+    rgba(200, 164, 77, 0.2),
+    transparent 30%
+  );
+  filter: blur(80px);
+  animation: iugy-glow-drift 12s ease-in-out infinite alternate;
+}
+
+.iugy-hero__compass {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  z-index: 1;
+  width: min(76vw, 1050px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(233, 228, 216, 0.06);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.iugy-hero__compass::before,
+.iugy-hero__compass::after {
+  position: absolute;
+  content: '';
+  background: rgba(233, 228, 216, 0.055);
+}
+
+.iugy-hero__compass::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+.iugy-hero__compass::after {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+}
+
+.iugy-hero__compass span {
+  position: absolute;
+  color: rgba(233, 228, 216, 0.24);
+  font-family: var(--serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+}
+
+.iugy-hero__compass span:nth-child(1) {
+  top: -1.5rem;
+  left: 50%;
+}
+.iugy-hero__compass span:nth-child(2) {
+  top: 50%;
+  right: -1.5rem;
+}
+.iugy-hero__compass span:nth-child(3) {
+  bottom: -1.5rem;
+  left: 50%;
+}
+.iugy-hero__compass span:nth-child(4) {
+  top: 50%;
+  left: -1.5rem;
 }
 
 .iugy-hero__breadcrumb {
@@ -86,7 +180,7 @@
   border-radius: 50%;
   background:
     radial-gradient(circle, rgba(200, 164, 77, 0.09), transparent 56%),
-    rgba(7, 24, 47, 0.28);
+    rgba(7, 24, 47, 0.42);
   box-shadow:
     inset 0 0 90px rgba(200, 164, 77, 0.04),
     0 35px 90px rgba(0, 0, 0, 0.13);
@@ -94,6 +188,18 @@
   transform: translate(-50%, -50%) scale(0.78);
   transform-style: preserve-3d;
   will-change: transform, opacity;
+}
+
+.iugy-emblem-type {
+  position: absolute;
+  inset: 3.5%;
+  margin: 0;
+  color: rgba(225, 189, 98, 0.5);
+  font-family: var(--serif);
+  font-size: clamp(0.52rem, 0.8vw, 0.72rem);
+  letter-spacing: 0.24em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .iugy-hero__emblem::after {
@@ -142,9 +248,25 @@
   bottom: clamp(6rem, 11vh, 9rem);
   left: max(var(--page-pad), calc((100vw - var(--content-width)) / 2));
   z-index: 8;
-  width: min(650px, calc(52vw - var(--page-pad)));
+  width: min(760px, calc(58vw - var(--page-pad)));
   text-align: left;
   will-change: transform, opacity;
+}
+
+.iugy-hero__kicker {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.iugy-hero__kicker > span {
+  padding-left: 1.2rem;
+  border-left: 1px solid rgba(233, 228, 216, 0.18);
+  color: rgba(233, 228, 216, 0.4);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .iugy-hero__copy .eyebrow {
@@ -154,15 +276,77 @@
 .iugy-hero__copy h1 {
   margin: 0.65rem 0 1.1rem;
   font-family: var(--serif);
-  font-size: clamp(4rem, 6.6vw, 7.4rem);
+  font-size: clamp(4.2rem, 7.8vw, 8.6rem);
   font-weight: 400;
   letter-spacing: -0.065em;
-  line-height: 0.79;
+  line-height: 0.74;
+}
+
+.iugy-hero__copy h1 span {
+  display: block;
+}
+.iugy-hero__copy h1 span:last-child {
+  padding-left: clamp(1rem, 5vw, 5rem);
 }
 
 .iugy-hero__copy h1 em {
-  color: var(--ivory);
+  color: var(--iugy-accent-bright);
   font-weight: 300;
+}
+
+.iugy-hero__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--iugy-accent);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.iugy-hero__action svg {
+  color: var(--iugy-accent-bright);
+  transition: transform 180ms ease;
+}
+.iugy-hero__action:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.iugy-hero__facts {
+  position: absolute;
+  right: var(--page-pad);
+  bottom: 6rem;
+  z-index: 8;
+  display: grid;
+  gap: 0.9rem;
+  width: min(220px, 18vw);
+}
+
+.iugy-hero__facts > div {
+  display: grid;
+  grid-template-columns: 3.7rem 1fr;
+  align-items: center;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(233, 228, 216, 0.15);
+}
+
+.iugy-hero__facts strong {
+  color: var(--iugy-accent-bright);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.iugy-hero__facts span {
+  color: rgba(233, 228, 216, 0.42);
+  font-size: 0.51rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .iugy-hero__lead {
@@ -207,6 +391,12 @@
   }
 }
 
+@keyframes iugy-glow-drift {
+  to {
+    transform: translate(-12%, 14%) rotate(16deg) scale(1.12);
+  }
+}
+
 @media (max-width: 900px) {
   .iugy-hero {
     height: 165vh;
@@ -218,6 +408,10 @@
 
   .iugy-hero__copy h1 {
     font-size: clamp(3.5rem, 9vw, 5.5rem);
+  }
+
+  .iugy-hero__facts {
+    display: none;
   }
 }
 
@@ -252,6 +446,25 @@
     line-height: 0.78;
   }
 
+  .iugy-hero__copy h1 span:last-child {
+    padding-left: 0;
+  }
+
+  .iugy-hero__kicker {
+    justify-content: center;
+  }
+  .iugy-hero__kicker > span {
+    display: none;
+  }
+
+  .iugy-hero__action {
+    margin-top: 1.25rem;
+  }
+
+  .iugy-emblem-type {
+    display: none;
+  }
+
   .iugy-hero__lead {
     margin-top: 1.4rem;
     margin-right: auto;
@@ -278,6 +491,12 @@
   .iugy-hero {
     height: 100svh;
     min-height: 700px;
+  }
+
+  .iugy-hero__glow,
+  .iugy-hero__grain,
+  .iugy-hero__scroll-cue svg {
+    animation: none;
   }
 
   .iugy-hero__stage {

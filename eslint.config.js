@@ -11,6 +11,12 @@ export default typescriptEslint.config(
   eslint.configs.recommended,
   ...typescriptEslint.configs.recommended,
   {
+    files: ['**/*.config.{js,mjs,ts}', '**/scripts/**/*.{js,mjs,ts}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,

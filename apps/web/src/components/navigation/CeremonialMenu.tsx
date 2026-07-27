@@ -60,6 +60,7 @@ export function CeremonialMenu({ isOpen, onClose }: CeremonialMenuProps) {
       id="ceremonial-navigation"
       className={`ceremonial-menu${isOpen ? ' ceremonial-menu--open' : ''}`}
       aria-hidden={!isOpen}
+      inert={!isOpen}
     >
       <button
         className="menu-backdrop"

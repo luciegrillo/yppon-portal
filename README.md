@@ -16,6 +16,8 @@ npm install
 npm run dev
 npm run dev:api
 npm run test -w @yppon/api
+npm run test:web
+npm run test:web:e2e
 npm run check
 npm run build
 npm run preview
@@ -24,8 +26,13 @@ npm run preview
 `npm run dev` é um atalho para o frontend em `apps/web`. `npm run dev:api`
 inicia a API em `apps/api`. `npm run test -w @yppon/api` executa a suíte
 automatizada da API, incluindo rotas HTTP e integração com banco; a integração
-exige `DATABASE_URL`. `npm run check` executa lint, verificação de formatação e
-build dos workspaces. Esse é o comando recomendado antes de cada commit.
+exige `DATABASE_URL`. `npm run test:web` executa os testes de comportamento em
+DOM e `npm run test:web:e2e` executa os smoke tests em Chromium. `npm run check`
+executa lint, verificação de formatação, typecheck, testes web e build dos
+workspaces. Esse é o comando recomendado antes de cada commit.
+
+Os critérios obrigatórios, viewports e limites de bundle estão documentados em
+[`docs/quality/web-quality-gates.md`](docs/quality/web-quality-gates.md).
 
 ## Banco Local
 
