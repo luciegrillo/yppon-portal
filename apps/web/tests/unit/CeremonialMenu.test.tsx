@@ -18,6 +18,20 @@ function MenuHarness() {
 }
 
 describe('CeremonialMenu', () => {
+  it('removes the closed panel from keyboard navigation', () => {
+    render(<MenuHarness />);
+
+    const dialog = screen.getByRole('dialog', {
+      hidden: true,
+      name: /navegação principal/i,
+    });
+
+    expect(dialog.parentElement).toHaveAttribute('inert');
+    expect(
+      screen.queryByRole('button', { name: /fechar menu/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it('contains keyboard focus, closes with Escape and restores the trigger focus', async () => {
     const user = userEvent.setup();
     render(<MenuHarness />);
@@ -30,6 +44,7 @@ describe('CeremonialMenu', () => {
     const lastLink = screen.getByRole('link', { name: /acesso cidadão/i });
 
     expect(dialog).toBeInTheDocument();
+    expect(dialog.parentElement).not.toHaveAttribute('inert');
     expect(closeButton).toHaveFocus();
     expect(document.body).toHaveClass('menu-open');
 
