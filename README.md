@@ -6,7 +6,7 @@ mítico-futurista baseada nos símbolos de Yppon.
 
 ## Requisitos
 
-- Node.js 22 ou superior
+- Node.js 22.22 ou superior
 - npm 10 ou superior
 
 ## Comandos
