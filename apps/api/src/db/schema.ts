@@ -1,5 +1,6 @@
 import { relations, sql } from 'drizzle-orm';
 import {
+  boolean,
   check,
   index,
   integer,
@@ -113,6 +114,7 @@ export const iugySelectionCycles = pgTable(
     cycleNumber: integer('cycle_number').notNull(),
     title: varchar('title', { length: 120 }).notNull(),
     periodLabel: varchar('period_label', { length: 80 }).notNull(),
+    isCurrent: boolean('is_current').default(false).notNull(),
     publicationState: publicationStateEnum('publication_state')
       .default('draft')
       .notNull(),
@@ -123,9 +125,16 @@ export const iugySelectionCycles = pgTable(
       table.institutionId,
       table.cycleNumber,
     ),
+    uniqueIndex('iugy_selection_cycles_current_unique')
+      .on(table.institutionId)
+      .where(sql`${table.isCurrent}`),
     index('iugy_selection_cycles_public_number_idx').on(
       table.publicationState,
       table.cycleNumber,
+    ),
+    check(
+      'iugy_selection_cycles_current_publication_check',
+      sql`not ${table.isCurrent} or ${table.publicationState} = 'published'`,
     ),
     check(
       'iugy_selection_cycles_publication_lifecycle_check',
