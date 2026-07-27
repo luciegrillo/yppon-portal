@@ -80,5 +80,6 @@ Erros públicos mantêm o envelope:
 ```
 
 Recursos ausentes retornam `NOT_FOUND`. Falhas inesperadas retornam
-`INTERNAL_ERROR` com mensagem genérica; detalhes do PostgreSQL ou da aplicação
-ficam restritos ao log estruturado do servidor.
+`INTERNAL_ERROR` com mensagem genérica. Detalhes do PostgreSQL ou da aplicação
+não atravessam a resposta e não são registrados por padrão; os logs preservam
+somente metadados seguros definidos pela política de segurança.
