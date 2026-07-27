@@ -7,8 +7,8 @@ on:
       - main
 
 jobs:
-  check:
-    name: npm run check
+  api-quality:
+    name: API quality
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -56,5 +56,64 @@ jobs:
       - name: Run API tests
         run: npm run test -w @yppon/api
 
-      - name: Run checks
-        run: npm run check
+      - name: Typecheck API
+        run: npm run typecheck -w @yppon/api
+
+      - name: Build API
+        run: npm run build -w @yppon/api
+
+  web-quality:
+    name: Web quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Typecheck web
+        run: npm run typecheck -w @yppon/web
+
+      - name: Run web behavior tests
+        run: npm run test -w @yppon/web
+
+      - name: Build web and enforce performance budget
+        run: npm run build -w @yppon/web
+
+      - name: Install Playwright browser
+        run: npm exec -w @yppon/web playwright -- install --with-deps chromium
+
+      - name: Run browser smoke tests
+        run: npm run test:e2e -w @yppon/web
+
+  required-checks:
+    name: Required checks
+    if: ${{ always() }}
+    needs:
+      - api-quality
+      - web-quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Reject failed quality jobs
+        if: >-
+          needs.api-quality.result != 'success' ||
+          needs.web-quality.result != 'success'
+        run: exit 1
+
+      - name: Confirm required quality jobs
+        run: echo "API and web quality jobs passed."
