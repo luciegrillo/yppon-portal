@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import ypponFlagUrl from '../../../assets/yppon-flag.webp';
 import { PortalSearch } from '../../../components/search/PortalSearch';
 import { CURRENT_CYCLE } from '../../../config/portal';
@@ -151,6 +151,18 @@ export function HeroSection({ prefersReducedMotion }: HeroSectionProps) {
       <div className="hero-stage" ref={stageRef}>
         <div className="hero-vignette" />
         <div className="hero-grain" />
+        <div className="hero-aurora" aria-hidden="true" />
+        <div className="hero-meridians" aria-hidden="true" />
+
+        <div className="hero-coordinates" aria-hidden="true">
+          <span>09° 14′ S</span>
+          <span>YPP / 001</span>
+          <span>44° 38′ E</span>
+        </div>
+
+        <p className="hero-vertical-mark" aria-hidden="true">
+          República de Yppon
+        </p>
 
         <div className="hero-orbit" aria-hidden="true">
           <span />
@@ -166,12 +178,22 @@ export function HeroSection({ prefersReducedMotion }: HeroSectionProps) {
 
         <div className="hero-copy">
           <div className="hero-headline">
-            <p className="eyebrow">Meritocracia Bipartite · Ciclo {CURRENT_CYCLE}</p>
+            <div className="hero-kicker">
+              <p className="eyebrow">Meritocracia Bipartite · Ciclo {CURRENT_CYCLE}</p>
+              <span>
+                <i /> Estado em operação
+              </span>
+            </div>
             <h1>
-              A ordem sustenta
-              <br />
-              <em>o progresso.</em>
+              <span>A ordem</span>
+              <span className="hero-title-shift">
+                sustenta <em>o progresso.</em>
+              </span>
             </h1>
+            <div className="hero-headline-footer">
+              <span>Portal oficial</span>
+              <span>Uma nação. Duas vias. Um propósito.</span>
+            </div>
           </div>
 
           <div className="hero-disclosure">
@@ -179,6 +201,10 @@ export function HeroSection({ prefersReducedMotion }: HeroSectionProps) {
               Acesso integrado às instituições que sustentam Yppon.
             </p>
             <PortalSearch />
+            <a className="hero-direct-link" href="#instituicoes">
+              Explorar todas as instituições
+              <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
           </div>
         </div>
 
