@@ -103,6 +103,6 @@ PRs devem deixar claro:
 Alterações visuais precisam de revisão manual em desktop e mobile. Alterações de
 segurança ou dados devem preferir escopos pequenos e rastreáveis.
 
-O status `Check / Required checks` deve ser obrigatório em `main`. Workflows de
+O status `Check / npm run check` deve ser obrigatório em `main`. Workflows de
 deploy não podem publicar um SHA quando esse status não tiver concluído com
 sucesso.

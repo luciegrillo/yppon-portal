@@ -42,12 +42,12 @@ Os testes de navegador cobrem `/` e `/instituicoes/iugy`, funcionamento do menu
 e do skip link por teclado, preferência por movimento reduzido e ausência de
 overflow em 320 px, tablet de 768 px e desktop de 1440 px.
 
-O job agregador `Check / Required checks` só fica verde quando `API quality` e
+O job agregador `Check / npm run check` só fica verde quando `API quality` e
 `Web quality` terminam com sucesso. Esse é o status que deve ser obrigatório na
 proteção da branch `main`.
 
 Nenhum workflow de deploy existe atualmente. Quando ele for criado, deve
-publicar somente um SHA de `main` cujo `Check / Required checks` tenha passado.
+publicar somente um SHA de `main` cujo `Check / npm run check` tenha passado.
 Se build e deploy estiverem no mesmo workflow, o job de deploy deve declarar
 `needs: required-checks`. Se estiverem em workflows diferentes, o deploy deve
 ser disparado por `workflow_run` e validar `conclusion == 'success'`. O artefato

@@ -101,7 +101,7 @@ jobs:
         run: npm run test:e2e -w @yppon/web
 
   required-checks:
-    name: Required checks
+    name: npm run check
     if: ${{ always() }}
     needs:
       - api-quality
