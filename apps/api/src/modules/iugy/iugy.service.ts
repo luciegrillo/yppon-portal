@@ -50,7 +50,10 @@ export function createIugyService(repository: IugyRepository): IugyService {
         order: 'asc',
         sort: 'displayOrder',
       });
-      const result = await repository.listEvents(page.options);
+      const result = await repository.listEvents({
+        ...page.options,
+        currentOnly: query.current ?? false,
+      });
 
       return {
         data: result.items.map(toCalendarEvent),

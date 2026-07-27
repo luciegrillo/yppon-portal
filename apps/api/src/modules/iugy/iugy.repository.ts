@@ -19,6 +19,10 @@ export type RepositoryPageOptions<TSort extends string> = {
   sort: TSort;
 };
 
+export type IugyEventPageOptions = RepositoryPageOptions<IugyEventSort> & {
+  currentOnly: boolean;
+};
+
 export type RepositoryPage<T> = {
   items: T[];
   totalItems: number;
@@ -77,7 +81,7 @@ export type IugyRepository = {
   findInstitution(): Promise<IugyInstitutionRecord | null>;
   findCurrentSelectionCycle(): Promise<IugySelectionCycleRecord | null>;
   listEvents(
-    options: RepositoryPageOptions<IugyEventSort>,
+    options: IugyEventPageOptions,
   ): Promise<RepositoryPage<IugyCalendarEventRecord>>;
   listNotices(
     options: RepositoryPageOptions<IugyNoticeSort>,
@@ -155,6 +159,12 @@ export function createPostgresIugyRepository(
       const where = and(
         publishedInstitution,
         eq(iugyCalendarEvents.publicationState, 'published'),
+        options.currentOnly
+          ? and(
+              eq(iugySelectionCycles.isCurrent, true),
+              eq(iugySelectionCycles.publicationState, 'published'),
+            )
+          : undefined,
       );
       const sortColumn = {
         displayOrder: iugyCalendarEvents.displayOrder,
@@ -172,6 +182,13 @@ export function createPostgresIugyRepository(
               institutions,
               eq(iugyCalendarEvents.institutionId, institutions.id),
             )
+            .innerJoin(
+              iugySelectionCycles,
+              and(
+                eq(iugyCalendarEvents.selectionCycleId, iugySelectionCycles.id),
+                eq(iugyCalendarEvents.institutionId, iugySelectionCycles.institutionId),
+              ),
+            )
             .where(where);
 
           const rows = await tx
@@ -188,6 +205,13 @@ export function createPostgresIugyRepository(
             .innerJoin(
               institutions,
               eq(iugyCalendarEvents.institutionId, institutions.id),
+            )
+            .innerJoin(
+              iugySelectionCycles,
+              and(
+                eq(iugyCalendarEvents.selectionCycleId, iugySelectionCycles.id),
+                eq(iugyCalendarEvents.institutionId, iugySelectionCycles.institutionId),
+              ),
             )
             .where(where)
             .orderBy(orderBy(sortColumn), asc(iugyCalendarEvents.id))
