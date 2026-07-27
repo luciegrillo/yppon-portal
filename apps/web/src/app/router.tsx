@@ -1,11 +1,13 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { PORTAL_ROUTES } from '../config/routes';
+import { RootErrorBoundary } from './RootErrorBoundary';
 import { RootLayout } from './RootLayout';
 
 export const portalRoutes: RouteObject[] = [
   {
     path: '/',
     Component: RootLayout,
+    ErrorBoundary: RootErrorBoundary,
     children: [
       {
         index: true,
