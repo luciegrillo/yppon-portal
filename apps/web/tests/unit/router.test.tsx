@@ -29,7 +29,7 @@ describe('public portal routes', () => {
       level: 1,
     });
 
-    expect(heading).toHaveTextContent(/a ordem sustenta\s*o progresso/i);
+    expect(heading).toHaveTextContent(/a ordem\s*sustenta\s*o progresso/i);
   });
 
   it('renders the IUGY public page at its canonical path', async () => {
@@ -40,7 +40,7 @@ describe('public portal routes', () => {
       level: 1,
     });
 
-    expect(heading).toHaveTextContent(/a formação que\s*sustenta o estado/i);
+    expect(heading).toHaveTextContent(/conhecimento\s*é soberania/i);
     expect(screen.getByRole('navigation', { name: /localização/i })).toHaveTextContent(
       'IUGY',
     );

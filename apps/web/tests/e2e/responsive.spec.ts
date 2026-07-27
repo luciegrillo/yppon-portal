@@ -4,11 +4,11 @@ test.use({ contextOptions: { reducedMotion: 'reduce' } });
 
 const routes = [
   {
-    heading: /a ordem sustenta\s*o progresso/i,
+    heading: /a ordem\s*sustenta\s*o progresso/i,
     path: '/',
   },
   {
-    heading: /a formação que\s*sustenta o estado/i,
+    heading: /conhecimento\s*é soberania/i,
     path: '/instituicoes/iugy',
   },
 ];
