@@ -6,7 +6,8 @@ comando roda depois de migrations e seed em PostgreSQL autenticado.
 Testes de rotas HTTP usam `Fastify.inject()` por meio de
 `tests/helpers/app.ts`, sem abrir porta local. Novas rotas devem validar status,
 corpo público, `requestId`, erros de validação e mensagens sem detalhes
-internos.
+internos. O repository da IUGY é injetado nesses testes, mantendo a cobertura
+HTTP determinística e independente de PostgreSQL.
 
 Testes de banco exigem `DATABASE_URL`. Cenários que alteram dados devem criar
 registros próprios com identificadores únicos e limpar tudo em `finally`.
@@ -14,6 +15,8 @@ Enquanto não houver transações por teste, evite mutar fixtures compartilhadas
 assumir ordem entre arquivos de teste.
 
 Repositories e queries públicas devem ganhar testes de integração antes de
-serem consumidos por endpoints. Endpoints autenticados, administrativos ou com
+serem consumidos por endpoints. As fixtures do repository da IUGY usam uma
+instituição exclusiva por execução e cobrem paginação, ordenação e exclusão de
+conteúdo `draft` e `archived`. Endpoints autenticados, administrativos ou com
 dados privados exigem cobertura de sucesso, negação de acesso, validação,
 resposta pública de erro e expectativa de auditoria antes do merge.

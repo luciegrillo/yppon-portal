@@ -56,6 +56,6 @@ preparação.
 - Índices cobrem slugs/códigos únicos, FKs e consultas públicas por estado de
   publicação.
 
-O modelo interno da API não deve ser retornado diretamente ao frontend. DTOs e
-schemas TypeBox públicos serão definidos quando os endpoints da issue #1 forem
-implementados.
+O modelo interno da API não é retornado diretamente ao frontend. A
+[API pública da IUGY](iugy-public-api.md) usa projeções próprias no repository,
+DTOs no application service e schemas TypeBox na fronteira HTTP.
