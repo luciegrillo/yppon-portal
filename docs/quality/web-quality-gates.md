@@ -27,6 +27,10 @@ npm run test:web:e2e
 test` executa as suítes de todos os workspaces e, por isso, exige o PostgreSQL e
 `DATABASE_URL` usados pelos testes de integração da API.
 
+Os smoke tests servem o `dist` com `vite preview`. Localmente, a configuração
+gera esse build antes de iniciar o navegador; no CI, reutiliza o build de
+produção já aprovado pelo orçamento de desempenho.
+
 ## Matriz obrigatória no CI
 
 O job `Web quality` executa, em etapas explícitas:

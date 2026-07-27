@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 const WEB_PORT = 4173;
 const baseURL = `http://127.0.0.1:${WEB_PORT}`;
+const previewCommand = `npm run preview -- --host 127.0.0.1 --port ${WEB_PORT}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -17,7 +18,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: `npm run dev -- --host 127.0.0.1 --port ${WEB_PORT}`,
+    command: process.env.CI ? previewCommand : `npm run build && ${previewCommand}`,
     reuseExistingServer: !process.env.CI,
     url: baseURL,
   },
