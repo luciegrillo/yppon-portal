@@ -302,27 +302,31 @@ describe('IUGY PostgreSQL public repository', () => {
   });
 
   afterAll(async () => {
+    const cleanupErrors: unknown[] = [];
+    const cleanupSteps = [
+      () =>
+        client`delete from iugy_calendar_events where institution_id = ${fixture.institution}`,
+      () =>
+        client`delete from iugy_notices where institution_id = ${fixture.institution}`,
+      () =>
+        client`delete from iugy_academic_formations where institution_id = ${fixture.institution}`,
+      () =>
+        client`delete from iugy_selection_cycles where institution_id = ${fixture.institution}`,
+      () => client`delete from institutions where id = ${fixture.institution}`,
+    ];
+
     try {
-      await client`
-        delete from iugy_calendar_events
-        where institution_id = ${fixture.institution}
-      `;
-      await client`
-        delete from iugy_notices
-        where institution_id = ${fixture.institution}
-      `;
-      await client`
-        delete from iugy_academic_formations
-        where institution_id = ${fixture.institution}
-      `;
-      await client`
-        delete from iugy_selection_cycles
-        where institution_id = ${fixture.institution}
-      `;
-      await client`
-        delete from institutions
-        where id = ${fixture.institution}
-      `;
+      for (const cleanup of cleanupSteps) {
+        try {
+          await cleanup();
+        } catch (error) {
+          cleanupErrors.push(error);
+        }
+      }
+
+      if (cleanupErrors.length > 0) {
+        throw new AggregateError(cleanupErrors, 'Failed to clean IUGY fixtures');
+      }
     } finally {
       await client.end();
     }
