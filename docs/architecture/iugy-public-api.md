@@ -23,6 +23,8 @@ As três listagens aceitam `page`, `pageSize`, `sort` e `order`.
 
 - `page` começa em `1`;
 - `pageSize` usa `20` por padrão e aceita no máximo `100`;
+- `page` usa `1` por padrão e aceita no máximo `10.000`, limitando offsets
+  excessivos;
 - `order` aceita `asc` ou `desc`;
 - formações usam `displayOrder asc` por padrão e também podem ser ordenadas por
   `publishedAt` ou `title`;

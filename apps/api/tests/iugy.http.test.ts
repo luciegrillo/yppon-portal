@@ -241,6 +241,8 @@ describe('IUGY public HTTP routes', () => {
 
   it.each([
     '/api/v1/iugy/programs?page=0',
+    '/api/v1/iugy/programs?page=10001',
+    '/api/v1/iugy/programs?page=1e308',
     '/api/v1/iugy/notices?pageSize=101',
     '/api/v1/iugy/events?sort=unknown',
   ])('rejects invalid list parameters for %s', async (url) => {
