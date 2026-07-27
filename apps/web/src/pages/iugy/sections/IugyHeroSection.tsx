@@ -37,7 +37,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
       );
 
       gsap.set('.iugy-hero__copy', {
-        autoAlpha: 0,
+        opacity: 0,
         y: 48,
       });
 
@@ -79,7 +79,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
           .to(
             '.iugy-hero__copy',
             {
-              autoAlpha: 1,
+              opacity: 1,
               y: 0,
               duration: 0.24,
               ease: 'power2.out',
@@ -124,7 +124,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
           .to(
             '.iugy-hero__copy',
             {
-              autoAlpha: 1,
+              opacity: 1,
               y: 0,
               duration: 0.24,
               ease: 'power2.out',
