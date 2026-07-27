@@ -1,7 +1,9 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { loadApiConfig } from '../config/env.js';
 import * as schema from './schema.js';
+
+export type Database = PostgresJsDatabase<typeof schema>;
 
 type DatabaseClientOptions = {
   max?: number;
