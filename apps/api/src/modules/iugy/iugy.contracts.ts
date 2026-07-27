@@ -2,10 +2,12 @@ import { Type, type Static, type TObject, type TSchema } from '@sinclair/typebox
 
 const IdentifierSchema = Type.String({ format: 'uuid' });
 const PublishedAtSchema = Type.String({ format: 'date-time' });
+const MAX_PAGE = 10_000;
 
 const PageSchema = Type.Optional(
   Type.Integer({
     default: 1,
+    maximum: MAX_PAGE,
     minimum: 1,
   }),
 );
@@ -21,7 +23,7 @@ const PageSizeSchema = Type.Optional(
 export const SortOrderSchema = Type.Union([Type.Literal('asc'), Type.Literal('desc')]);
 
 export const PaginationSchema = Type.Object({
-  page: Type.Integer({ minimum: 1 }),
+  page: Type.Integer({ maximum: MAX_PAGE, minimum: 1 }),
   pageSize: Type.Integer({ maximum: 100, minimum: 1 }),
   totalItems: Type.Integer({ minimum: 0 }),
   totalPages: Type.Integer({ minimum: 0 }),
