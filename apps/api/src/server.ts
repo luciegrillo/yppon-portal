@@ -1,11 +1,13 @@
 import { buildApp } from './app.js';
 import { loadApiConfig } from './config/env.js';
+import { buildLoggerOptions } from './config/logger.js';
+import { resolveErrorMetadata } from './http/errors.js';
 
 const config = loadApiConfig();
 const app = buildApp({
-  logger: {
+  logger: buildLoggerOptions({
     level: config.logLevel,
-  },
+  }),
 });
 
 const shutdownSignals = ['SIGINT', 'SIGTERM'] as const;
@@ -17,7 +19,7 @@ async function start() {
       port: config.port,
     });
   } catch (error) {
-    app.log.error({ err: error }, 'Failed to start API server');
+    app.log.error({ error: resolveErrorMetadata(error) }, 'Failed to start API server');
     process.exitCode = 1;
   }
 }

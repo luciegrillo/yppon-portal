@@ -41,6 +41,7 @@ export function SiteHeader({ isMenuOpen, onMenuOpenChange }: SiteHeaderProps) {
         <button
           className="menu-trigger"
           type="button"
+          aria-label="Abrir menu principal"
           aria-expanded={isMenuOpen}
           aria-controls="ceremonial-navigation"
           onClick={() => onMenuOpenChange(true)}

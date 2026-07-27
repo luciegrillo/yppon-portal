@@ -99,6 +99,32 @@ Eventos não devem registrar:
 - endereços completos;
 - informações médicas.
 
+### Política técnica de logging
+
+Logs operacionais da API podem conter:
+
+- `requestId`;
+- método e caminho HTTP sem query string;
+- status da resposta;
+- endereço e porta remotos quando necessários à operação;
+- nome e código técnico de erros;
+- contexto de validação sem valores recebidos;
+- duração e horário gerados pelo logger.
+
+Logs operacionais não podem conter:
+
+- cabeçalhos de autorização ou cookies;
+- query strings;
+- corpos de requisição ou resposta;
+- mensagens e stacks de erros que possam carregar valores internos;
+- senhas, tokens, chaves virtuais ou URLs de banco;
+- documentos, anexos ou dados pessoais.
+
+A redação é aplicada em desenvolvimento e produção. `API_LOG_LEVEL` controla
+volume, não a política de dados. Novos campos precisam de revisão explícita; não
+se deve ampliar serializers ou registrar objetos de request, reply ou error
+inteiros.
+
 ## Riscos Iniciais
 
 - Construir API sem contratos runtime.
@@ -109,6 +135,10 @@ Eventos não devem registrar:
 - Criar admin global sem trilha de auditoria.
 - Deixar line endings e formatação causarem diffs massivos.
 - Armazenar anexos sem estratégia de verificação, tamanho, tipo e acesso.
+
+Exceções temporárias de supply chain ficam no
+[registro de segurança de dependências](../project/dependency-security-exceptions.md)
+e exigem responsável, controles compensatórios e prazo de revisão.
 
 ## Decisões Pendentes
 

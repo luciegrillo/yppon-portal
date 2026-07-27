@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowDown, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router';
+import { ArrowDown, ArrowUpRight, ChevronRight } from 'lucide-react';
 import iugyEmblemUrl from '../../../assets/iugy-emblem.webp';
 import { gsap } from '../../../lib/animation';
 
@@ -37,7 +37,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
       );
 
       gsap.set('.iugy-hero__copy', {
-        autoAlpha: 0,
+        opacity: 0,
         y: 48,
       });
 
@@ -79,7 +79,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
           .to(
             '.iugy-hero__copy',
             {
-              autoAlpha: 1,
+              opacity: 1,
               y: 0,
               duration: 0.24,
               ease: 'power2.out',
@@ -124,7 +124,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
           .to(
             '.iugy-hero__copy',
             {
-              autoAlpha: 1,
+              opacity: 1,
               y: 0,
               duration: 0.24,
               ease: 'power2.out',
@@ -157,6 +157,13 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
     <section className="iugy-hero" ref={sectionRef}>
       <div className="iugy-hero__stage">
         <div className="iugy-hero__grain" aria-hidden="true" />
+        <div className="iugy-hero__glow" aria-hidden="true" />
+        <div className="iugy-hero__compass" aria-hidden="true">
+          <span>N</span>
+          <span>L</span>
+          <span>S</span>
+          <span>O</span>
+        </div>
 
         <nav className="iugy-hero__breadcrumb" aria-label="Localização">
           <Link to="/">Portal</Link>
@@ -165,6 +172,7 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
         </nav>
 
         <div className="iugy-hero__emblem" aria-hidden="true">
+          <p className="iugy-emblem-type">Scientia · Civitas · Futurum · Yppon</p>
           <div className="iugy-emblem-ring iugy-emblem-ring--outer" />
           <div className="iugy-emblem-ring iugy-emblem-ring--inner" />
           <div className="iugy-emblem-core">
@@ -180,16 +188,39 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
         </div>
 
         <div className="iugy-hero__copy">
-          <p className="eyebrow">Instituto Universitário Governamental de Yppon</p>
+          <div className="iugy-hero__kicker">
+            <p className="eyebrow">Instituto Universitário Governamental</p>
+            <span>Fundado sob autoridade do Estado</span>
+          </div>
           <h1>
-            A formação que
-            <br />
-            <em>sustenta o Estado.</em>
+            <span>Conhecimento</span>
+            <span>
+              <em>é soberania.</em>
+            </span>
           </h1>
           <p className="iugy-hero__lead">
-            Formação estatal, editais acadêmicos e o acesso público à estrutura
-            educacional de Yppon.
+            Onde o saber deixa de ser promessa e se torna a infraestrutura intelectual de
+            uma nação.
           </p>
+          <a className="iugy-hero__action" href="#formacoes">
+            Descobrir as formações
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
+        </div>
+
+        <div className="iugy-hero__facts" aria-label="Informações institucionais">
+          <div>
+            <strong>04</strong>
+            <span>níveis de formação</span>
+          </div>
+          <div>
+            <strong>IUGY</strong>
+            <span>academia de Estado</span>
+          </div>
+          <div>
+            <strong>YPP</strong>
+            <span>jurisdição acadêmica</span>
+          </div>
         </div>
 
         <div className="iugy-hero__scroll-cue" aria-hidden="true">

@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import type { AppOutletContext } from '../../app/outletContext';
 import './styles.css';
 import { AcademicCalendarSection } from './sections/AcademicCalendarSection';

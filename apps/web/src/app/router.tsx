@@ -1,11 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, type RouteObject } from 'react-router';
 import { PORTAL_ROUTES } from '../config/routes';
+import { RootErrorBoundary } from './RootErrorBoundary';
 import { RootLayout } from './RootLayout';
 
-export const router = createBrowserRouter([
+export const portalRoutes: RouteObject[] = [
   {
     path: '/',
     Component: RootLayout,
+    ErrorBoundary: RootErrorBoundary,
     children: [
       {
         index: true,
@@ -33,4 +35,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(portalRoutes);

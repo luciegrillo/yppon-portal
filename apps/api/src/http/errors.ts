@@ -8,6 +8,12 @@ import { Type } from '@sinclair/typebox';
 
 type HttpErrorLike = Pick<FastifyError, 'message' | 'statusCode'>;
 
+type ErrorMetadata = {
+  code?: string;
+  name: string;
+  validationContext?: string;
+};
+
 export const ErrorResponseSchema = Type.Object({
   error: Type.Object({
     code: Type.String(),
@@ -26,7 +32,13 @@ export function registerErrorHandlers(app: FastifyInstance) {
     const code = statusCode >= 500 ? 'INTERNAL_ERROR' : 'REQUEST_ERROR';
     const message = resolvePublicMessage(error, statusCode);
 
-    request.log.error({ err: error }, 'Request failed');
+    request.log.error(
+      {
+        error: resolveErrorMetadata(error),
+        statusCode,
+      },
+      'Request failed',
+    );
     sendError(reply, request, statusCode, code, message);
   });
 }
@@ -49,6 +61,22 @@ function asHttpErrorLike(error: unknown): HttpErrorLike | undefined {
   if (typeof error !== 'object' || error === null) return undefined;
 
   return error as HttpErrorLike;
+}
+
+export function resolveErrorMetadata(error: unknown): ErrorMetadata {
+  if (!(error instanceof Error)) {
+    return { name: 'UnknownError' };
+  }
+
+  const fastifyError = error as FastifyError;
+
+  return {
+    name: error.name,
+    ...(fastifyError.code ? { code: fastifyError.code } : {}),
+    ...(fastifyError.validationContext
+      ? { validationContext: fastifyError.validationContext }
+      : {}),
+  };
 }
 
 function sendError(
