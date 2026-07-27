@@ -110,6 +110,10 @@ Eventos não devem registrar:
 - Deixar line endings e formatação causarem diffs massivos.
 - Armazenar anexos sem estratégia de verificação, tamanho, tipo e acesso.
 
+Exceções temporárias de supply chain ficam no
+[registro de segurança de dependências](../project/dependency-security-exceptions.md)
+e exigem responsável, controles compensatórios e prazo de revisão.
+
 ## Decisões Pendentes
 
 - formato exato da chave virtual administrativa;
