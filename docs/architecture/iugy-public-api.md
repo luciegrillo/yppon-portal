@@ -21,10 +21,9 @@ Recursos individuais usam o envelope `{ "data": ... }`. Listagens usam
 
 As três listagens aceitam `page`, `pageSize`, `sort` e `order`.
 
-- `page` começa em `1`;
-- `pageSize` usa `20` por padrão e aceita no máximo `100`;
 - `page` usa `1` por padrão e aceita no máximo `10.000`, limitando offsets
   excessivos;
+- `pageSize` usa `20` por padrão e aceita no máximo `100`;
 - `order` aceita `asc` ou `desc`;
 - formações usam `displayOrder asc` por padrão e também podem ser ordenadas por
   `publishedAt` ou `title`;
@@ -47,6 +46,13 @@ As queries exigem simultaneamente:
 Conteúdos `draft` e `archived` nunca são retornados. O ciclo vigente não é
 inferido por número ou por existência de eventos: ele usa a marca `is_current`,
 que só pode existir em um ciclo publicado e é única por instituição.
+
+A migration inicial identifica o ciclo canônico pelos dados de domínio
+`institutions.slug = iugy` e `cycle_number = 1988`, sem depender dos UUIDs
+fictícios usados pelo seed.
+
+Chaves estrangeiras compostas garantem que editais e eventos só referenciem
+formações e ciclos pertencentes à mesma instituição.
 
 ## Limites entre camadas
 
