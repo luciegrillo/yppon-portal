@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import Fastify, { type FastifyInstance, type FastifyServerOptions } from 'fastify';
+import { buildLoggerOptions } from './config/logger.js';
 import { registerErrorHandlers } from './http/errors.js';
 import { registerHealthRoutes } from './modules/health/health.routes.js';
 
@@ -7,7 +8,9 @@ type BuildAppOptions = {
   logger?: FastifyServerOptions['logger'];
 };
 
-export function buildApp({ logger = true }: BuildAppOptions = {}): FastifyInstance {
+export function buildApp({
+  logger = buildLoggerOptions({ level: 'info' }),
+}: BuildAppOptions = {}): FastifyInstance {
   const app = Fastify({
     logger,
     genReqId: (request) => resolveRequestId(request.headers['x-request-id']),
