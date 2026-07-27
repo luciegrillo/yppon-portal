@@ -36,6 +36,11 @@ Constraints de banco mantêm a coerência do ciclo:
 - `published` exige `published_at` e não permite `archived_at`;
 - `archived` exige `published_at`, `archived_at` e ordem temporal válida.
 
+O ciclo seletivo vigente é marcado por `is_current`. Um índice único parcial
+permite no máximo um ciclo vigente por instituição, e uma constraint impede que
+um ciclo não publicado seja marcado como vigente. Essa marca explícita evita
+inferir o ciclo atual por número, data ou existência de editais.
+
 Estados de domínio são separados da publicação. Um edital pode estar
 `published` e ter status `encerrado`. Um documento pode estar `published` e
 ter status `preparacao` quando a página pública informa que o documento está em
@@ -51,6 +56,6 @@ preparação.
 - Índices cobrem slugs/códigos únicos, FKs e consultas públicas por estado de
   publicação.
 
-O modelo interno da API não deve ser retornado diretamente ao frontend. DTOs e
-schemas TypeBox públicos serão definidos quando os endpoints da issue #1 forem
-implementados.
+O modelo interno da API não é retornado diretamente ao frontend. A
+[API pública da IUGY](iugy-public-api.md) usa projeções próprias no repository,
+DTOs no application service e schemas TypeBox na fronteira HTTP.

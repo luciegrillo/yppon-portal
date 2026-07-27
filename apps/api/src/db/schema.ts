@@ -1,6 +1,8 @@
 import { relations, sql } from 'drizzle-orm';
 import {
+  boolean,
   check,
+  foreignKey,
   index,
   integer,
   pgEnum,
@@ -83,6 +85,10 @@ export const iugyAcademicFormations = pgTable(
     ...lifecycleColumns,
   },
   (table) => [
+    uniqueIndex('iugy_academic_formations_identity_unique').on(
+      table.id,
+      table.institutionId,
+    ),
     uniqueIndex('iugy_academic_formations_level_unique').on(
       table.institutionId,
       table.levelCode,
@@ -113,19 +119,31 @@ export const iugySelectionCycles = pgTable(
     cycleNumber: integer('cycle_number').notNull(),
     title: varchar('title', { length: 120 }).notNull(),
     periodLabel: varchar('period_label', { length: 80 }).notNull(),
+    isCurrent: boolean('is_current').default(false).notNull(),
     publicationState: publicationStateEnum('publication_state')
       .default('draft')
       .notNull(),
     ...lifecycleColumns,
   },
   (table) => [
+    uniqueIndex('iugy_selection_cycles_identity_unique').on(
+      table.id,
+      table.institutionId,
+    ),
     uniqueIndex('iugy_selection_cycles_number_unique').on(
       table.institutionId,
       table.cycleNumber,
     ),
+    uniqueIndex('iugy_selection_cycles_current_unique')
+      .on(table.institutionId)
+      .where(sql`${table.isCurrent}`),
     index('iugy_selection_cycles_public_number_idx').on(
       table.publicationState,
       table.cycleNumber,
+    ),
+    check(
+      'iugy_selection_cycles_current_publication_check',
+      sql`not ${table.isCurrent} or ${table.publicationState} = 'published'`,
     ),
     check(
       'iugy_selection_cycles_publication_lifecycle_check',
@@ -145,16 +163,8 @@ export const iugyNotices = pgTable(
     institutionId: uuid('institution_id')
       .notNull()
       .references(() => institutions.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
-    formationId: uuid('formation_id').references(() => iugyAcademicFormations.id, {
-      onDelete: 'restrict',
-      onUpdate: 'cascade',
-    }),
-    selectionCycleId: uuid('selection_cycle_id')
-      .notNull()
-      .references(() => iugySelectionCycles.id, {
-        onDelete: 'restrict',
-        onUpdate: 'cascade',
-      }),
+    formationId: uuid('formation_id'),
+    selectionCycleId: uuid('selection_cycle_id').notNull(),
     code: varchar('code', { length: 48 }).notNull(),
     title: varchar('title', { length: 180 }).notNull(),
     status: noticeStatusEnum('status').notNull(),
@@ -166,6 +176,20 @@ export const iugyNotices = pgTable(
     ...lifecycleColumns,
   },
   (table) => [
+    foreignKey({
+      columns: [table.formationId, table.institutionId],
+      foreignColumns: [iugyAcademicFormations.id, iugyAcademicFormations.institutionId],
+      name: 'iugy_notices_formation_institution_fk',
+    })
+      .onDelete('restrict')
+      .onUpdate('cascade'),
+    foreignKey({
+      columns: [table.selectionCycleId, table.institutionId],
+      foreignColumns: [iugySelectionCycles.id, iugySelectionCycles.institutionId],
+      name: 'iugy_notices_cycle_institution_fk',
+    })
+      .onDelete('restrict')
+      .onUpdate('cascade'),
     uniqueIndex('iugy_notices_code_unique').on(table.code),
     index('iugy_notices_institution_idx').on(table.institutionId),
     index('iugy_notices_formation_idx').on(table.formationId),
@@ -192,12 +216,7 @@ export const iugyCalendarEvents = pgTable(
     institutionId: uuid('institution_id')
       .notNull()
       .references(() => institutions.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
-    selectionCycleId: uuid('selection_cycle_id')
-      .notNull()
-      .references(() => iugySelectionCycles.id, {
-        onDelete: 'restrict',
-        onUpdate: 'cascade',
-      }),
+    selectionCycleId: uuid('selection_cycle_id').notNull(),
     periodLabel: varchar('period_label', { length: 80 }).notNull(),
     title: varchar('title', { length: 160 }).notNull(),
     description: text('description').notNull(),
@@ -208,6 +227,13 @@ export const iugyCalendarEvents = pgTable(
     ...lifecycleColumns,
   },
   (table) => [
+    foreignKey({
+      columns: [table.selectionCycleId, table.institutionId],
+      foreignColumns: [iugySelectionCycles.id, iugySelectionCycles.institutionId],
+      name: 'iugy_calendar_events_cycle_institution_fk',
+    })
+      .onDelete('restrict')
+      .onUpdate('cascade'),
     index('iugy_calendar_events_institution_idx').on(table.institutionId),
     index('iugy_calendar_events_cycle_idx').on(table.selectionCycleId),
     index('iugy_calendar_events_public_order_idx').on(

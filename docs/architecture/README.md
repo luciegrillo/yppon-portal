@@ -10,8 +10,8 @@ O projeto usa npm workspaces com duas aplicações reais:
 
 - `apps/web`: aplicação React 19 com Vite, TypeScript, GSAP e Lenis;
 - `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
-  respostas de erro padronizadas, health check e persistência PostgreSQL com
-  Drizzle para o conteúdo público inicial da IUGY.
+  respostas de erro padronizadas, health check, endpoints públicos da IUGY e
+  persistência PostgreSQL com Drizzle.
 
 O frontend separa:
 
@@ -23,10 +23,10 @@ O frontend separa:
 - configurações estáticas em `apps/web/src/config`;
 - estilos por componente e seção em `apps/web/src/styles`.
 
-A API ainda não possui autenticação, dados privados, endpoints públicos de
-domínio nem contratos compartilhados. A persistência inicial existe apenas para
-o modelo público da IUGY, com migrations versionadas, seed fictício, constraints
-de publicação e testes de integração em PostgreSQL.
+A API ainda não possui autenticação, dados privados nem contratos entre
+workspaces. O módulo público da IUGY separa rotas, application service,
+repository PostgreSQL e DTOs TypeBox. Migrations versionadas, seed fictício,
+constraints de publicação e testes de integração protegem essa fronteira.
 
 Media queries específicas permanecem junto dos estilos de seus respectivos
 domínios; `responsive.css` concentra apenas adaptações globais de
@@ -48,6 +48,7 @@ acessibilidade.
 
 - [ADR 0001: evolução para um portal multiaplicação](adr/0001-evolucao-para-portal-multiaplicacao.md)
 - [Modelo público da IUGY](iugy-public-data-model.md)
+- [API pública da IUGY](iugy-public-api.md)
 
 ## Qualidade
 

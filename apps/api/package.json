@@ -12,8 +12,8 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "test": "vitest run",
-    "test:http": "vitest run tests/http.routes.test.ts",
-    "test:integration": "vitest run tests/db.integration.test.ts",
+    "test:http": "vitest run tests/http.routes.test.ts tests/iugy.http.test.ts",
+    "test:integration": "vitest run tests/*.integration.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

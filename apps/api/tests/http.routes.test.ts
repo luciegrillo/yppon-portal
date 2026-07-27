@@ -1,7 +1,7 @@
 import { Type } from '@sinclair/typebox';
 import { describe, expect, it } from 'vitest';
-import { buildApp } from '../src/app.js';
 import { buildLoggerOptions } from '../src/config/logger.js';
+import { HttpError } from '../src/http/errors.js';
 import { buildTestApp } from './helpers/app.js';
 
 describe('API HTTP routes', () => {
@@ -79,6 +79,70 @@ describe('API public errors', () => {
     }
   });
 
+  it('hides messages from explicitly classified server failures', async () => {
+    const app = await buildTestApp((instance) => {
+      instance.get('/api/v1/test/classified-server-error', async () => {
+        throw new HttpError(
+          503,
+          'DEPENDENCY_UNAVAILABLE',
+          'private upstream connection detail',
+        );
+      });
+    });
+
+    try {
+      const response = await app.inject({
+        headers: { 'x-request-id': 'test-classified-server-error' },
+        method: 'GET',
+        url: '/api/v1/test/classified-server-error',
+      });
+
+      expect(response.statusCode).toBe(503);
+      expect(response.json()).toStrictEqual({
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'Não foi possível processar a requisição.',
+          requestId: 'test-classified-server-error',
+        },
+      });
+      expect(response.body).not.toContain('private upstream connection detail');
+    } finally {
+      await app.close();
+    }
+  });
+
+  it('normalizes invalid status codes from classified failures', async () => {
+    const invalidStatusCodes = [200, 399, 600];
+    const app = await buildTestApp((instance) => {
+      for (const statusCode of invalidStatusCodes) {
+        instance.get(`/api/v1/test/invalid-status/${statusCode}`, async () => {
+          throw new HttpError(statusCode, 'INVALID_STATUS', 'private detail');
+        });
+      }
+    });
+
+    try {
+      for (const statusCode of invalidStatusCodes) {
+        const response = await app.inject({
+          headers: { 'x-request-id': `test-invalid-status-${statusCode}` },
+          method: 'GET',
+          url: `/api/v1/test/invalid-status/${statusCode}`,
+        });
+
+        expect(response.statusCode).toBe(500);
+        expect(response.json()).toStrictEqual({
+          error: {
+            code: 'INTERNAL_ERROR',
+            message: 'Não foi possível processar a requisição.',
+            requestId: `test-invalid-status-${statusCode}`,
+          },
+        });
+      }
+    } finally {
+      await app.close();
+    }
+  });
+
   it('normalizes validation failures into the public error shape', async () => {
     const app = await buildTestApp((instance) => {
       instance.post(
@@ -109,10 +173,9 @@ describe('API public errors', () => {
       const body = response.json();
 
       expect(response.statusCode).toBe(400);
-      expect(body.error.code).toBe('REQUEST_ERROR');
+      expect(body.error.code).toBe('VALIDATION_ERROR');
+      expect(body.error.message).toBe('Parâmetros da requisição inválidos.');
       expect(body.error.requestId).toBe('test-validation');
-      expect(typeof body.error.message).toBe('string');
-      expect(body.error.message.length).toBeGreaterThan(0);
     } finally {
       await app.close();
     }
@@ -139,31 +202,32 @@ describe('API public errors', () => {
 
   it('redacts credentials and omits sensitive error details from logs', async () => {
     const logLines: string[] = [];
-    const app = buildApp({
-      logger: buildLoggerOptions({
-        level: 'info',
-        stream: {
-          write(message) {
-            logLines.push(message);
-          },
+    const logger = buildLoggerOptions({
+      level: 'info',
+      stream: {
+        write(message) {
+          logLines.push(message);
         },
-      }),
+      },
     });
+    const app = await buildTestApp(
+      (instance) => {
+        instance.post('/api/v1/test/log-redaction', async (request) => {
+          request.log.info(
+            {
+              authorization: request.headers.authorization,
+              body: request.body,
+              headers: request.headers,
+            },
+            'Testing safe log defaults',
+          );
 
-    app.post('/api/v1/test/log-redaction', async (request) => {
-      request.log.info(
-        {
-          authorization: request.headers.authorization,
-          body: request.body,
-          headers: request.headers,
-        },
-        'Testing safe log defaults',
-      );
-
-      throw new Error('database detail contains log-secret-password');
-    });
-
-    await app.ready();
+          throw new Error('database detail contains log-secret-password');
+        });
+      },
+      undefined,
+      logger,
+    );
 
     try {
       const response = await app.inject({

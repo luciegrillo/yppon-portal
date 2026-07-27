@@ -6,7 +6,19 @@ import type {
 } from 'fastify';
 import { Type } from '@sinclair/typebox';
 
-type HttpErrorLike = Pick<FastifyError, 'message' | 'statusCode'>;
+type HttpErrorLike = Pick<FastifyError, 'message' | 'statusCode' | 'validation'>;
+
+export class HttpError extends Error {
+  readonly code: string;
+  readonly statusCode: number;
+
+  constructor(statusCode: number, code: string, message: string) {
+    super(message);
+    this.name = 'HttpError';
+    this.code = code;
+    this.statusCode = statusCode;
+  }
+}
 
 type ErrorMetadata = {
   code?: string;
@@ -28,33 +40,80 @@ export function registerErrorHandlers(app: FastifyInstance) {
   });
 
   app.setErrorHandler((error, request, reply) => {
-    const statusCode = resolveStatusCode(error);
-    const code = statusCode >= 500 ? 'INTERNAL_ERROR' : 'REQUEST_ERROR';
-    const message = resolvePublicMessage(error, statusCode);
+    const publicError = resolvePublicError(error);
 
-    request.log.error(
-      {
-        error: resolveErrorMetadata(error),
-        statusCode,
-      },
-      'Request failed',
+    if (publicError.statusCode >= 500) {
+      request.log.error(
+        {
+          error: resolveErrorMetadata(error),
+          statusCode: publicError.statusCode,
+        },
+        'Request failed',
+      );
+    } else {
+      request.log.warn(
+        { code: publicError.code, statusCode: publicError.statusCode },
+        'Request rejected',
+      );
+    }
+
+    sendError(
+      reply,
+      request,
+      publicError.statusCode,
+      publicError.code,
+      publicError.message,
     );
-    sendError(reply, request, statusCode, code, message);
   });
 }
 
-function resolveStatusCode(error: unknown) {
+function resolvePublicError(error: unknown) {
+  if (error instanceof HttpError) {
+    const statusCode = normalizeStatusCode(error.statusCode);
+
+    if (statusCode >= 500) {
+      return {
+        code: 'INTERNAL_ERROR',
+        message: 'Não foi possível processar a requisição.',
+        statusCode,
+      };
+    }
+
+    return {
+      code: error.code,
+      message: error.message,
+      statusCode,
+    };
+  }
+
   const statusCode = asHttpErrorLike(error)?.statusCode ?? 500;
+  const safeStatusCode = normalizeStatusCode(statusCode);
 
-  if (statusCode < 400 || statusCode > 599) return 500;
+  if (safeStatusCode >= 500) {
+    return {
+      code: 'INTERNAL_ERROR',
+      message: 'Não foi possível processar a requisição.',
+      statusCode: safeStatusCode,
+    };
+  }
 
-  return statusCode;
+  if (asHttpErrorLike(error)?.validation) {
+    return {
+      code: 'VALIDATION_ERROR',
+      message: 'Parâmetros da requisição inválidos.',
+      statusCode: 400,
+    };
+  }
+
+  return {
+    code: 'REQUEST_ERROR',
+    message: 'Requisição inválida.',
+    statusCode: safeStatusCode,
+  };
 }
 
-function resolvePublicMessage(error: unknown, statusCode: number) {
-  if (statusCode >= 500) return 'Não foi possível processar a requisição.';
-
-  return asHttpErrorLike(error)?.message ?? 'Requisição inválida.';
+function normalizeStatusCode(statusCode: number) {
+  return statusCode >= 400 && statusCode <= 599 ? statusCode : 500;
 }
 
 function asHttpErrorLike(error: unknown): HttpErrorLike | undefined {
