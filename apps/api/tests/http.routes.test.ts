@@ -1,5 +1,7 @@
 import { Type } from '@sinclair/typebox';
 import { describe, expect, it } from 'vitest';
+import { buildApp } from '../src/app.js';
+import { buildLoggerOptions } from '../src/config/logger.js';
 import { buildTestApp } from './helpers/app.js';
 
 describe('API HTTP routes', () => {
@@ -111,6 +113,84 @@ describe('API public errors', () => {
       expect(body.error.requestId).toBe('test-validation');
       expect(typeof body.error.message).toBe('string');
       expect(body.error.message.length).toBeGreaterThan(0);
+    } finally {
+      await app.close();
+    }
+  });
+
+  it('rejects unsafe caller-provided request identifiers', async () => {
+    const app = await buildTestApp();
+
+    try {
+      const response = await app.inject({
+        headers: { 'x-request-id': 'secret value with spaces' },
+        method: 'GET',
+        url: '/api/v1/missing',
+      });
+
+      expect(response.json().error.requestId).toMatch(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      );
+      expect(response.body).not.toContain('secret value with spaces');
+    } finally {
+      await app.close();
+    }
+  });
+
+  it('redacts credentials and omits sensitive error details from logs', async () => {
+    const logLines: string[] = [];
+    const app = buildApp({
+      logger: buildLoggerOptions({
+        level: 'info',
+        stream: {
+          write(message) {
+            logLines.push(message);
+          },
+        },
+      }),
+    });
+
+    app.post('/api/v1/test/log-redaction', async (request) => {
+      request.log.info(
+        {
+          authorization: request.headers.authorization,
+          body: request.body,
+          headers: request.headers,
+        },
+        'Testing safe log defaults',
+      );
+
+      throw new Error('database detail contains log-secret-password');
+    });
+
+    await app.ready();
+
+    try {
+      const response = await app.inject({
+        headers: {
+          authorization: 'Bearer log-secret-token',
+          cookie: 'session=log-secret-cookie',
+          'x-request-id': 'test-log-redaction',
+        },
+        method: 'POST',
+        payload: {
+          password: 'log-secret-password',
+          token: 'log-secret-body-token',
+        },
+        url: '/api/v1/test/log-redaction?token=log-secret-query',
+      });
+      const logs = logLines.join('');
+
+      expect(response.statusCode).toBe(500);
+      expect(response.body).not.toContain('log-secret');
+      expect(logs).toContain('[REDACTED]');
+      expect(logs).toContain('test-log-redaction');
+      expect(logs).not.toContain('log-secret-token');
+      expect(logs).not.toContain('log-secret-cookie');
+      expect(logs).not.toContain('log-secret-password');
+      expect(logs).not.toContain('log-secret-body-token');
+      expect(logs).not.toContain('log-secret-query');
+      expect(logs).not.toContain('database detail');
     } finally {
       await app.close();
     }
