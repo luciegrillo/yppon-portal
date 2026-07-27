@@ -2,12 +2,12 @@ import { expect, test } from '@playwright/test';
 
 const publicRoutes = [
   {
-    heading: /a ordem sustenta\s*o progresso/i,
+    heading: /a ordem\s*sustenta\s*o progresso/i,
     name: 'portal home',
     path: '/',
   },
   {
-    heading: /a formação que\s*sustenta o estado/i,
+    heading: /conhecimento\s*é soberania/i,
     name: 'IUGY public page',
     path: '/instituicoes/iugy',
   },
