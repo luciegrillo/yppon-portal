@@ -1,50 +1,137 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, type RefObject } from 'react';
+import {
+  BookOpen,
+  Crown,
+  GraduationCap,
+  Microscope,
+  type LucideIcon,
+} from 'lucide-react';
+import type { IugyProgram, IugyProgramsResponse } from '@yppon/contracts/iugy';
+import { getIugyPrograms } from '../../../lib/api/iugyApi';
 import { gsap } from '../../../lib/animation';
-import { academicLevels } from '../content/iugyContent';
+import {
+  AsyncIugyResource,
+  IugyCollectionSummary,
+  IugyResourceState,
+} from '../components/AsyncIugyResource';
 
 type FormationsSectionProps = {
   prefersReducedMotion: boolean;
+  programsRequest: Promise<IugyProgramsResponse>;
 };
 
-function FormationCard({
-  level,
-  index,
-}: {
-  level: (typeof academicLevels)[number];
-  index: number;
-}) {
-  const Icon = level.icon;
+const FORMATION_ICONS: Record<string, LucideIcon> = {
+  I: BookOpen,
+  II: GraduationCap,
+  III: Microscope,
+  IV: Crown,
+};
+
+function FormationCard({ program, index }: { program: IugyProgram; index: number }) {
+  const Icon = FORMATION_ICONS[program.levelCode] ?? GraduationCap;
 
   return (
     <article className="formation-card" data-index={index}>
       <div className="formation-card__header">
-        <span className="formation-card__number">{level.number}</span>
+        <span className="formation-card__number">{program.levelCode}</span>
         <div className="formation-card__icon">
-          <Icon strokeWidth={1.3} />
+          <Icon strokeWidth={1.3} aria-hidden="true" />
         </div>
       </div>
 
-      <h3 className="formation-card__title">{level.title}</h3>
+      <h3 className="formation-card__title">{program.title}</h3>
 
-      <span className="formation-card__reference">{level.externalReference}</span>
+      <span className="formation-card__reference">{program.externalReference}</span>
 
-      <p className="formation-card__description">{level.description}</p>
+      <p className="formation-card__description">{program.description}</p>
     </article>
   );
 }
 
-export function FormationsSection({ prefersReducedMotion }: FormationsSectionProps) {
+export function FormationsSection({
+  prefersReducedMotion,
+  programsRequest,
+}: FormationsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
-  useLayoutEffect(() => {
-    if (prefersReducedMotion || !sectionRef.current) return undefined;
+  return (
+    <section
+      aria-labelledby="iugy-formations-title"
+      className="iugy-formations"
+      id="formacoes"
+      ref={sectionRef}
+    >
+      <div className="iugy-formations__heading">
+        <p className="eyebrow">Estrutura acadêmica</p>
+        <h2 id="iugy-formations-title">
+          Níveis progressivos,
+          <br />
+          <em>uma formação.</em>
+        </h2>
+        <p className="iugy-formations__subtitle">
+          A IUGY organiza a educação estatal em níveis progressivos, cada um com função
+          própria e reconhecimento dentro da estrutura pública de Yppon.
+        </p>
+      </div>
 
+      <AsyncIugyResource
+        errorMessage="Não foi possível carregar as formações."
+        load={getIugyPrograms}
+        pending={<FormationSkeletons />}
+        request={programsRequest}
+      >
+        {(response) =>
+          response.data.length > 0 ? (
+            <>
+              <FormationGrid
+                prefersReducedMotion={prefersReducedMotion}
+                programs={response.data}
+                sectionRef={sectionRef}
+              />
+              <IugyCollectionSummary
+                shownItems={response.data.length}
+                totalItems={response.pagination.totalItems}
+              />
+            </>
+          ) : (
+            <div className="iugy-formations__grid iugy-formations__grid--state">
+              <IugyResourceState
+                message="Nenhuma formação está publicada no momento."
+                variant="empty"
+              />
+            </div>
+          )
+        }
+      </AsyncIugyResource>
+    </section>
+  );
+}
+
+type FormationGridProps = {
+  prefersReducedMotion: boolean;
+  programs: IugyProgram[];
+  sectionRef: RefObject<HTMLElement | null>;
+};
+
+function FormationGrid({
+  prefersReducedMotion,
+  programs,
+  sectionRef,
+}: FormationGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (prefersReducedMotion || !sectionRef.current || !gridRef.current) {
+      return undefined;
+    }
+
+    const section = sectionRef.current;
+    const grid = gridRef.current;
     const mediaContext = gsap.matchMedia();
 
     mediaContext.add('(min-width: 769px)', () => {
-      // 1. Entrance animation for heading
       gsap.fromTo(
-        '.iugy-formations__heading > *',
+        section.querySelectorAll('.iugy-formations__heading > *'),
         { y: 50, opacity: 0 },
         {
           y: 0,
@@ -53,38 +140,33 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.iugy-formations__heading',
+            trigger: section.querySelector('.iugy-formations__heading'),
             start: 'top 85%',
           },
         },
       );
 
-      // 2. Horizontal pinning for cards
-      const grid = document.querySelector('.iugy-formations__grid') as HTMLElement;
-      if (grid) {
-        // Calculate how much we need to scroll: total width of grid minus viewport width
-        // Plus some padding so the last card doesn't stick right to the edge
-        const getScrollAmount = () => -(grid.scrollWidth - window.innerWidth + 80);
+      const getOverflow = () => Math.max(grid.scrollWidth - window.innerWidth + 80, 0);
 
-        gsap.to(grid, {
-          x: getScrollAmount,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: () => `+=${grid.scrollWidth - window.innerWidth + 80}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-      }
+      if (getOverflow() === 0) return;
+
+      gsap.to(grid, {
+        x: () => -getOverflow(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: () => `+=${getOverflow()}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
     });
 
     mediaContext.add('(max-width: 768px)', () => {
-      // Mobile fallback: vertical stacking entrance
       gsap.fromTo(
-        '.iugy-formations__heading > *',
+        section.querySelectorAll('.iugy-formations__heading > *'),
         { y: 50, opacity: 0 },
         {
           y: 0,
@@ -93,14 +175,14 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.iugy-formations__heading',
+            trigger: section.querySelector('.iugy-formations__heading'),
             start: 'top 85%',
           },
         },
       );
 
       gsap.fromTo(
-        '.formation-card',
+        grid.querySelectorAll('.formation-card'),
         { y: 60, opacity: 0 },
         {
           y: 0,
@@ -109,7 +191,7 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
           duration: 0.7,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.iugy-formations__grid',
+            trigger: grid,
             start: 'top 78%',
           },
         },
@@ -117,28 +199,36 @@ export function FormationsSection({ prefersReducedMotion }: FormationsSectionPro
     });
 
     return () => mediaContext.revert();
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, programs, sectionRef]);
 
   return (
-    <section className="iugy-formations" id="formacoes" ref={sectionRef}>
-      <div className="iugy-formations__heading">
-        <p className="eyebrow">Estrutura acadêmica</p>
-        <h2>
-          Quatro níveis,
-          <br />
-          <em>uma formação.</em>
-        </h2>
-        <p className="iugy-formations__subtitle">
-          A IUGY organiza a educação estatal em quatro níveis progressivos, cada um com
-          função própria e reconhecimento dentro da estrutura pública de Yppon.
-        </p>
-      </div>
+    <div className="iugy-formations__grid" ref={gridRef}>
+      {programs.map((program, index) => (
+        <FormationCard program={program} index={index} key={program.id} />
+      ))}
+    </div>
+  );
+}
 
-      <div className="iugy-formations__grid">
-        {academicLevels.map((level, index) => (
-          <FormationCard level={level} index={index} key={level.title} />
-        ))}
-      </div>
-    </section>
+function FormationSkeletons() {
+  return (
+    <div
+      aria-busy="true"
+      aria-label="Carregando formações"
+      className="iugy-formations__grid iugy-formations__grid--loading"
+      role="status"
+    >
+      {Array.from({ length: 4 }, (_, index) => (
+        <div
+          aria-hidden="true"
+          className="formation-card formation-card--skeleton"
+          key={index}
+        >
+          <span />
+          <span />
+          <span />
+        </div>
+      ))}
+    </div>
   );
 }

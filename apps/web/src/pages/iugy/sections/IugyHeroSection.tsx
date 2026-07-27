@@ -1,14 +1,21 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { ArrowDown, ArrowUpRight, ChevronRight } from 'lucide-react';
+import type { IugyInstitution } from '@yppon/contracts/iugy';
 import iugyEmblemUrl from '../../../assets/iugy-emblem.webp';
+import { getIugyInstitution } from '../../../lib/api/iugyApi';
 import { gsap } from '../../../lib/animation';
+import { AsyncIugyResource, IugyResourceState } from '../components/AsyncIugyResource';
 
 type IugyHeroSectionProps = {
+  institutionRequest: Promise<IugyInstitution | null>;
   prefersReducedMotion: boolean;
 };
 
-export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) {
+export function IugyHeroSection({
+  institutionRequest,
+  prefersReducedMotion,
+}: IugyHeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
@@ -188,10 +195,29 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
         </div>
 
         <div className="iugy-hero__copy">
-          <div className="iugy-hero__kicker">
-            <p className="eyebrow">Instituto Universitário Governamental</p>
-            <span>Fundado sob autoridade do Estado</span>
-          </div>
+          <AsyncIugyResource
+            errorMessage="Não foi possível carregar as informações institucionais."
+            load={getIugyInstitution}
+            pending={
+              <IugyResourceState
+                message="Carregando informações institucionais."
+                variant="loading"
+              />
+            }
+            request={institutionRequest}
+          >
+            {(institution) =>
+              institution ? (
+                <IugyInstitutionSummary institution={institution} />
+              ) : (
+                <IugyResourceState
+                  message="Informações institucionais ainda não publicadas."
+                  variant="empty"
+                />
+              )
+            }
+          </AsyncIugyResource>
+
           <h1>
             <span>Conhecimento</span>
             <span>
@@ -229,5 +255,14 @@ export function IugyHeroSection({ prefersReducedMotion }: IugyHeroSectionProps) 
         </div>
       </div>
     </section>
+  );
+}
+
+function IugyInstitutionSummary({ institution }: { institution: IugyInstitution }) {
+  return (
+    <div className="iugy-hero__kicker">
+      <p className="eyebrow">{institution.name}</p>
+      <span>{institution.acronym} · academia de Estado</span>
+    </div>
   );
 }
