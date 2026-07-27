@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter, type RouteObject } from 'react-router';
 import { PORTAL_ROUTES } from '../config/routes';
 import { RootLayout } from './RootLayout';
 
-export const router = createBrowserRouter([
+export const portalRoutes: RouteObject[] = [
   {
     path: '/',
     Component: RootLayout,
@@ -33,4 +33,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(portalRoutes);
