@@ -185,7 +185,7 @@ describe('IUGY public HTTP routes', () => {
     }
   });
 
-  it('returns paginated calendar events', async () => {
+  it('returns paginated calendar events from the current cycle', async () => {
     const listEvents = vi.fn(async () => ({
       items: [
         {
@@ -205,11 +205,12 @@ describe('IUGY public HTTP routes', () => {
     try {
       const response = await app.inject({
         method: 'GET',
-        url: '/api/v1/iugy/events?sort=displayOrder&order=asc',
+        url: '/api/v1/iugy/events?current=true&sort=displayOrder&order=asc',
       });
 
       expect(response.statusCode).toBe(200);
       expect(listEvents).toHaveBeenCalledWith({
+        currentOnly: true,
         limit: 20,
         offset: 0,
         order: 'asc',
@@ -244,6 +245,7 @@ describe('IUGY public HTTP routes', () => {
     '/api/v1/iugy/programs?page=10001',
     '/api/v1/iugy/programs?page=1e308',
     '/api/v1/iugy/notices?pageSize=101',
+    '/api/v1/iugy/events?current=invalid',
     '/api/v1/iugy/events?sort=unknown',
   ])('rejects invalid list parameters for %s', async (url) => {
     const app = await buildTestApp();

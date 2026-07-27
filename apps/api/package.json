@@ -17,6 +17,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@yppon/contracts": "1.0.0",
     "@sinclair/typebox": "^0.34.49",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",

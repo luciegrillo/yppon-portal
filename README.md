@@ -24,7 +24,12 @@ npm run preview
 ```
 
 `npm run dev` é um atalho para o frontend em `apps/web`. `npm run dev:api`
-inicia a API em `apps/api`. `npm run test -w @yppon/api` executa a suíte
+inicia a API em `apps/api`. Durante o desenvolvimento, execute os dois comandos
+em terminais separados; o Vite encaminha `/api` para
+`http://127.0.0.1:3333`. Em produção, o proxy reverso deve manter `/api` na
+mesma origem do portal.
+
+`npm run test -w @yppon/api` executa a suíte
 automatizada da API, incluindo rotas HTTP e integração com banco; a integração
 exige `DATABASE_URL`. `npm run test:web` executa os testes de comportamento em
 DOM e `npm run test:web:e2e` executa os smoke tests em Chromium. `npm run check`
@@ -79,6 +84,8 @@ apps/
         ├── lib/         # Integrações e funções sem interface visual
         ├── pages/       # Páginas públicas
         └── styles/      # Foundation, componentes, seções e responsividade
+packages/
+└── contracts/           # DTOs públicos compartilhados entre API e web
 ```
 
 As decisões de evolução, limites entre módulos e estratégia para novas

@@ -19,7 +19,8 @@ Recursos individuais usam o envelope `{ "data": ... }`. Listagens usam
 
 ## Paginação e ordenação
 
-As três listagens aceitam `page`, `pageSize`, `sort` e `order`.
+As três listagens aceitam `page`, `pageSize`, `sort` e `order`. Eventos também
+aceitam `current`.
 
 - `page` usa `1` por padrão e aceita no máximo `10.000`, limitando offsets
   excessivos;
@@ -31,6 +32,9 @@ As três listagens aceitam `page`, `pageSize`, `sort` e `order`.
   `code`, `status` ou `title`;
 - eventos usam `displayOrder asc` por padrão e também podem ser ordenados por
   `publishedAt` ou `title`.
+- `current=true` limita eventos ao ciclo explicitamente vigente e publicado.
+  Isso permite que o portal carregue ciclo e calendário em paralelo, sem uma
+  cascata de requisições nem filtragem incompleta depois da paginação.
 
 Todas as ordenações possuem o UUID como desempate, mantendo páginas estáveis.
 Valores inválidos para os parâmetros reconhecidos retornam `400` no formato
@@ -69,9 +73,23 @@ leitura. O repository pode ser injetado na aplicação para testes HTTP sem banc
 a aplicação em execução cria a implementação PostgreSQL e encerra a conexão no
 shutdown.
 
-Os contratos permanecem no módulo da API enquanto apenas ela os consome. A
-extração para um workspace compartilhado deve acontecer somente quando a
-integração web/API justificar a segunda consumidora.
+Os DTOs e envelopes públicos vivem em `@yppon/contracts` e são consumidos pela
+API e pelo frontend. Os schemas TypeBox permanecem na fronteira HTTP da API e
+possuem asserções de tipo exatas contra o pacote compartilhado, evitando
+duplicação e divergência sem levar validação do servidor ao bundle do navegador.
+
+## Integração web
+
+A página pública inicia em paralelo as cinco leituras da IUGY: instituição,
+formações, editais, ciclo vigente e eventos do ciclo vigente. Listagens pedem a
+primeira página com até 100 itens para evitar cascatas automáticas; quando o
+total publicado ultrapassa esse limite, a interface informa quantos registros
+estão sendo exibidos. Cada recurso tem estados acessíveis de carregamento,
+ausência e erro, além de repetição isolada da requisição que falhou.
+
+O cliente usa URLs relativas sob `/api`. O Vite encaminha esse prefixo para
+`127.0.0.1:3333` no desenvolvimento; a implantação deve oferecer o mesmo
+encaminhamento na origem pública.
 
 ## Erros
 

@@ -12,6 +12,7 @@ const fixture = {
     archived: randomUUID(),
     draft: randomUUID(),
     first: randomUUID(),
+    next: randomUUID(),
     second: randomUUID(),
   },
   formations: {
@@ -275,6 +276,18 @@ describe('IUGY PostgreSQL public repository', () => {
           null
         ),
         (
+          ${fixture.events.next},
+          ${fixture.institution},
+          ${fixture.cycles.next},
+          'Ciclo 3001 · Período I',
+          'Next Cycle Event',
+          'This event belongs to the next published cycle.',
+          1,
+          'published',
+          ${publishedAt},
+          null
+        ),
+        (
           ${fixture.events.draft},
           ${fixture.institution},
           ${fixture.cycles.current},
@@ -385,13 +398,30 @@ describe('IUGY PostgreSQL public repository', () => {
 
   it('filters, orders and paginates published events', async () => {
     const result = await repository.listEvents({
+      currentOnly: false,
       limit: 1,
       offset: 1,
       order: 'asc',
       sort: 'displayOrder',
     });
 
+    expect(result.totalItems).toBe(3);
+    expect(result.items).toHaveLength(1);
+  });
+
+  it('limits public events to the explicitly current cycle when requested', async () => {
+    const result = await repository.listEvents({
+      currentOnly: true,
+      limit: 10,
+      offset: 0,
+      order: 'asc',
+      sort: 'displayOrder',
+    });
+
     expect(result.totalItems).toBe(2);
-    expect(result.items.map(({ id }) => id)).toStrictEqual([fixture.events.second]);
+    expect(result.items.map(({ id }) => id)).toStrictEqual([
+      fixture.events.first,
+      fixture.events.second,
+    ]);
   });
 });

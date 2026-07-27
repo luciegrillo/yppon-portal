@@ -6,12 +6,14 @@ de dados são adicionados.
 
 ## Estado atual
 
-O projeto usa npm workspaces com duas aplicações reais:
+O projeto usa npm workspaces com duas aplicações e um pacote de fronteira:
 
 - `apps/web`: aplicação React 19 com Vite, TypeScript, GSAP e Lenis;
 - `apps/api`: API Fastify com TypeScript, TypeBox, validação de ambiente,
   respostas de erro padronizadas, health check, endpoints públicos da IUGY e
-  persistência PostgreSQL com Drizzle.
+  persistência PostgreSQL com Drizzle;
+- `packages/contracts`: DTOs e envelopes públicos compartilhados entre API e
+  web, sem dependências de React ou persistência.
 
 O frontend separa:
 
@@ -23,10 +25,17 @@ O frontend separa:
 - configurações estáticas em `apps/web/src/config`;
 - estilos por componente e seção em `apps/web/src/styles`.
 
-A API ainda não possui autenticação, dados privados nem contratos entre
-workspaces. O módulo público da IUGY separa rotas, application service,
-repository PostgreSQL e DTOs TypeBox. Migrations versionadas, seed fictício,
+A API ainda não possui autenticação nem dados privados. O módulo público da IUGY
+separa rotas, application service, repository PostgreSQL e schemas TypeBox. Os
+schemas são verificados em compilação contra os DTOs de `@yppon/contracts`, que
+o cliente web consome sem duplicar tipos. Migrations versionadas, seed fictício,
 constraints de publicação e testes de integração protegem essa fronteira.
+
+A rota da IUGY inicia as cinco leituras públicas em paralelo. Cada seção resolve
+e tenta novamente seu próprio recurso, de modo que uma falha parcial não remove
+a navegação nem o conteúdo saudável. O desenvolvimento usa URLs relativas e o
+proxy do Vite; a infraestrutura de produção deve encaminhar `/api` ao Fastify na
+mesma origem.
 
 Media queries específicas permanecem junto dos estilos de seus respectivos
 domínios; `responsive.css` concentra apenas adaptações globais de
