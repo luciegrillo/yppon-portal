@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { createMemoryRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { portalRoutes } from '../../src/app/router';
 
 vi.mock('../../src/hooks/useReducedMotion', () => ({
@@ -11,6 +11,41 @@ vi.mock('../../src/hooks/useReducedMotion', () => ({
 vi.mock('../../src/app/useRouteLifecycle', () => ({
   useRouteLifecycle: vi.fn(),
 }));
+
+beforeEach(() => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn((input: string | URL | Request) => {
+      const path = String(input);
+
+      if (path === '/api/v1/iugy' || path.endsWith('/selection-cycles/current')) {
+        return Promise.resolve(new Response('{}', { status: 404 }));
+      }
+
+      return Promise.resolve(
+        new Response(
+          JSON.stringify({
+            data: [],
+            pagination: {
+              page: 1,
+              pageSize: 100,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          }),
+          {
+            headers: { 'Content-Type': 'application/json' },
+            status: 200,
+          },
+        ),
+      );
+    }),
+  );
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 function renderRoute(path: string) {
   const router = createMemoryRouter(portalRoutes, {

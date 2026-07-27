@@ -20,9 +20,17 @@ export const portalRoutes: RouteObject[] = [
       {
         path: PORTAL_ROUTES.iugy,
         lazy: async () => {
-          const { IugyPage } = await import('../pages/iugy/IugyPage');
+          const [{ IugyPage, IugyPageHydrateFallback }, { iugyPageLoader }] =
+            await Promise.all([
+              import('../pages/iugy/IugyPage'),
+              import('../pages/iugy/iugyLoader'),
+            ]);
 
-          return { Component: IugyPage };
+          return {
+            Component: IugyPage,
+            HydrateFallback: IugyPageHydrateFallback,
+            loader: iugyPageLoader,
+          };
         },
       },
       {
